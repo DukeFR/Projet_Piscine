@@ -14,7 +14,8 @@ class graphe
         //~graphe();
         void afficher() const;
         void placerPoints();
-        void prim();
+        std::vector<Arrete*> prim();
+        void afficherPrim(std::vector<Arrete*> Prim);
 
     protected:
 

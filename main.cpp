@@ -32,11 +32,12 @@ void allegro()
 int main()
 {
     allegro();
-    graphe g{"manhattan.txt"};
-    graphe p=g;
+    graphe g{"broadway.txt"};
+    std::vector<Arrete*> p;
     g.afficher();
-    g.placerPoints();
-    p.prim();
+    //g.placerPoints();
+    p=g.prim();
+    g.afficherPrim(p);
     while (!key[KEY_ESC])
     {
 

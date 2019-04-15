@@ -56,75 +56,69 @@ void graphe::afficher() const
     }
 }
 
-void graphe::prim()
+std::vector<Arrete*> graphe::prim()
 {
-    /*int minimum=99;
+    std::vector<Arrete*> Prim;
+    int minimum=99;
     int nom=0;
-    int temp;
-    int ajout;
+    int ajout=0;
     Sommet*temporaireD;
     Sommet*temporaireA;
+    Arrete* Temporaire;
+    int p1;
+    int p2;
+    int id;
 
     for(const auto& elem : m_sommets)
     {
-      if(elem.get==nom)
+      if(elem->getm_id()==nom)
       {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
+        elem->setMarque();
       }
     }
-    nom="CE1";
-    for(const auto& elem : m_sommets)
-    {
-      if(elem.first==nom)
-      {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
-      }
-    }
-    nom="CE2";
-    for(const auto& elem : m_sommets)
-    {
-      if(elem.first==nom)
-      {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
-      }
-    }
+
 
     do{
         for(const auto& v : m_arrete)
         {
             if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
             {
-                if(minimum>v->getPoids())
+                if(minimum>v->getPoids1())
                 {
-                    minimum=v->getPoids();
+                    minimum=v->getPoids1();
                     temporaireD=v->getDepart();
                     temporaireA=v->getArrivee();
+                    id=v->getm_id();
+                    p1=minimum;
+                    p2=v->getPoids2();
                 }
             }
        }
-    if(temporaireA->getMarque()==false)
+    Temporaire=new Arrete(temporaireD,temporaireA,id,p1,p2);
+    if(temporaireD->getMarque()==true)
     {
         temporaireA->setMarque();
-        prim.push_back(temporaireA->getID());
-        ajout=ajout+1;
     }
-    if(temporaireD->getMarque()==false)
+    if(temporaireA->getMarque()==true)
     {
-    temporaireD->setMarque();
-    prim.push_back(temporaireD->getID());
-    ajout=ajout+1;
+        temporaireD->setMarque();
     }
-      minimum=99;
-
-    }while(ajout<m_sommets.size()-1);*/
+    Prim.push_back(Temporaire);
+    ajout=ajout+1;
+    minimum=99;
+    }while(ajout<m_sommets.size()-1);
+    return Prim;
 }
-
+void graphe::afficherPrim(std::vector<Arrete*> Prim)
+{
+    int couleur=makecol(0,255,0);
+    for(int i=0;i<Prim.size();i++)
+    {
+        circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
+        circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
+        line(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+    }
+}
 
 
 

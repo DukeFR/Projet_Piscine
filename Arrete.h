@@ -12,7 +12,9 @@ class Arrete
         void afficherArrete() const;
         Sommet* getDepart();
         Sommet* getArrivee();
-        int getPoids();
+        int getm_id();
+        int getPoids1();
+        int getPoids2();
 
     protected:
 
