@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <fstream>
 #include <iostream>
+#include "allegro.h"
 
 graphe::graphe(std::string nomFichier){
     std::ifstream ifs{nomFichier};
@@ -23,7 +24,7 @@ graphe::graphe(std::string nomFichier){
 
     int taille;
     ifs >> taille;
-    std::cout << "taille: " << taille << "ordre: " << ordre <<std::endl;
+    std::cout << "taille" << taille << "ordre" << ordre <<std::endl;
     if ( ifs.fail() )
         throw std::runtime_error("Probleme lecture taille du graphe");
     int arrivee;
@@ -54,3 +55,94 @@ void graphe::afficher() const
         v->afficherArrete();
     }
 }
+
+void graphe::prim()
+{
+    /*int minimum=99;
+    int nom=0;
+    int temp;
+    int ajout;
+    Sommet*temporaireD;
+    Sommet*temporaireA;
+
+    for(const auto& elem : m_sommets)
+    {
+      if(elem.get==nom)
+      {
+        elem.second->setMarque();
+        prim.push_back(elem.first);
+        ajout=ajout+1;
+      }
+    }
+    nom="CE1";
+    for(const auto& elem : m_sommets)
+    {
+      if(elem.first==nom)
+      {
+        elem.second->setMarque();
+        prim.push_back(elem.first);
+        ajout=ajout+1;
+      }
+    }
+    nom="CE2";
+    for(const auto& elem : m_sommets)
+    {
+      if(elem.first==nom)
+      {
+        elem.second->setMarque();
+        prim.push_back(elem.first);
+        ajout=ajout+1;
+      }
+    }
+
+    do{
+        for(const auto& v : m_arrete)
+        {
+            if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
+            {
+                if(minimum>v->getPoids())
+                {
+                    minimum=v->getPoids();
+                    temporaireD=v->getDepart();
+                    temporaireA=v->getArrivee();
+                }
+            }
+       }
+    if(temporaireA->getMarque()==false)
+    {
+        temporaireA->setMarque();
+        prim.push_back(temporaireA->getID());
+        ajout=ajout+1;
+    }
+    if(temporaireD->getMarque()==false)
+    {
+    temporaireD->setMarque();
+    prim.push_back(temporaireD->getID());
+    ajout=ajout+1;
+    }
+      minimum=99;
+
+    }while(ajout<m_sommets.size()-1);*/
+}
+
+
+
+
+void graphe::placerPoints()
+{
+    //BITMAP*page;
+    int couleur=makecol(255,0,0);
+    Sommet* D;
+    Sommet* A;
+    for(const auto& elem : m_sommets)
+    {
+        circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
+    }
+    for(const auto& v : m_arrete)
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
+    }
+}
+

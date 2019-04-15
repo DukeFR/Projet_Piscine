@@ -2,14 +2,16 @@
 #include "Graph.h"
 #include "Sommet.h"
 #include "Arrete.h"
-#include "allegro.h"
+#include <allegro.h>
 #include <time.h>
 
 
 void allegro()
 {
+    BITMAP*page;
+    // On va utiliser du hasard
     srand(time(NULL));
-    BITMAP *page;
+
     // Lancer allegro et le mode graphique
     allegro_init();
     install_keyboard();
@@ -27,18 +29,17 @@ void allegro()
     clear_bitmap(page);
 }
 
-
-
-
 int main()
 {
-    BITMAP*page;
     allegro();
-    graphe g{"broadway.txt"};
+    graphe g{"manhattan.txt"};
+    graphe p=g;
     g.afficher();
+    g.placerPoints();
+    p.prim();
     while (!key[KEY_ESC])
     {
-        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
     }
     return 0;
 }

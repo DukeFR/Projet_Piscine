@@ -13,6 +13,8 @@ class graphe
         graphe(std::string);
         //~graphe();
         void afficher() const;
+        void placerPoints();
+        void prim();
 
     protected:
 

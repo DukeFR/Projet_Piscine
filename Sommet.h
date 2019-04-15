@@ -12,6 +12,9 @@ class Sommet
         ~Sommet();
         void setMarque();
         bool getMarque();
+        int getm_x();
+        int getm_y();
+        int getm_id();
 
     protected:
 
@@ -28,3 +31,4 @@ class Sommet
 };
 
 #endif // SOMMET_H_INCLUDED
+

@@ -24,4 +24,17 @@ void Sommet::ajouterVoisin(const Sommet* voisin){
      marque=true;
  }
 
+ int Sommet::getm_x()
+ {
+     return m_x;
+ }
 
+int Sommet::getm_y()
+{
+    return m_y;
+}
+
+int Sommet::getm_id()
+{
+    return m_id;
+}
