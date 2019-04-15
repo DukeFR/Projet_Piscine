@@ -32,11 +32,18 @@ void allegro()
 int main()
 {
     allegro();
-    graphe g{"broadway.txt"};
+    int c=10;
+    graphe g{"triville.txt"};
     std::vector<Arrete*> p;
     g.afficher();
-    //g.placerPoints();
-    p=g.prim();
+    g.placerPoints();
+    do{
+    std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
+    std::cout<<"1. 1er Poids"<< std::endl;
+    std::cout<<"2. 2eme Poids"<<std::endl;
+    std::cin>>c;
+    }while(c!=1 && c!=2);
+    p=g.prim(c);
     g.afficherPrim(p);
     while (!key[KEY_ESC])
     {

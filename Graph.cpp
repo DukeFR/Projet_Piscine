@@ -56,7 +56,7 @@ void graphe::afficher() const
     }
 }
 
-std::vector<Arrete*> graphe::prim()
+std::vector<Arrete*> graphe::prim(int choix)
 {
     std::vector<Arrete*> Prim;
     int minimum=99;
@@ -83,7 +83,8 @@ std::vector<Arrete*> graphe::prim()
         {
             if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
             {
-                if(minimum>v->getPoids1())
+                if(choix==1)
+                {if(minimum>v->getPoids1())
                 {
                     minimum=v->getPoids1();
                     temporaireD=v->getDepart();
@@ -91,6 +92,19 @@ std::vector<Arrete*> graphe::prim()
                     id=v->getm_id();
                     p1=minimum;
                     p2=v->getPoids2();
+                }
+                }
+                if(choix==2)
+                {
+                 if(minimum>v->getPoids2())
+                {
+                    minimum=v->getPoids2();
+                    temporaireD=v->getDepart();
+                    temporaireA=v->getArrivee();
+                    id=v->getm_id();
+                    p1=v->getPoids1();
+                    p2=minimum;
+                }
                 }
             }
        }
@@ -126,17 +140,48 @@ void graphe::placerPoints()
 {
     //BITMAP*page;
     int couleur=makecol(255,0,0);
+    int c=makecol(0,0,255);
+    int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
     for(const auto& elem : m_sommets)
     {
         circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()-15,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
     }
     for(const auto& v : m_arrete)
     {
         D=v->getDepart();
         A=v->getArrivee();
         line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
+
+        if(D->getm_x()==A->getm_x())
+        {
+        int distance1=A->getm_y();
+        int distance2=D->getm_y();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,D->getm_x()-20,distance,c,-1,"%d",v->getm_id());
+        }
+
+        if(D->getm_y()==A->getm_y())
+        {
+        int distance1=A->getm_x();
+        int distance2=D->getm_x();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,distance,D->getm_y()-10,c,-1,"%d",v->getm_id());
+        }
+
+        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
+        {
+                int distance1=A->getm_x();
+                int distance2=D->getm_x();
+                int distancex=(distance1+distance2)/2;
+                int distance3=A->getm_y();
+                int distance4=D->getm_y();
+                int distancey=(distance3+distance4)/2;
+             textprintf_ex(screen,font,distancex,distancey,c,-1,"%d",v->getm_id());
+
+        }
     }
 }
 
