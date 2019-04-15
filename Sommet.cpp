@@ -5,11 +5,7 @@
 Sommet::Sommet(int id,int x1,int y1):m_id{id},marque{false},m_x{x1},m_y{y1}
 {
 }
-/*
-void Sommet::ajouterVoisin(const Sommet* voisin){
-    m_voisins.push_back(voisin);
-}
-*/
+
  void Sommet::afficherData() const{
      std::cout<<"id: "<<m_id<<" "<<"M: "<<marque<<" "<<"x"<<m_x<<" "<<"y: "<<m_y<<std::endl;
  }

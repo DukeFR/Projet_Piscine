@@ -18,7 +18,7 @@ class graphe
 
     private:
         /// Le réseau est constitué d'une collection de sommets
-        std::unordered_map<int,Sommet*> m_sommets;//stockée dans une map (clé=id du sommet, valeur= pointeur sur le sommet)
+        std::vector<Sommet*> m_sommets;//stockée dans une map (clé=id du sommet, valeur= pointeur sur le sommet)
         std::vector<Arrete*> m_arrete;
 
 };

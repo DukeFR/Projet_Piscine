@@ -18,8 +18,7 @@ graphe::graphe(std::string nomFichier){
         ifs>>id; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
         ifs>>x; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
         ifs>>y; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
-        m_sommets.insert({id,new Sommet{id,x,y}});
-        std::cout <<"ok"<< std::endl;
+        m_sommets.push_back({new Sommet{id,x,y}});
     }
 
     int taille;
@@ -36,7 +35,7 @@ graphe::graphe(std::string nomFichier){
         ifs>>idA; if(ifs.fail()) throw std::runtime_error("Probleme lecture poids");
         ifs>>depart; if(ifs.fail()) throw std::runtime_error("Probleme lecture arete sommet 1");
         ifs>>arrivee; if(ifs.fail()) throw std::runtime_error("Probleme lecture arete sommet 2");
-        m_arrete.push_back({new Arrete{m_sommets.find(depart)->second,m_sommets.find(arrivee)->second,idA,1,1}});
+        m_arrete.push_back({new Arrete{m_sommets[depart],m_sommets[arrivee],idA,1,1}});
        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
@@ -47,8 +46,7 @@ void graphe::afficher() const
 {
     for(const auto& elem : m_sommets)
     {
-        std::cout << elem.first << std::endl;
-        elem.second->afficherData();
+        elem->afficherData();
     }
 
     for(const auto& v : m_arrete)
