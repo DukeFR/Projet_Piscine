@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\arrete.cpp
+	"Arrete.h"
+	<iostream>
+
+1555331364 c:\users\mark\desktop\git\projet_piscine\vélo\arrete.h
+	"Sommet.h"
+	<iostream>
+
+1555331364 c:\users\mark\desktop\git\projet_piscine\vélo\sommet.h
+	<iostream>
+
+1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\sommet.cpp
+	"Sommet.h"
+	<iostream>
+
+1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\graph.cpp
+	"graph.h"
+	<fstream>
+	<iostream>
+
+1555331371 c:\users\mark\desktop\git\projet_piscine\vélo\graph.h
+	"Arrete.h"
+	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
+
+1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\main.cpp
+	<iostream>
+	"Graph.h"
+	"Sommet.h"
+	"Arrete.h"
+
