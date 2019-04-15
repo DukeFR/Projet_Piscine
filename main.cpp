@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Graph.h"
 #include "Sommet.h"
-#include "Arrete.h"
+#include "Arete.h"
 
 
 int main()
@@ -10,3 +10,4 @@ int main()
     g.afficher();
     return 0;
 }
+

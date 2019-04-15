@@ -20,8 +20,8 @@ class Arete
         Sommet* depart;
         Sommet* arrivee;
         int m_id;
-        int m_poids1;
-        int m_poids2;
+        float m_poids1;
+        float m_poids2;
 
 };
 
