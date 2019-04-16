@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "allegro.h"
+#include "math.h"
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
     std::ifstream ifsPoids{nomFichierPoids};
@@ -70,75 +71,104 @@ void graphe::afficher() const
     }
 }
 
-void graphe::prim()
+std::vector<Arrete*> graphe::prim(int choix)
 {
-    /*int minimum=99;
+    std::vector<Arrete*> Prim;
+    int minimum=99;
     int nom=0;
-    int temp;
-    int ajout;
+    int ajout=0;
     Sommet*temporaireD;
     Sommet*temporaireA;
+    Arrete* Temporaire;
+    int p1;
+    int p2;
+    int id;
 
     for(const auto& elem : m_sommets)
     {
-      if(elem.get==nom)
+      if(elem->getm_id()==nom)
       {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
+        elem->setMarque();
       }
     }
-    nom="CE1";
-    for(const auto& elem : m_sommets)
-    {
-      if(elem.first==nom)
-      {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
-      }
-    }
-    nom="CE2";
-    for(const auto& elem : m_sommets)
-    {
-      if(elem.first==nom)
-      {
-        elem.second->setMarque();
-        prim.push_back(elem.first);
-        ajout=ajout+1;
-      }
-    }
+
 
     do{
         for(const auto& v : m_arrete)
         {
             if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
             {
-                if(minimum>v->getPoids())
+                if(choix==1)
+                {if(minimum>v->getPoids1())
                 {
-                    minimum=v->getPoids();
+                    minimum=v->getPoids1();
                     temporaireD=v->getDepart();
                     temporaireA=v->getArrivee();
+                    id=v->getm_id();
+                    p1=minimum;
+                    p2=v->getPoids2();
+                }
+                }
+                if(choix==2)
+                {
+                 if(minimum>v->getPoids2())
+                {
+                    minimum=v->getPoids2();
+                    temporaireD=v->getDepart();
+                    temporaireA=v->getArrivee();
+                    id=v->getm_id();
+                    p1=v->getPoids1();
+                    p2=minimum;
+                }
                 }
             }
        }
-    if(temporaireA->getMarque()==false)
+    Temporaire=new Arrete(temporaireD,temporaireA,id,p1,p2);
+    if(temporaireD->getMarque()==true)
     {
         temporaireA->setMarque();
-        prim.push_back(temporaireA->getID());
-        ajout=ajout+1;
     }
-    if(temporaireD->getMarque()==false)
+    if(temporaireA->getMarque()==true)
     {
-    temporaireD->setMarque();
-    prim.push_back(temporaireD->getID());
-    ajout=ajout+1;
+        temporaireD->setMarque();
     }
-      minimum=99;
-
-    }while(ajout<m_sommets.size()-1);*/
+    Prim.push_back(Temporaire);
+    ajout=ajout+1;
+    minimum=99;
+    }while(ajout<m_sommets.size()-1);
+    return Prim;
 }
 
+
+ std::vector<graphe> graphe::recursivite()
+{
+    /*int maximum= this->getM_arrete().size();
+    std::vector<graphe> liste;
+    std::string temp;
+    for(int i=0;i<maximum;i++)
+    {
+        temp=temp+"0";
+    }
+    liste[0].
+    for(int i=0;i<maximum;i++)
+    {
+
+    }*/
+}
+
+void graphe::afficherPrim(std::vector<Arrete*> Prim)
+{
+    BITMAP* buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    clear_bitmap(buffer);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    int couleur=makecol(0,255,0);
+    for(int i=0;i<Prim.size();i++)
+    {
+        circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
+        circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
+        line(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+    }
+}
 
 
 
@@ -146,17 +176,53 @@ void graphe::placerPoints()
 {
     //BITMAP*page;
     int couleur=makecol(255,0,0);
+    int c=makecol(0,0,255);
+    int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
     for(const auto& elem : m_sommets)
     {
         circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()-15,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
     }
     for(const auto& v : m_arrete)
     {
         D=v->getDepart();
         A=v->getArrivee();
         line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
+
+        if(D->getm_x()==A->getm_x())
+        {
+        int distance1=A->getm_y();
+        int distance2=D->getm_y();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,D->getm_x()-20,distance,c,-1,"%d",v->getm_id());
+        }
+
+        if(D->getm_y()==A->getm_y())
+        {
+        int distance1=A->getm_x();
+        int distance2=D->getm_x();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,distance,D->getm_y()-10,c,-1,"%d",v->getm_id());
+        }
+
+        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
+        {
+                int distance1=A->getm_x();
+                int distance2=D->getm_x();
+                int distancex=(distance1+distance2)/2;
+                int distance3=A->getm_y();
+                int distance4=D->getm_y();
+                int distancey=(distance3+distance4)/2;
+             textprintf_ex(screen,font,distancex,distancey,c,-1,"%d",v->getm_id());
+
+        }
     }
+}
+
+std::vector<Arrete*> graphe::getM_arrete()
+{
+    return m_arrete;
 }
 

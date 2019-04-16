@@ -29,7 +29,17 @@ Sommet* Arrete::getArrivee()
     return arrivee;
 }
 
-int Arrete::getPoids()
+int Arrete::getm_id()
+{
+    return m_id;
+}
+
+int Arrete::getPoids2()
+{
+    return m_poids2;
+}
+
+int Arrete::getPoids1()
 {
     return m_poids1;
 }
