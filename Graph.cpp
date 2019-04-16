@@ -3,41 +3,57 @@
 #include <iostream>
 #include "allegro.h"
 #include "math.h"
+#include "bitset"
+#include "vector"
 
-graphe::graphe(std::string nomFichier){
-    std::ifstream ifs{nomFichier};
-    if (!ifs)
-        throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
+graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
+    std::ifstream ifsPoids{nomFichierPoids};
+    std::ifstream ifsSommets{nomFichierSommets};
+
+    if (!ifsSommets)
+        throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichierSommets );
+    if (!ifsPoids)
+        throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichierPoids );
     int ordre;
-    ifs >> ordre;
-    if ( ifs.fail() )
+    ifsSommets >> ordre;
+    if ( ifsSommets.fail() )
         throw std::runtime_error("Probleme lecture ordre du graphe");
     int id;
     int x;
     int y;
     //lecture des sommets
     for (int i=0; i<ordre; ++i){
-        ifs>>id; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
-        ifs>>x; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
-        ifs>>y; if(ifs.fail()) throw std::runtime_error("Probleme lecture données sommet");
+        ifsSommets>>id; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
+        ifsSommets>>x; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
+        ifsSommets>>y; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
         m_sommets.push_back({new Sommet{id,x,y}});
     }
 
     int taille;
-    ifs >> taille;
-    std::cout << "taille" << taille << "ordre" << ordre <<std::endl;
-    if ( ifs.fail() )
+    int nb_Poids;
+    ifsSommets >> taille;
+    ifsPoids >> taille;
+    ifsPoids >> nb_Poids;
+
+    std::cout << "taille : " << taille << " / ordre : " << ordre <<std::endl<<std::endl;
+    if ( ifsSommets.fail() )
         throw std::runtime_error("Probleme lecture taille du graphe");
+
     int arrivee;
     int depart;
+    float poids1;
+    float poids2;
     int idA;
     //lecture des aretes
     for (int i=0; i<taille; ++i){
         //lecture des ids des deux extrémités
-        ifs>>idA; if(ifs.fail()) throw std::runtime_error("Probleme lecture poids");
-        ifs>>depart; if(ifs.fail()) throw std::runtime_error("Probleme lecture arete sommet 1");
-        ifs>>arrivee; if(ifs.fail()) throw std::runtime_error("Probleme lecture arete sommet 2");
-        m_arrete.push_back({new Arrete{m_sommets[depart],m_sommets[arrivee],idA,1,1}});
+        ifsSommets>>idA; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture poids");
+        ifsSommets>>depart; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture arete sommet 1");
+        ifsSommets>>arrivee; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture arete sommet 2");
+        ifsPoids>>idA; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture poids");
+        ifsPoids>>poids1; if(ifsPoids.fail()) throw std::runtime_error("Probleme lecture poids n1");
+        ifsPoids>>poids2; if(ifsPoids.fail()) throw std::runtime_error("Probleme lecture poids n2");
+        m_arrete.push_back({new Arrete{m_sommets[depart],m_sommets[arrivee],idA,poids1,poids2}});
        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
@@ -126,23 +142,98 @@ std::vector<Arrete*> graphe::prim(int choix)
 }
 
 
- std::vector<graphe> graphe::recursivite()
+ void graphe::binaire(const int nombre)
 {
     int maximum= this->getM_arrete().size();
+    maximum=pow(2,maximum);
     std::vector<graphe> liste;
+    std::vector<std::string> b;
+    std::vector<std::string> collecteur;
     std::string temp;
+    //std::cout << maximum << std::endl;
     for(int i=0;i<maximum;i++)
     {
-        temp=temp+"0";
+        if(nombre==1)
+        {temp=std::bitset<1>(i).to_string();}
+        if(nombre==2)
+        {temp=std::bitset<2>(i).to_string();}
+        if(nombre==3)
+        {temp=std::bitset<3>(i).to_string();}
+        if(nombre==4)
+        {temp=std::bitset<4>(i).to_string();}
+        if(nombre==5)
+        {temp=std::bitset<5>(i).to_string();}
+        if(nombre==6)
+        {temp=std::bitset<6>(i).to_string();}
+        if(nombre==7)
+        {temp=std::bitset<7>(i).to_string();}
+        if(nombre==8)
+        {temp=std::bitset<8>(i).to_string();}
+        if(nombre==9)
+        {temp=std::bitset<9>(i).to_string();}
+        if(nombre==10)
+        {temp=std::bitset<10>(i).to_string();}
+        if(nombre==11)
+        {temp=std::bitset<11>(i).to_string();}
+        if(nombre==12)
+        {temp=std::bitset<12>(i).to_string();}
+        if(nombre==13)
+        {temp=std::bitset<13>(i).to_string();}
+        if(nombre==14)
+        {temp=std::bitset<14>(i).to_string();}
+        if(nombre==15)
+        {temp=std::bitset<15>(i).to_string();}
+        if(nombre==16)
+        {temp=std::bitset<16>(i).to_string();}
+        if(nombre==17)
+        {temp=std::bitset<17>(i).to_string();}
+        if(nombre==18)
+        {temp=std::bitset<18>(i).to_string();}
+        if(nombre==19)
+        {temp=std::bitset<19>(i).to_string();}
+        if(nombre==20)
+        {temp=std::bitset<20>(i).to_string();}
+        if(nombre==21)
+        {temp=std::bitset<21>(i).to_string();}
+        if(nombre==22)
+        {temp=std::bitset<22>(i).to_string();}
+        if(nombre==23)
+        {temp=std::bitset<23>(i).to_string();}
+        if(nombre==24)
+        {temp=std::bitset<24>(i).to_string();}
+        if(nombre==25)
+        {temp=std::bitset<25>(i).to_string();}
+        //std::cout << "temp: " << temp << std::endl;
+        b.push_back(temp);
+        //liste[i].GraphB(temp);
     }
-    liste[0].
-    for(int i=0;i<maximum;i++)
+    //std::cout << b.size()<<std::endl;
+    std::cout << "Fin" << std::endl;
+    int a=0;
+    for (int i=0;i<b.size();i++)
     {
+        for(int j=0;j<b[i].size();j++)
+        {
+            //std::cout << b[i].size() << std::endl;
+            if(b[i][j]=='1')
+            {
+                a=a+1;
+            }
 
+        }
+        if(a==this->getM_Sommets().size()-1)
+        {
+            collecteur.push_back(b[i]);
+        }
+        a=0;
     }
+    for(int i=0;i<collecteur.size();i++)
+    {
+        std::cout << "i: "<< i << " " << "b: " << collecteur[i] << std::endl;
+    }
+
+
 }
-
-
 
 
 
@@ -219,3 +310,7 @@ std::vector<Arrete*> graphe::getM_arrete()
     return m_arrete;
 }
 
+std::vector<Sommet*> graphe::getM_Sommets()
+{
+    return m_sommets;
+}

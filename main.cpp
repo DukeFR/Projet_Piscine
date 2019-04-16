@@ -34,9 +34,9 @@ int main()
     allegro();
     int c=10;
     int taille;
-    graphe g{"broadway.txt"};
     std::vector<Arrete*> p;
-    std::vector<graphe> b;
+    //std::vector<graphe> b;
+    graphe g{"manhattan.txt","manhattan_weights_2.txt"};
     g.afficher();
     taille=g.getM_arrete().size();
     g.placerPoints();
@@ -44,7 +44,7 @@ int main()
     std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
     std::cout<<"1. 1er Poids"<< std::endl;
     std::cout<<"2. 2eme Poids"<<std::endl;
-    std::cout<<"3. Toutes les possibilites bianires"<<std::endl;
+    std::cout<<"3. Toutes les possibilites binaires"<<std::endl;
     std::cin>>c;
     }while(c!=1 && c!=2 && c!=3);
     if(c==1 || c==2)
@@ -53,7 +53,8 @@ int main()
     if(c==3)
     {
         //taille=pow(2,taille);
-        b=g.recursivite();
+        g.binaire(taille);
+
     }
     while (!key[KEY_ESC])
     {
@@ -62,5 +63,3 @@ int main()
     return 0;
 }
 END_OF_MAIN();
-
-
