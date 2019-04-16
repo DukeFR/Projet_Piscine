@@ -34,17 +34,20 @@ int main()
     allegro();
     int c=10;
     int taille;
-    graphe g{"manhattan.txt", "manhattan_weights_2.txt"};
+    bool BFS =false;
+    graphe g{"broadway.txt", "broadway_weights_0.txt"};
     std::vector<Arrete*> p;
     std::vector<graphe> b;
     g.afficher();
     taille=g.getM_arrete().size();
+    BFS=g.parcoursBFS(g.getM_sommets(), g.getM_arrete());
+
     g.placerPoints();
     do{
     std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
     std::cout<<"1. 1er Poids"<< std::endl;
     std::cout<<"2. 2eme Poids"<<std::endl;
-    std::cout<<"3. Toutes les possibilites bianires"<<std::endl;
+    std::cout<<"3. Toutes les possibilites binaires"<<std::endl;
     std::cin>>c;
     }while(c!=1 && c!=2 && c!=3);
     if(c==1 || c==2)

@@ -2,7 +2,9 @@
 #include <fstream>
 #include <iostream>
 #include "allegro.h"
+#include <queue>
 #include "math.h"
+#include<unordered_set>
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
     std::ifstream ifsPoids{nomFichierPoids};
@@ -76,7 +78,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     std::vector<Arrete*> Prim;
     int minimum=99;
     int nom=0;
-    int ajout=0;
+    size_t ajout=0;
     Sommet*temporaireD;
     Sommet*temporaireA;
     Arrete* Temporaire;
@@ -162,7 +164,7 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     clear_bitmap(buffer);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int couleur=makecol(0,255,0);
-    for(int i=0;i<Prim.size();i++)
+    for(size_t i=0;i<Prim.size();i++)
     {
         circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
         circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
@@ -224,5 +226,57 @@ void graphe::placerPoints()
 std::vector<Arrete*> graphe::getM_arrete()
 {
     return m_arrete;
+}
+
+std::vector<Sommet*> graphe::getM_sommets()
+{
+    return m_sommets;
+}
+
+bool graphe::parcoursBFS(std::vector<Sommet*> sommets, std::vector<Arrete*> aretes)
+{
+    int taille = sommets.size();
+    int compteur = 1;
+    bool retour = 0;
+    std::queue<Sommet*> file;
+    std::unordered_set<const Sommet*> marque;
+
+    file.push(sommets[0]);
+
+    while(file.empty()!=1)
+    {
+        Sommet* s = file.front();
+        file.pop();
+        marque.insert(s);
+
+        for(size_t i=0; i<aretes.size(); i++)
+        {
+            if(marque.count(aretes[i]->getArrivee())==0)
+            {
+                if(s->getm_id() == aretes[i]->getDepart()->getm_id())
+                {
+                    file.push(aretes[i]->getArrivee());
+                    compteur = compteur +1;
+                    marque.insert(aretes[i]->getArrivee());
+                }
+            }
+        }
+    }
+
+    if(compteur==taille)
+    {
+        std::cout<<"ce graphe est connexe"<<std::endl;
+        retour = true;
+    }
+    else
+    {
+        std::cout << "ce graphe n'est pas connexe"<<std::endl;
+        retour = false;
+    }
+    std::cout << "compteur = "<<compteur<<std::endl;
+    std::cout << "taille = "<<taille<<std::endl;
+
+    return retour;
+
 }
 

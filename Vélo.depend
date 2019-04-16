@@ -42,7 +42,7 @@
 
 1555409598 D
 
-1555411021 source:c:\users\xavan\projet_piscine\main.cpp
+1555421964 source:c:\users\xavan\projet_piscine\main.cpp
 	<iostream>
 	"Graph.h"
 	"Sommet.h"
@@ -51,7 +51,7 @@
 	<time.h>
 	<math.h>
 
-1555410922 c:\users\xavan\projet_piscine\graph.h
+1555421744 c:\users\xavan\projet_piscine\graph.h
 	"Arrete.h"
 	<iostream>
 	<string>
@@ -76,7 +76,7 @@
 	<unordered_map>
 	<vector>
 
-1555342397 c:\users\xavan\projet_piscine\sommet.h
+1555411211 c:\users\xavan\projet_piscine\sommet.h
 	<iostream>
 
 1555339737 source:c:\users\xavan\projet_piscine\arete.cpp
@@ -87,25 +87,27 @@
 	"Sommet.h"
 	<iostream>
 
-1555404459 source:c:\users\xavan\projet_piscine\sommet.cpp
+1555411396 source:c:\users\xavan\projet_piscine\sommet.cpp
 	"Sommet.h"
 	<iostream>
 
-1555411050 source:c:\users\xavan\projet_piscine\graph.cpp
+1555421744 source:c:\users\xavan\projet_piscine\graph.cpp
 	"graph.h"
 	<fstream>
 	<iostream>
 	"allegro.h"
+	<queue>
 	"math.h"
+	<unordered_set>
 
 1555340488 "
 	<math.h>
 
-1555410922 source:c:\users\xavan\projet_piscine\arrete.cpp
+1555418949 source:c:\users\xavan\projet_piscine\arrete.cpp
 	"Arrete.h"
 	<iostream>
 
-1555410908 c:\users\xavan\projet_piscine\arrete.h
+1555418967 c:\users\xavan\projet_piscine\arrete.h
 	"Sommet.h"
 	<iostream>
 

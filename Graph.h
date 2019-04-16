@@ -16,7 +16,9 @@ class graphe
         void placerPoints();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
+        bool parcoursBFS(std::vector<Sommet*>sommets, std::vector<Arrete*>arrete);
         std::vector<Arrete*> getM_arrete();
+        std::vector<Sommet*> getM_sommets();
         std::vector<graphe> recursivite();
 
     protected:
