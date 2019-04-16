@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "allegro.h"
+#include "math.h"
 
 graphe::graphe(std::string nomFichier){
     std::ifstream ifs{nomFichier};
@@ -123,8 +124,36 @@ std::vector<Arrete*> graphe::prim(int choix)
     }while(ajout<m_sommets.size()-1);
     return Prim;
 }
+
+
+ std::vector<graphe> graphe::recursivite()
+{
+    int maximum= this->getM_arrete().size();
+    std::vector<graphe> liste;
+    std::string temp;
+    for(int i=0;i<maximum;i++)
+    {
+        temp=temp+"0";
+    }
+    liste[0].
+    for(int i=0;i<maximum;i++)
+    {
+
+    }
+}
+
+
+
+
+
+
+
+
 void graphe::afficherPrim(std::vector<Arrete*> Prim)
 {
+    BITMAP* buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    clear_bitmap(buffer);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int couleur=makecol(0,255,0);
     for(int i=0;i<Prim.size();i++)
     {
@@ -183,5 +212,10 @@ void graphe::placerPoints()
 
         }
     }
+}
+
+std::vector<Arrete*> graphe::getM_arrete()
+{
+    return m_arrete;
 }
 

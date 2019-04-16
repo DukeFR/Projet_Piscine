@@ -1,51 +1,7 @@
 # depslib dependency file v1.0
-1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\arrete.cpp
+1555352250 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
 	"Arrete.h"
 	<iostream>
-
-1555331364 c:\users\mark\desktop\git\projet_piscine\vélo\arrete.h
-	"Sommet.h"
-	<iostream>
-
-1555331364 c:\users\mark\desktop\git\projet_piscine\vélo\sommet.h
-	<iostream>
-
-1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\sommet.cpp
-	"Sommet.h"
-	<iostream>
-
-1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\graph.cpp
-	"graph.h"
-	<fstream>
-	<iostream>
-
-1555331371 c:\users\mark\desktop\git\projet_piscine\vélo\graph.h
-	"Arrete.h"
-	<iostream>
-	<string>
-	<unordered_map>
-	<vector>
-
-1555331364 source:c:\users\mark\desktop\git\projet_piscine\vélo\main.cpp
-	<iostream>
-	"Graph.h"
-	"Sommet.h"
-	"Arrete.h"
-
-1555356791 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
-	<iostream>
-	"Graph.h"
-	"Sommet.h"
-	"Arrete.h"
-	<allegro.h>
-	<time.h>
-
-1555353923 c:\users\mark\desktop\git\projet_piscine\graph.h
-	"Arrete.h"
-	<iostream>
-	<string>
-	<unordered_map>
-	<vector>
 
 1555352250 c:\users\mark\desktop\git\projet_piscine\arrete.h
 	"Sommet.h"
@@ -54,17 +10,30 @@
 1555340700 c:\users\mark\desktop\git\projet_piscine\sommet.h
 	<iostream>
 
-1555352250 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
+1555409636 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
+	"graph.h"
+	<fstream>
+	<iostream>
+	"allegro.h"
+	"math.h"
+
+1555409609 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
 	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
 
 1555340700 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
 	"Sommet.h"
 	<iostream>
 
-1555360497 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
-	"graph.h"
-	<fstream>
+1555409598 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
 	<iostream>
-	"allegro.h"
+	"Graph.h"
+	"Sommet.h"
+	"Arrete.h"
+	<allegro.h>
+	<time.h>
+	<math.h>
 

@@ -4,7 +4,7 @@
 #include "Arrete.h"
 #include <allegro.h>
 #include <time.h>
-
+#include <math.h>
 
 void allegro()
 {
@@ -33,18 +33,28 @@ int main()
 {
     allegro();
     int c=10;
-    graphe g{"triville.txt"};
+    int taille;
+    graphe g{"broadway.txt"};
     std::vector<Arrete*> p;
+    std::vector<graphe> b;
     g.afficher();
+    taille=g.getM_arrete().size();
     g.placerPoints();
     do{
     std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
     std::cout<<"1. 1er Poids"<< std::endl;
     std::cout<<"2. 2eme Poids"<<std::endl;
+    std::cout<<"3. Toutes les possibilites bianires"<<std::endl;
     std::cin>>c;
-    }while(c!=1 && c!=2);
-    p=g.prim(c);
-    g.afficherPrim(p);
+    }while(c!=1 && c!=2 && c!=3);
+    if(c==1 || c==2)
+    {p=g.prim(c);
+    g.afficherPrim(p);}
+    if(c==3)
+    {
+        //taille=pow(2,taille);
+        b=g.recursivite();
+    }
     while (!key[KEY_ESC])
     {
 

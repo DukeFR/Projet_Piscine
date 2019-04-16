@@ -16,6 +16,8 @@ class graphe
         void placerPoints();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
+        std::vector<Arrete*> getM_arrete();
+        std::vector<graphe> recursivite();
 
     protected:
 
