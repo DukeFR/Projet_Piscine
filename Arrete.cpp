@@ -8,10 +8,13 @@ Arrete::Arrete(Sommet* s1,Sommet* s2,int id,int p1,int p2):depart{s1},arrivee{s2
 
 void Arrete::afficherArrete() const
 {
-    std::cout<<"--------------------------------------------"<<std::endl;
+    std::cout<<"\n--------------------------------------------\n"<<std::endl;
+    std::cout<<"Arete numero: "<<m_id<<" "<<std::endl<<std::endl;
+
     depart->afficherData();
     arrivee->afficherData();
-    std::cout<<"id: "<<m_id<<" "<<std::endl;
+    std::cout<<" "<<std::endl;
+
     std::cout<<"poids1: "<<m_poids1<<" "<<std::endl;
     std::cout<<"poids2: "<<m_poids2<<" "<<std::endl;
 }
@@ -26,7 +29,17 @@ Sommet* Arrete::getArrivee()
     return arrivee;
 }
 
-int Arrete::getPoids()
+int Arrete::getm_id()
+{
+    return m_id;
+}
+
+int Arrete::getPoids2()
+{
+    return m_poids2;
+}
+
+int Arrete::getPoids1()
 {
     return m_poids1;
 }

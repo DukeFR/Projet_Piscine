@@ -1,4 +1,3 @@
-
 #include "Sommet.h"
 
 #include <iostream>
@@ -12,7 +11,7 @@ void Sommet::ajouterVoisin(const Sommet* voisin){
 }
 */
  void Sommet::afficherData() const{
-     std::cout<<"id: "<<m_id<<" "<<"M: "<<marque<<" "<<"x: "<<m_x<<" "<<"y: "<<m_y<<std::endl;
+     std::cout<<"Numero: "<<m_id<<" / "<<" Marque: "<<marque<<" / "<<"X: "<<m_x<<" / "<<" Y: "<<m_y<<std::endl;
  }
 
  bool Sommet::getMarque()
@@ -39,3 +38,4 @@ int Sommet::getm_id()
 {
     return m_id;
 }
+

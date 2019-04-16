@@ -1,4 +1,3 @@
-
 #ifndef SOMMET_H_INCLUDED
 #define SOMMET_H_INCLUDED
 #include <iostream>
@@ -32,5 +31,4 @@ class Sommet
 };
 
 #endif // SOMMET_H_INCLUDED
-
 
