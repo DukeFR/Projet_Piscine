@@ -1,20 +1,18 @@
-#ifndef ARRETE_H_INCLUDED
-#define ARRETE_H_INCLUDED
+#ifndef ARETE_H_INCLUDED
+#define ARETE_H_INCLUDED
 #include "Sommet.h"
 #include <iostream>
 
-class Arrete
+class Arete
 {
     public:
         ///constructeur qui reçoit en params les données du sommet
-        Arrete(Sommet*,Sommet*,int,int,int);
+        Arete(Sommet*,Sommet*,int,int,int);
         //~Arrete();
-        void afficherArrete() const;
+        void afficherArete() const;
         Sommet* getDepart();
         Sommet* getArrivee();
-        int getm_id();
-        int getPoids1();
-        int getPoids2();
+        int getPoids();
 
     protected:
 
@@ -22,9 +20,9 @@ class Arrete
         Sommet* depart;
         Sommet* arrivee;
         int m_id;
-        int m_poids1;
-        int m_poids2;
+        float m_poids1;
+        float m_poids2;
 
 };
 
-#endif // ARRETE_H_INCLUDED
+#endif // ARETE_H_INCLUDED
