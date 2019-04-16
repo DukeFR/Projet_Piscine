@@ -1,3 +1,4 @@
+
 #ifndef SOMMET_H_INCLUDED
 #define SOMMET_H_INCLUDED
 #include <iostream>
@@ -12,6 +13,9 @@ class Sommet
         ~Sommet();
         void setMarque();
         bool getMarque();
+        int getm_x();
+        int getm_y();
+        int getm_id();
 
     protected:
 
@@ -28,3 +32,5 @@ class Sommet
 };
 
 #endif // SOMMET_H_INCLUDED
+
+
