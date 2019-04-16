@@ -36,7 +36,7 @@ int main()
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"manhattan.txt","manhattan_weights_2.txt"};
+    graphe g{"triville.txt","triville_weights_0.txt"};
     g.afficher();
     taille=g.getM_arrete().size();
     g.placerPoints();
