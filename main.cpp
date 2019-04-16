@@ -35,7 +35,7 @@ int main()
     int c=10;
     int taille;
     bool BFS =false;
-    graphe g{"broadway.txt", "broadway_weights_0.txt"};
+    graphe g{"cubetown.txt", "cubetown_weights_0.txt"};
     std::vector<Arrete*> p;
     std::vector<graphe> b;
     g.afficher();
