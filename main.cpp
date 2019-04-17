@@ -20,7 +20,6 @@ int menu ()
     draw_sprite(buffer,accueil,0,0); /// dessine la totalité de l'image accueil sur le buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int choice = 0;
-    int couleur=makecol(255,0,0);
 
     while (!key[KEY_ESC])
         {
@@ -118,7 +117,7 @@ int main()
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"broadway.txt","broadway_weights_0.txt"};
+    graphe g{"triville.txt","triville_weights_0.txt"};
     g.afficher();
     g.parcoursBFS(g);
     //menu();

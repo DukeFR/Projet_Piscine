@@ -325,8 +325,8 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
         poids1=poids1+Prim[i]->getPoids1();
         poids2=poids2+Prim[i]->getPoids2();
     }
-    textprintf_ex(screen,font,500,500,couleur,-1,"%d",poids1);
-    textprintf_ex(screen,font,500,550,couleur,-1,"%d",poids2);
+    textprintf_ex(screen,font,400,500,couleur,-1,"le poids total de l'arbre de cout 1 est %d",poids1);
+    textprintf_ex(screen,font,400,550,couleur,-1,"le poids total de l'arbre de cout 2 est %d",poids2);
 }
 
 
@@ -335,7 +335,7 @@ void graphe::placerPoints()
 {
     //BITMAP*page;
     int couleur=makecol(255,0,0);
-    int c=makecol(0,0,255);
+    int c=makecol(100,100,255);
     int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
@@ -374,6 +374,44 @@ void graphe::placerPoints()
                 int distance4=D->getm_y();
                 int distancey=(distance3+distance4)/2;
              textprintf_ex(screen,font,distancex,distancey,c,-1,"%d",v->getm_id());
+
+        }
+    }
+    for(const auto& elem : m_sommets) ///dessiner les sommets
+    {
+        circlefill(screen,elem->getm_x()+300,elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()+285,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
+    }
+    for(const auto& v : m_arrete) ///dessiner les aretes
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,D->getm_x()+300,D->getm_y(),A->getm_x()+300,A->getm_y(),couleur);
+        if(D->getm_x()==A->getm_x())
+        {
+        int distance1=A->getm_y();
+        int distance2=D->getm_y();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,D->getm_x()+280,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+        }
+
+        if(D->getm_y()==A->getm_y())
+        {
+        int distance1=A->getm_x();
+        int distance2=D->getm_x();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,distance+300,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+        }
+
+        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
+        {
+                int distance1=A->getm_x();
+                int distance2=D->getm_x();
+                int distancex=(distance1+distance2)/2;
+                int distance3=A->getm_y();
+                int distance4=D->getm_y();
+                int distancey=(distance3+distance4)/2;
+             textprintf_ex(screen,font,distancex+300,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
 
         }
     }
