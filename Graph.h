@@ -1,3 +1,4 @@
+
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 #include "Arrete.h"
@@ -11,15 +12,17 @@ class graphe
 {
     public:
         graphe(std::string, std::string);
+        graphe(std::vector<Sommet*>,std::vector<Arrete*>);
         //~graphe();
         void afficher() const;
         void placerPoints();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
-        bool parcoursBFS(std::vector<Sommet*>sommets, std::vector<Arrete*>arrete);
+        bool parcoursBFS(graphe g);
         std::vector<Arrete*> getM_arrete();
-        std::vector<Sommet*> getM_sommets();
-        std::vector<graphe> recursivite();
+        std::vector<Sommet*> getM_Sommets();
+        void binaire(int);
+        std::vector<graphe> GraphB(std::string);
 
     protected:
 
