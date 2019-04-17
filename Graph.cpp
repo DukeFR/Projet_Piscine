@@ -5,6 +5,7 @@
 #include "math.h"
 #include "bitset"
 #include "vector"
+#include "time.h"
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
     std::ifstream ifsPoids{nomFichierPoids};
@@ -254,15 +255,23 @@ std::vector<Arrete*> graphe::prim(int choix)
         ar.clear();
         s.clear();
     }
-    /*
-    std::cout << "ok"<< std::endl;
-    for(int i=0;i<liste.size();i++)
+    //std::cout << "On valide" << std::endl;
+    liste[0]->afficher();
+    BITMAP *buffer = create_bitmap(SCREEN_W,SCREEN_H);/// création du buffer
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    int compteur=0;
+    do{
+    if(key[KEY_ENTER])
     {
-    std::cout << "cool"<< std::endl;
-    liste[i]->afficher();
+        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        liste[compteur]->afficher();
+        //std::cout << "e" << std::endl;
+        liste[compteur]->placerPoints();
+        compteur=compteur+1;
 
     }
-    */
+    }while(compteur!=liste.size());
+
 
 
 }

@@ -43,7 +43,7 @@
 	<math.h>
 	"allegro.h"
 
-1555488708 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
+1555491981 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
 	"Graph.h"
 	<fstream>
 	<iostream>
@@ -51,6 +51,7 @@
 	"math.h"
 	"bitset"
 	"vector"
+	"time.h"
 
 1555483974 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
