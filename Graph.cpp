@@ -182,12 +182,12 @@ void graphe::placerPoints()
     int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
-    for(const auto& elem : m_sommets)
+    for(const auto& elem : m_sommets) ///dessiner les sommets
     {
         circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
         textprintf_ex(screen,font,elem->getm_x()-15,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
     }
-    for(const auto& v : m_arrete)
+    for(const auto& v : m_arrete) ///dessiner les aretes
     {
         D=v->getDepart();
         A=v->getArrivee();

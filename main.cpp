@@ -34,13 +34,11 @@ int main()
     allegro();
     int c=10;
     int taille;
-    bool BFS =false;
-    graphe g{"cubetown.txt", "cubetown_weights_0.txt"};
+    graphe g{"manhattan.txt", "manhattan_weights_0.txt"};
     std::vector<Arrete*> p;
     std::vector<graphe> b;
     g.afficher();
     taille=g.getM_arrete().size();
-    BFS=g.parcoursBFS(g.getM_sommets(), g.getM_arrete());
 
     g.placerPoints();
     do{
