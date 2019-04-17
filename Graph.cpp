@@ -6,6 +6,7 @@
 #include "bitset"
 #include "vector"
 #include "time.h"
+#include "algorithm"
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
     std::ifstream ifsPoids{nomFichierPoids};
@@ -219,7 +220,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     std::vector <Arrete*>ar;
     for (unsigned int i=0;i<b.size();i++)
     {
-        std::cout <<"test:  " <<b[i][4] << std::endl;
+        //std::cout <<"test:  " <<b[i][4] << std::endl;
         for(unsigned int j=0;j<b[i].size();j++)
         {
             if(b[i][j]=='1')
@@ -234,9 +235,11 @@ std::vector<Arrete*> graphe::prim(int choix)
         }
         a=0;
     }
+    std::cout << "Fin2" << std::endl;
+    std::cout << collecteur.size() << std::endl;
     for(unsigned int i=0;i<collecteur.size();i++)
     {
-        std::cout << "i: "<< i << " " << "b: " << collecteur[i] << std::endl;
+        //std::cout << "i: "<< i << " " << "b: " << collecteur[i] << std::endl;
         for(int j=nombre-1;j>=0;j--)
         {
             if(collecteur[i][nombre-j-1]=='1')
@@ -244,19 +247,26 @@ std::vector<Arrete*> graphe::prim(int choix)
                 s.push_back(m_arrete[(j)]->getArrivee());
                 s.push_back(m_arrete[(j)]->getDepart());
                 ar.push_back(m_arrete[j]);
+                sort(s.begin(),s.end());
+                s.erase( unique( s.begin(), s.end() ), s.end() );
             }
         }
-        std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
-        for(int k=0;k<ar.size();k++)
-        {
-            ar[k]->afficherArrete();
-        }
+        //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
+        //for(int k=0;k<ar.size();k++)
+        //{
+            //ar[k]->afficherArrete();
+        //}
         liste.push_back(new graphe(s,ar));
         ar.clear();
         s.clear();
     }
+
+    for(int i=0;i<liste.size();i++)
+    {
+        liste[i]->afficher();
+    }
     //std::cout << "On valide" << std::endl;
-    liste[0]->afficher();
+    //liste[0]->afficher();
     BITMAP *buffer = create_bitmap(SCREEN_W,SCREEN_H);/// création du buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int compteur=0;
@@ -264,7 +274,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     if(key[KEY_ENTER])
     {
         blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-        liste[compteur]->afficher();
+        //liste[compteur]->afficher();
         //std::cout << "e" << std::endl;
         liste[compteur]->placerPoints();
         compteur=compteur+1;
@@ -292,14 +302,15 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     int poids2=0;
     for(unsigned int i=0;i<Prim.size();i++)
     {
-        circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
-        circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
-        line(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+        circlefill(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
+        circlefill(buffer,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
+        line(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
         poids1=poids1+Prim[i]->getPoids1();
         poids2=poids2+Prim[i]->getPoids2();
     }
-    textprintf_ex(screen,font,500,500,couleur,-1,"%d",poids1);
-    textprintf_ex(screen,font,500,550,couleur,-1,"%d",poids2);
+    textprintf_ex(buffer,font,500,500,couleur,-1,"%d",poids1);
+    textprintf_ex(buffer,font,500,550,couleur,-1,"%d",poids2);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 }
 
 

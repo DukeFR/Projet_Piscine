@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
 163901448 <<<<<<< HEAD
 
-1555437491 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
+1555505815 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
 	"Arrete.h"
 	<iostream>
 
@@ -43,7 +43,7 @@
 	<math.h>
 	"allegro.h"
 
-1555491981 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
+1555527294 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
 	"Graph.h"
 	<fstream>
 	<iostream>
@@ -52,6 +52,7 @@
 	"bitset"
 	"vector"
 	"time.h"
+	"algorithm"
 
 1555483974 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
@@ -64,7 +65,7 @@
 	"Sommet.h"
 	<iostream>
 
-1555484857 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
+1555497486 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
 	<iostream>
 	"Graph.h"
 	"Sommet.h"
