@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "Graph.h"
 #include <fstream>
 #include <iostream>
 #include "allegro.h"
@@ -16,7 +16,7 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
         throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichierPoids );
     int ordre;
     ifsSommets >> ordre;
-    if ( ifsSommets.fail() )
+    if (ifsSommets.fail())
         throw std::runtime_error("Probleme lecture ordre du graphe");
     int id;
     int x;
@@ -57,6 +57,10 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
+graphe::graphe(std::vector<Sommet*> s,std::vector<Arrete*> a): m_sommets{s}, m_arrete{a}
+{
+
+}
 
 
 
@@ -78,7 +82,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     std::vector<Arrete*> Prim;
     int minimum=99;
     int nom=0;
-    int ajout=0;
+    unsigned int ajout=0;
     Sommet*temporaireD;
     Sommet*temporaireA;
     Arrete* Temporaire;
@@ -146,7 +150,7 @@ std::vector<Arrete*> graphe::prim(int choix)
 {
     int maximum= this->getM_arrete().size();
     maximum=pow(2,maximum);
-    std::vector<graphe> liste;
+    std::vector<graphe*> liste;
     std::vector<std::string> b;
     std::vector<std::string> collecteur;
     std::string temp;
@@ -209,12 +213,14 @@ std::vector<Arrete*> graphe::prim(int choix)
     }
     //std::cout << b.size()<<std::endl;
     std::cout << "Fin" << std::endl;
-    int a=0;
-    for (int i=0;i<b.size();i++)
+    unsigned int a=0;
+    std::vector<Sommet*> s;
+    std::vector <Arrete*>ar;
+    for (unsigned int i=0;i<b.size();i++)
     {
-        for(int j=0;j<b[i].size();j++)
+        std::cout <<"test:  " <<b[i][4] << std::endl;
+        for(unsigned int j=0;j<b[i].size();j++)
         {
-            //std::cout << b[i].size() << std::endl;
             if(b[i][j]=='1')
             {
                 a=a+1;
@@ -227,13 +233,40 @@ std::vector<Arrete*> graphe::prim(int choix)
         }
         a=0;
     }
-    for(int i=0;i<collecteur.size();i++)
+    for(unsigned int i=0;i<collecteur.size();i++)
     {
         std::cout << "i: "<< i << " " << "b: " << collecteur[i] << std::endl;
+        for(int j=nombre-1;j>=0;j--)
+        {
+            if(collecteur[i][nombre-j-1]=='1')
+            {
+                s.push_back(m_arrete[(j)]->getArrivee());
+                s.push_back(m_arrete[(j)]->getDepart());
+                ar.push_back(m_arrete[j]);
+            }
+        }
+        std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
+        for(int k=0;k<ar.size();k++)
+        {
+            ar[k]->afficherArrete();
+        }
+        liste.push_back(new graphe(s,ar));
+        ar.clear();
+        s.clear();
     }
+    /*
+    std::cout << "ok"<< std::endl;
+    for(int i=0;i<liste.size();i++)
+    {
+    std::cout << "cool"<< std::endl;
+    liste[i]->afficher();
+
+    }
+    */
 
 
 }
+
 
 
 
@@ -246,12 +279,18 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     clear_bitmap(buffer);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int couleur=makecol(0,255,0);
-    for(int i=0;i<Prim.size();i++)
+    int poids1=0;
+    int poids2=0;
+    for(unsigned int i=0;i<Prim.size();i++)
     {
         circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
         circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
         line(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+        poids1=poids1+Prim[i]->getPoids1();
+        poids2=poids2+Prim[i]->getPoids2();
     }
+    textprintf_ex(screen,font,500,500,couleur,-1,"%d",poids1);
+    textprintf_ex(screen,font,500,550,couleur,-1,"%d",poids2);
 }
 
 
@@ -274,7 +313,6 @@ void graphe::placerPoints()
         D=v->getDepart();
         A=v->getArrivee();
         line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
-
         if(D->getm_x()==A->getm_x())
         {
         int distance1=A->getm_y();

@@ -1,3 +1,4 @@
+
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 #include "Arrete.h"
@@ -11,6 +12,7 @@ class graphe
 {
     public:
         graphe(std::string, std::string);
+        graphe(std::vector<Sommet*>,std::vector<Arrete*>);
         //~graphe();
         void afficher() const;
         void placerPoints();
