@@ -301,6 +301,13 @@ std::vector<Arrete*> graphe::prim(int choix)
 
 void graphe::affichagePareto(std::vector<graphe*> P)
 {
+    std::vector<int> selection;
+    for(int i=0;i<P.size();i++)
+    {
+        selection.push_back(6);
+    }
+    std::vector<int> sp1;
+    std::vector<int> sp2;
     std::cout << "Fin 4" << std::endl;
     int poids1=0;
     int poids2=0;
@@ -316,10 +323,43 @@ void graphe::affichagePareto(std::vector<graphe*> P)
             poids2=poids2+P[i]->getM_arrete()[j]->getPoids2();
 
         }
-        circlefill(buffer,500+poids1,500-poids2,3,couleur);
+        sp1.push_back(poids1);
+        sp2.push_back(poids2);
         poids1=0;
         poids2=0;
     }
+    std::cout <<"c: "<< sp1.size() << std::endl;
+    for(int i=0;i<sp1.size();i++)
+    {
+        for(int j=0;j<sp1.size();j++)
+        {
+            if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
+            {
+                selection[i]=10;
+                j=sp1.size();
+            }
+        }
+    }
+
+    line(buffer,300,300,700,300,couleur);
+    line(buffer,300,300,300,50,couleur);
+    for(int i=0;i<selection.size();i++)
+    {
+        poids1=sp1[i];
+        poids2=sp2[i];
+        std::cout << selection[i]<< std::endl;
+        if(selection[i]==10)
+        {
+            couleur=makecol(255,0,0);
+            circlefill(buffer,300+2*poids1,300-2*poids2,3,couleur);
+        }
+        if(selection[i]==6)
+        {
+            couleur=makecol(0,255,0);
+            circlefill(buffer,300+2*poids1,300-2*poids2,3,couleur);
+        }
+    }
+
     std::cout << "Fin 5" << std::endl;
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
@@ -338,6 +378,7 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     int couleur=makecol(0,255,0);
     int poids1=0;
     int poids2=0;
+
     for(unsigned int i=0;i<Prim.size();i++)
     {
         circlefill(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
