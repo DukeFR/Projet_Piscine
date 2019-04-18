@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Arrete::Arrete(Sommet* s1,Sommet* s2,int id,int p1,int p2):depart{s1},arrivee{s2},m_id{id},m_poids1{p1},m_poids2{p2}
+Arrete::Arrete(Sommet* s1,Sommet* s2,int id,float p1,float p2):depart{s1},arrivee{s2},m_id{id},m_poids1{p1},m_poids2{p2}
 {
 }
 

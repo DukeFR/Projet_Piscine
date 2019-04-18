@@ -20,7 +20,6 @@ int menu ()
     draw_sprite(buffer,accueil,0,0); /// dessine la totalité de l'image accueil sur le buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int choice = 0;
-    int couleur=makecol(255,0,0);
 
     while (!key[KEY_ESC])
         {
@@ -114,15 +113,17 @@ void allegro()
 int main()
 {
     allegro();
-    int c=10;
+    int c = 10;
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
+    graphe g{"broadway.txt","broadway_weights_0.txt"};
     g.afficher();
     //menu();
     taille=g.getM_arrete().size();
+
     g.placerPoints();
+    g.dessinerGraphePoids();
     do{
     std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
     std::cout<<"1. 1er Poids"<< std::endl;
@@ -137,6 +138,7 @@ int main()
     {
         //taille=pow(2,taille);
         g.binaire(taille);
+        g.placerPointsMini();
 
     }
     while (!key[KEY_ESC])
