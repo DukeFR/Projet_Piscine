@@ -117,7 +117,7 @@ int main()
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"broadway.txt","broadway_weights_0.txt"};
+    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
     ///g.afficher();
     ///g.parcoursBFS(g);
     //menu();
