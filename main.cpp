@@ -117,13 +117,13 @@ int main()
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
-    ///g.afficher();
-    ///g.parcoursBFS(g);
+    graphe g{"cubetown.txt","cubetown_weights_0.txt"};
+    g.afficher();
     //menu();
     taille=g.getM_arrete().size();
 
     g.placerPoints();
+    g.dessinerGraphePoids();
     do{
     std::cout<<"Voulez-vous prendre en compte le premier poids ou le second?" << std::endl;
     std::cout<<"1. 1er Poids"<< std::endl;
@@ -138,6 +138,7 @@ int main()
     {
         //taille=pow(2,taille);
         g.binaire(taille);
+        g.placerPoints();
 
     }
     while (!key[KEY_ESC])

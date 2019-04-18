@@ -16,13 +16,15 @@ class graphe
         //~graphe();
         void afficher() const;
         void placerPoints();
+        void dessinerGraphePoids();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
         bool parcoursBFS(graphe g);
         std::vector<Arrete*> getM_arrete();
         std::vector<Sommet*> getM_Sommets();
         void binaire(int);
-        std::vector<graphe> GraphB(std::string);
+        std::vector<graphe*> GraphB(std::string);
+        void affichagePareto(std::vector<graphe*> P);
 
     protected:
 

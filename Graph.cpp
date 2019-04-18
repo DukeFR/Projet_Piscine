@@ -87,12 +87,12 @@ std::vector<Arrete*> graphe::prim(int choix)
     int minimum=99;
     int nom=0;
     unsigned int ajout=0;
-    Sommet*temporaireD;
-    Sommet*temporaireA;
+    Sommet*temporaireD = 0;
+    Sommet*temporaireA = 0;
     Arrete* Temporaire;
-    int p1;
-    int p2;
-    int id;
+    int p1 = 0;
+    int p2 = 0;
+    int id = 0;
 
     for(const auto& elem : m_sommets)
     {
@@ -156,7 +156,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     show_mouse(screen);
     int maximum= this->getM_arrete().size();
     maximum=pow(2,maximum);
-    std::vector<graphe> liste;
+    std::vector<graphe*> liste;
     std::vector<std::string> b;
     std::vector<std::string> collecteur;
     std::string temp;
@@ -258,48 +258,66 @@ std::vector<Arrete*> graphe::prim(int choix)
                 s.erase( unique( s.begin(), s.end() ), s.end() ); ///Ici on retire les doublons
             }
         }
-
-        liste.push_back(graphe(s,ar)); ///le constructeur est chelou ?
+        //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
+        //for(int k=0;k<ar.size();k++)
+        //{
+            //ar[k]->afficherArrete();
+        //}
+        if(m_sommets.size()==s.size())
+        {liste.push_back(new graphe(s,ar));}
         ar.clear();
         s.clear();
     }
-    /*for(size_t i=0;i<liste.size();i++)
-    {
-        //std::cout<<std::endl<<std::endl<< "affichage de la liste"<<std::endl;
-        liste[i].afficher();
-    }*/
-    BITMAP *buffer = create_bitmap(SCREEN_W,SCREEN_H);/// création du buffer
-    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-    std::vector<graphe> lst;
 
-    for(size_t it=0;it<liste.size();it++)
+    std::cout << "taille: " << liste.size()<< std::endl;
+    int poids1=0;
+    int poids2=0;
+    for(size_t i=0;i<liste.size();i++)
     {
-        //it.afficher();
-        //std::cout<< "----ICI---" << std::endl;
-        liste[it].afficher();
-        bool test=parcoursBFS(liste[it]);
-        //std::cout <<"t:"<< test << std::endl;
-        if(test==true)
+        for(size_t j=0;j<liste[i]->getM_arrete().size();j++)
         {
-           lst.push_back(liste[it]);
+            poids1=poids1+liste[i]->getM_arrete()[j]->getPoids1();
+            poids2=poids2+liste[i]->getM_arrete()[j]->getPoids2();
         }
+        //liste[i]->afficher();
+        poids1=0;
+        poids2=0;
     }
+    //std::cout << "On valide" << std::endl;
+    //liste[0]->afficher();
 
-    size_t compteur=0;
-    std::cout<<lst.size()<<std::endl;
-    do{
-    if(mouse_b & 1)
-    {
-        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-        //std::cout << "e" << std::endl;
-        lst[compteur].placerPoints();
-        compteur=compteur+1;
-
-    }
-    }while(compteur!=lst.size());
+    std::cout << "Fin 3" << std::endl;
+    affichagePareto(liste);
 
 }
 
+
+void graphe::affichagePareto(std::vector<graphe*> P)
+{
+    std::cout << "Fin 4" << std::endl;
+    int poids1=0;
+    int poids2=0;
+    int couleur=makecol(255,0,0);
+    BITMAP*buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    clear_bitmap(buffer);
+    for(size_t i=0;i<P.size();i++)
+    {
+        for(size_t j=0;j<P[i]->getM_arrete().size();j++)
+        {
+            poids1=poids1+P[i]->getM_arrete()[j]->getPoids1();
+            poids2=poids2+P[i]->getM_arrete()[j]->getPoids2();
+
+        }
+        circlefill(buffer,300+4*poids1,500-4*poids2,1,couleur);
+        poids1=0;
+        poids2=0;
+    }
+    std::cout << "Fin 5" << std::endl;
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
+
+}
 
 void graphe::afficherPrim(std::vector<Arrete*> Prim)
 {
@@ -322,7 +340,53 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
 }
 
 
+void graphe::dessinerGraphePoids()
+{
+    int couleur=makecol(255,0,0);
+    int c=makecol(100,100,255);
+    int co=makecol(125,125,125);
+    Sommet* D;
+    Sommet* A;
 
+    for(const auto& elem : m_sommets) ///dessiner les sommets
+    {
+        circlefill(screen,elem->getm_x()+350,elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()+335,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
+    }
+    for(const auto& v : m_arrete) ///dessiner les aretes
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,D->getm_x()+350,D->getm_y(),A->getm_x()+350,A->getm_y(),couleur);
+        if(D->getm_x()==A->getm_x())
+        {
+        int distance1=A->getm_y();
+        int distance2=D->getm_y();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,D->getm_x()+360,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+        }
+
+        if(D->getm_y()==A->getm_y())
+        {
+        int distance1=A->getm_x();
+        int distance2=D->getm_x();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,distance+350,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+        }
+
+        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
+        {
+                int distance1=A->getm_x();
+                int distance2=D->getm_x();
+                int distancex=(distance1+distance2)/2;
+                int distance3=A->getm_y();
+                int distance4=D->getm_y();
+                int distancey=(distance3+distance4)/2;
+             textprintf_ex(screen,font,distancex+350,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+
+        }
+    }
+}
 void graphe::placerPoints()
 {
     //BITMAP*page;
@@ -333,20 +397,20 @@ void graphe::placerPoints()
     Sommet* A;
     for(const auto& elem : m_sommets) ///dessiner les sommets
     {
-        circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
-        textprintf_ex(screen,font,elem->getm_x()-15,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
+        circlefill(screen,elem->getm_x()-50,elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()-65,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
     }
     for(const auto& v : m_arrete) ///dessiner les aretes
     {
         D=v->getDepart();
         A=v->getArrivee();
-        line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
+        line(screen,D->getm_x()-50,D->getm_y(),A->getm_x()-50,A->getm_y(),couleur);
         if(D->getm_x()==A->getm_x())
         {
         int distance1=A->getm_y();
         int distance2=D->getm_y();
         int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,D->getm_x()-20,distance,c,-1,"%d",v->getm_id());
+        textprintf_ex(screen,font,D->getm_x()-70,distance,c,-1,"%d",v->getm_id());
         }
 
         if(D->getm_y()==A->getm_y())
@@ -354,7 +418,7 @@ void graphe::placerPoints()
         int distance1=A->getm_x();
         int distance2=D->getm_x();
         int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,distance,D->getm_y()-10,c,-1,"%d",v->getm_id());
+        textprintf_ex(screen,font,distance-50,D->getm_y()-10,c,-1,"%d",v->getm_id());
         }
 
         if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
@@ -365,45 +429,7 @@ void graphe::placerPoints()
                 int distance3=A->getm_y();
                 int distance4=D->getm_y();
                 int distancey=(distance3+distance4)/2;
-             textprintf_ex(screen,font,distancex,distancey,c,-1,"%d",v->getm_id());
-
-        }
-    }
-    for(const auto& elem : m_sommets) ///dessiner les sommets
-    {
-        circlefill(screen,elem->getm_x()+300,elem->getm_y(),10,couleur);
-        textprintf_ex(screen,font,elem->getm_x()+285,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
-    }
-    for(const auto& v : m_arrete) ///dessiner les aretes
-    {
-        D=v->getDepart();
-        A=v->getArrivee();
-        line(screen,D->getm_x()+300,D->getm_y(),A->getm_x()+300,A->getm_y(),couleur);
-        if(D->getm_x()==A->getm_x())
-        {
-        int distance1=A->getm_y();
-        int distance2=D->getm_y();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,D->getm_x()+280,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
-        }
-
-        if(D->getm_y()==A->getm_y())
-        {
-        int distance1=A->getm_x();
-        int distance2=D->getm_x();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,distance+300,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
-        }
-
-        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
-        {
-                int distance1=A->getm_x();
-                int distance2=D->getm_x();
-                int distancex=(distance1+distance2)/2;
-                int distance3=A->getm_y();
-                int distance4=D->getm_y();
-                int distancey=(distance3+distance4)/2;
-             textprintf_ex(screen,font,distancex+300,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+             textprintf_ex(screen,font,distancex-50,distancey,c,-1,"%d",v->getm_id());
 
         }
     }
