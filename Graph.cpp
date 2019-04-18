@@ -256,14 +256,28 @@ std::vector<Arrete*> graphe::prim(int choix)
         //{
             //ar[k]->afficherArrete();
         //}
-        liste.push_back(new graphe(s,ar));
+        std::cout << "ok" << m_sommets.size() << std::endl;
+        std::cout << "ok1" << s.size() << std::endl;
+        if(m_sommets.size()==s.size())
+        {liste.push_back(new graphe(s,ar));}
         ar.clear();
         s.clear();
     }
-
+    std::cout << "taille: " << liste.size()<< std::endl;
+    int poids1=0;
+    int poids2=0;
     for(int i=0;i<liste.size();i++)
     {
+        for(int j=0;j<liste[i]->getM_arrete().size();j++)
+        {
+            poids1=poids1+liste[i]->getM_arrete()[j]->getPoids1();
+            poids2=poids2+liste[i]->getM_arrete()[j]->getPoids2();
+        }
         liste[i]->afficher();
+        std::cout << "------" << "Poids1: " << poids1 << std::endl;
+        std::cout <<" -------" << "Poids2: " << poids2 << std::endl;
+        poids1=0;
+        poids2=0;
     }
     //std::cout << "On valide" << std::endl;
     //liste[0]->afficher();
