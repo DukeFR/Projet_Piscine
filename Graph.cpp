@@ -150,10 +150,11 @@ std::vector<Arrete*> graphe::prim(int choix)
 }
 
 
- void graphe::binaire(const int nombre)
+ int graphe::binaire(const int nombre, int choix)
 {
     install_mouse();
     show_mouse(screen);
+    int men;
     int maximum= this->getM_arrete().size();
     maximum=pow(2,maximum);
     std::vector<std::string> b;
@@ -218,10 +219,14 @@ std::vector<Arrete*> graphe::prim(int choix)
     }
     //std::cout << b.size()<<std::endl;
     std::cout << "Fin" << std::endl;
-    Acycle(b,nombre);
+    if(choix==1)
+    {men=Acycle(b,nombre);}
+    if(choix==0)
+    {men=Bitograph(b,nombre);}
+    return men;
 }
 
-void graphe::Acycle(std::vector<std::string> b,int nombre)
+int graphe::Acycle(std::vector<std::string> b,int nombre)
 {
     unsigned int a=0;
     std::vector<std::string> collecteur;
@@ -243,11 +248,12 @@ void graphe::Acycle(std::vector<std::string> b,int nombre)
         a=0;
     }
     std::cout << "Fin2" << std::endl;
-    Bitograph(collecteur,nombre);
+    int men=Bitograph(collecteur,nombre);
+    return men;
 }
 
 
-void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
+int graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
 {
     std::vector<Sommet*> s;
     std::vector <Arrete*>ar;
@@ -279,10 +285,11 @@ void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
         ar.clear();
         s.clear();
     }
-    bfs(liste);
+    int men=bfs(liste);
+    return men;
 }
 
-void graphe::bfs(std::vector<graphe> liste)
+int graphe::bfs(std::vector<graphe> liste)
 {
     std::vector<graphe> lst;
     for(size_t i=0;i<liste.size();i++)
@@ -309,16 +316,17 @@ void graphe::bfs(std::vector<graphe> liste)
     //liste[0]->afficher();
 
     std::cout << "Fin 3" << std::endl;
-    affichagePareto(lst);
+    int men=affichagePareto(lst);
+    return men;
 
 }
 
-void graphe::affichagePareto(std::vector<graphe> P)
+int graphe::affichagePareto(std::vector<graphe> P)
 {
     install_mouse();
     show_mouse(screen);
    std::vector<int> selection;
-    for(int i=0;i<P.size();i++)
+    for(unsigned int i=0;i<P.size();i++)
     {
         selection.push_back(6);
     }
@@ -329,12 +337,11 @@ void graphe::affichagePareto(std::vector<graphe> P)
     int poids2=0;
     int couleur=makecol(255,0,0);
     BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
-    BITMAP* tri=create_bitmap(SCREEN_W,SCREEN_H);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    for(int i=0;i<P.size();i++)
+    for(unsigned int i=0;i<P.size();i++)
     {
-        for(int j=0;j<P[i].getM_arrete().size();j++)
+        for(unsigned int j=0;j<P[i].getM_arrete().size();j++)
         {
             poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
             poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
@@ -345,9 +352,9 @@ void graphe::affichagePareto(std::vector<graphe> P)
         poids1=0;
         poids2=0;
     }
-    for(int i=0;i<sp1.size();i++)
+    for(unsigned int i=0;i<sp1.size();i++)
     {
-        for(int j=0;j<sp1.size();j++)
+        for(unsigned int j=0;j<sp1.size();j++)
         {
             if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
             {
@@ -360,7 +367,7 @@ void graphe::affichagePareto(std::vector<graphe> P)
     line(buffer,300,225,300,500,couleur);
     line(buffer,300,500,575,500,couleur);
 
-    for(int i=0;i<selection.size();i++)
+    for(unsigned int i=0;i<selection.size();i++)
     {
         poids1=sp1[i];
         poids2=sp2[i];
@@ -378,8 +385,11 @@ void graphe::affichagePareto(std::vector<graphe> P)
 
     std::cout << "Fin 5" << std::endl;
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-
-
+    while (!key[KEY_SPACE])
+    {
+    }
+    int men=1;
+    return men;
 }
 
 void graphe::afficherPrim(std::vector<Arrete*> Prim)
@@ -399,8 +409,9 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
         poids1=poids1+Prim[i]->getPoids1();
         poids2=poids2+Prim[i]->getPoids2();
     }
-    textprintf_ex(screen,font,400,500,couleur,-1,"le poids total de l'arbre de cout 1 est %d",poids1);
-    textprintf_ex(screen,font,400,550,couleur,-1,"le poids total de l'arbre de cout 2 est %d",poids2);
+    textprintf_ex(buffer,font,400,500,couleur,-1,"le poids total de l'arbre de cout 1 est %d",poids1);
+    textprintf_ex(buffer,font,400,550,couleur,-1,"le poids total de l'arbre de cout 2 est %d",poids2);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 }
 
 
