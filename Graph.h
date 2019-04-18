@@ -27,7 +27,8 @@ class graphe
         void Acycle(std::vector<std::string> b, int nombre);
         std::vector<graphe*> GraphB(std::string);
         void affichagePareto(std::vector<graphe> P);
-        void bfs(std::vector<std::string> collecteur, int nombre);
+        void Bitograph(std::vector<std::string> collecteur, int nombre);
+        void bfs (std::vector<graphe> liste);
 
     protected:
 

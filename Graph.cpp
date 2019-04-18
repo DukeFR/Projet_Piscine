@@ -243,16 +243,15 @@ void graphe::Acycle(std::vector<std::string> b,int nombre)
         a=0;
     }
     std::cout << "Fin2" << std::endl;
-    bfs(collecteur,nombre);
+    Bitograph(collecteur,nombre);
 }
 
 
-void graphe::bfs(std::vector<std::string> collecteur, int nombre)
+void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
 {
     std::vector<Sommet*> s;
     std::vector <Arrete*>ar;
     std::vector<graphe> liste;
-    std::vector<graphe> lst;
     ar.clear();
     s.clear();
     for(unsigned int i=0;i<collecteur.size();i++)
@@ -280,6 +279,12 @@ void graphe::bfs(std::vector<std::string> collecteur, int nombre)
         ar.clear();
         s.clear();
     }
+    bfs(liste);
+}
+
+void graphe::bfs(std::vector<graphe> liste)
+{
+    std::vector<graphe> lst;
     for(size_t i=0;i<liste.size();i++)
     {
         if(parcoursBFS(liste[i])==true)
