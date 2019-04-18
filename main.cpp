@@ -118,7 +118,7 @@ int main()
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
     graphe g{"broadway.txt","broadway_weights_0.txt"};
-    g.afficher();
+    ///g.afficher();
     ///g.parcoursBFS(g);
     //menu();
     taille=g.getM_arrete().size();

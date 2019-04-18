@@ -246,7 +246,6 @@ std::vector<Arrete*> graphe::prim(int choix)
     std::cout << collecteur.size() << std::endl;
     for(unsigned int i=0;i<collecteur.size();i++)
     {
-       /// std::cout << "i: "<< i << " " << "b: " << collecteur[i] << std::endl;
         for(int j=nombre-1;j>=0;j--)
         {
             if(collecteur[i][nombre-j-1]=='1')
@@ -255,25 +254,20 @@ std::vector<Arrete*> graphe::prim(int choix)
                 s.push_back(m_arrete[(j)]->getDepart());
                 ar.push_back(m_arrete[j]);
                 sort(s.begin(),s.end());
+                sort(ar.begin(),ar.end());
                 s.erase( unique( s.begin(), s.end() ), s.end() ); ///Ici on retire les doublons
             }
         }
-        //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
-        /*for(int k=0;k<ar.size();k++)
-        {
-            std::cout<<"REGARDE LA";
-            ar[k]->afficherArrete();
-        }*/
-        liste.push_back(graphe(s,ar));
+
+        liste.push_back(graphe(s,ar)); ///le constructeur est chelou ?
         ar.clear();
         s.clear();
     }
-    for(size_t i=0;i<liste.size();i++)
+    /*for(size_t i=0;i<liste.size();i++)
     {
+        //std::cout<<std::endl<<std::endl<< "affichage de la liste"<<std::endl;
         liste[i].afficher();
-    }
-    //std::cout << "On valide" << std::endl;
-    //liste[0]->afficher();
+    }*/
     BITMAP *buffer = create_bitmap(SCREEN_W,SCREEN_H);/// création du buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     std::vector<graphe> lst;
@@ -282,6 +276,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     {
         //it.afficher();
         //std::cout<< "----ICI---" << std::endl;
+        liste[it].afficher();
         bool test=parcoursBFS(liste[it]);
         //std::cout <<"t:"<< test << std::endl;
         if(test==true)
@@ -451,6 +446,15 @@ bool graphe::parcoursBFS(graphe g)
                     file.push(g.getM_arrete()[i]->getArrivee());
                     compteur = compteur +1;
                     marque.insert(g.getM_arrete()[i]->getArrivee());
+                }
+            }
+            if(marque.count(g.getM_arrete()[i]->getDepart())==0)
+            {
+                if(s->getm_id() == g.getM_arrete()[i]->getArrivee()->getm_id())
+                {
+                    file.push(g.getM_arrete()[i]->getDepart());
+                    compteur = compteur +1;
+                    marque.insert(g.getM_arrete()[i]->getDepart());
                 }
             }
         }
