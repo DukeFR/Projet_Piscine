@@ -256,13 +256,12 @@ std::vector<Arrete*> graphe::prim(int choix)
         //{
             //ar[k]->afficherArrete();
         //}
-        std::cout << "ok" << m_sommets.size() << std::endl;
-        std::cout << "ok1" << s.size() << std::endl;
         if(m_sommets.size()==s.size())
         {liste.push_back(new graphe(s,ar));}
         ar.clear();
         s.clear();
     }
+    /*
     std::cout << "taille: " << liste.size()<< std::endl;
     int poids1=0;
     int poids2=0;
@@ -273,9 +272,7 @@ std::vector<Arrete*> graphe::prim(int choix)
             poids1=poids1+liste[i]->getM_arrete()[j]->getPoids1();
             poids2=poids2+liste[i]->getM_arrete()[j]->getPoids2();
         }
-        liste[i]->afficher();
-        std::cout << "------" << "Poids1: " << poids1 << std::endl;
-        std::cout <<" -------" << "Poids2: " << poids2 << std::endl;
+        //liste[i]->afficher();
         poids1=0;
         poids2=0;
     }
@@ -284,6 +281,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     BITMAP *buffer = create_bitmap(SCREEN_W,SCREEN_H);/// création du buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int compteur=0;
+    /*
     do{
     if(key[KEY_ENTER])
     {
@@ -295,12 +293,38 @@ std::vector<Arrete*> graphe::prim(int choix)
 
     }
     }while(compteur!=liste.size());
-
-
+    */
+    std::cout << "Fin 3" << std::endl;
+    affichagePareto(liste);
 
 }
 
+void graphe::affichagePareto(std::vector<graphe*> P)
+{
+    std::cout << "Fin 4" << std::endl;
+    int poids1=0;
+    int poids2=0;
+    int couleur=makecol(255,0,0);
+    BITMAP*buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    clear_bitmap(buffer);
+    for(int i=0;i<P.size();i++)
+    {
+        for(int j=0;j<P[i]->getM_arrete().size();j++)
+        {
+            poids1=poids1+P[i]->getM_arrete()[j]->getPoids1();
+            poids2=poids2+P[i]->getM_arrete()[j]->getPoids2();
 
+        }
+        circlefill(buffer,500+poids1,500-poids2,3,couleur);
+        poids1=0;
+        poids2=0;
+    }
+    std::cout << "Fin 5" << std::endl;
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
+
+}
 
 
 
