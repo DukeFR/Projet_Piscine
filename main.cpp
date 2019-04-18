@@ -20,7 +20,6 @@ int menu ()
     draw_sprite(buffer,accueil,0,0); /// dessine la totalité de l'image accueil sur le buffer
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int choice = 0;
-    int couleur=makecol(255,0,0);
 
     while (!key[KEY_ESC])
         {
@@ -89,6 +88,35 @@ int menu ()
 }
 
 
+
+
+/*int menu_prim ()
+{
+    install_mouse();
+    show_mouse(screen);
+    BITMAP *prim_buffer = create_bitmap(SCREEN_W,SCREEN_H);
+    BITMAP *prim_fond = load_bitmap("Bitmaps/fond.bmp",NULL); /// Réutiliser la même bitmap pour Pareto
+    BITMAP *prim_retour = load_bitmap("Bitmaps/retour.bmp",NULL); /// Same Pareto
+    BITMAP *prim_base = load_bitmap("Bitmaps/primbase.bmp",NULL);
+    BITMAP *prim_1 = load_bitmap("Bitmaps/prim1.bmp",NULL);
+    BITMAP *prim_2 = load_bitmap("Bitmaps/prim2.bmp",NULL);
+    BITMAP *prim_return = load_bitmap("Bitmaps/prim_return",NULL);
+     ADD BITMAP MENU BOUTON RETOUR SELECTIONNE(qui va s'appeler retour)
+    BITMAP *retour= load_bitmap ("Bitmaps/menuretour.bmp",NULL);
+    if (mouse_x>minimum1 && mouse_x<maximum1)
+            {
+                if (mouse_y>minimum2 && mouse_y<maximum2)
+                {
+                    draw_sprite (buffer, retour, 0,0)
+                    if (mouse_b & 1)
+                    {
+                        choice = 5;
+                        break;
+                    }
+                }
+}*/
+
+
 void allegro()
 {
     BITMAP*page;
@@ -111,12 +139,13 @@ void allegro()
     page=create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(page);
 }
+
 int main()
 {
     allegro();
     int c = 10;
     c  = menu();
-    int taille;
+    /*int taille;
     graphe g{"manhattan.txt", "manhattan_weights_2.txt"};
     std::vector<Arrete*> p;
     std::vector<graphe> b;
@@ -131,9 +160,23 @@ int main()
     {
         //taille=pow(2,taille);
         b=g.recursivite();
-    }
+    }*/
     while (!key[KEY_ESC])
     {
+       /* int choix=0;
+        choix = menu(); // récup choix (pour switch)
+        switch (choix)
+        {
+            while(choix !=5)
+            {
+                case 1 : //Bouton 1 choisi
+
+
+            }
+        }*/
+
+
+
 
     }
     return 0;
