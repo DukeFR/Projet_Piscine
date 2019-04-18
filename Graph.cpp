@@ -248,7 +248,7 @@ std::vector<Arrete*> graphe::prim(int choix)
                 s.push_back(m_arrete[(j)]->getDepart());
                 ar.push_back(m_arrete[j]);
                 sort(s.begin(),s.end());
-                s.erase( unique( s.begin(), s.end() ), s.end() );
+                s.erase( unique( s.begin(), s.end() ), s.end() ); ///Ici on retire les doublons
             }
         }
         //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
