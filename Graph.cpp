@@ -269,7 +269,7 @@ std::vector<Arrete*> graphe::prim(int choix)
         ar.clear();
         s.clear();
     }
-    for(int i=0;i<liste.size();i++)
+    for(size_t i=0;i<liste.size();i++)
     {
         if(parcoursBFS(liste[i])==true)
         {
@@ -301,26 +301,65 @@ std::vector<Arrete*> graphe::prim(int choix)
 
 void graphe::affichagePareto(std::vector<graphe> P)
 {
+   std::vector<int> selection;
+    for(int i=0;i<P.size();i++)
+    {
+        selection.push_back(6);
+    }
+    std::vector<int> sp1;
+    std::vector<int> sp2;
     std::cout << "Fin 4" << std::endl;
     int poids1=0;
     int poids2=0;
     int couleur=makecol(255,0,0);
-    BITMAP*buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    for(size_t i=0;i<P.size();i++)
+    for(int i=0;i<P.size();i++)
     {
-        for(size_t j=0;j<P[i].getM_arrete().size();j++)
+        for(int j=0;j<P[i].getM_arrete().size();j++)
         {
             poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
             poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
+
         }
-        circlefill(buffer,300+4*poids1,500-4*poids2,1,couleur);
+        sp1.push_back(poids1);
+        sp2.push_back(poids2);
         poids1=0;
         poids2=0;
     }
+    std::cout <<"c: "<< sp1.size() << std::endl;
+    for(int i=0;i<sp1.size();i++)
+    {
+        for(int j=0;j<sp1.size();j++)
+        {
+            if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
+            {
+                selection[i]=10;
+                j=sp1.size();
+            }
+        }
+    }
+
     line(buffer,300,225,300,500,couleur);
     line(buffer,300,500,575,500,couleur);
+
+    for(int i=0;i<selection.size();i++)
+    {
+        poids1=sp1[i];
+        poids2=sp2[i];
+        if(selection[i]==10)
+        {
+            couleur=makecol(255,0,0);
+            circlefill(buffer,300+2*poids1,500-2*poids2,1,couleur);
+        }
+        if(selection[i]==6)
+        {
+            couleur=makecol(0,255,0);
+            circlefill(buffer,300+2*poids1,500-2*poids2,1,couleur);
+        }
+    }
+
     std::cout << "Fin 5" << std::endl;
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
@@ -335,6 +374,7 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     int couleur=makecol(0,255,0);
     int poids1=0;
     int poids2=0;
+
     for(unsigned int i=0;i<Prim.size();i++)
     {
         circlefill(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
@@ -438,7 +478,6 @@ void graphe::placerPoints()
                 int distance4=D->getm_y();
                 int distancey=(distance3+distance4)/2;
              textprintf_ex(screen,font,distancex-50,distancey,c,-1,"%d",v->getm_id());
-
         }
     }
 }
@@ -447,7 +486,7 @@ void graphe::placerPointsMini()
 {
     //BITMAP*page;
     int couleur=makecol(255,0,0);
-    int c=makecol(100,100,255);
+    //int c=makecol(100,100,255);
     int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
