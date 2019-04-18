@@ -16,6 +16,7 @@ class graphe
         //~graphe();
         void afficher() const;
         void placerPoints();
+        void placerPointsMini();
         void dessinerGraphePoids();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
@@ -24,7 +25,7 @@ class graphe
         std::vector<Sommet*> getM_Sommets();
         void binaire(int);
         std::vector<graphe*> GraphB(std::string);
-        void affichagePareto(std::vector<graphe*> P);
+        void affichagePareto(std::vector<graphe> P);
 
     protected:
 

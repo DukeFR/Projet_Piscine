@@ -156,7 +156,8 @@ std::vector<Arrete*> graphe::prim(int choix)
     show_mouse(screen);
     int maximum= this->getM_arrete().size();
     maximum=pow(2,maximum);
-    std::vector<graphe*> liste;
+    std::vector<graphe> liste;
+    std::vector<graphe> lst;
     std::vector<std::string> b;
     std::vector<std::string> collecteur;
     std::string temp;
@@ -264,20 +265,26 @@ std::vector<Arrete*> graphe::prim(int choix)
             //ar[k]->afficherArrete();
         //}
         if(m_sommets.size()==s.size())
-        {liste.push_back(new graphe(s,ar));}
+        {liste.push_back(graphe(m_sommets,ar));}
         ar.clear();
         s.clear();
     }
-
+    for(int i=0;i<liste.size();i++)
+    {
+        if(parcoursBFS(liste[i])==true)
+        {
+            lst.push_back(liste[i]);
+        }
+    }
     std::cout << "taille: " << liste.size()<< std::endl;
     int poids1=0;
     int poids2=0;
-    for(size_t i=0;i<liste.size();i++)
+    for(size_t i=0;i<lst.size();i++)
     {
-        for(size_t j=0;j<liste[i]->getM_arrete().size();j++)
+        for(size_t j=0;j<lst[i].getM_arrete().size();j++)
         {
-            poids1=poids1+liste[i]->getM_arrete()[j]->getPoids1();
-            poids2=poids2+liste[i]->getM_arrete()[j]->getPoids2();
+            poids1=poids1+lst[i].getM_arrete()[j]->getPoids1();
+            poids2=poids2+lst[i].getM_arrete()[j]->getPoids2();
         }
         //liste[i]->afficher();
         poids1=0;
@@ -287,12 +294,12 @@ std::vector<Arrete*> graphe::prim(int choix)
     //liste[0]->afficher();
 
     std::cout << "Fin 3" << std::endl;
-    affichagePareto(liste);
+    affichagePareto(lst);
 
 }
 
 
-void graphe::affichagePareto(std::vector<graphe*> P)
+void graphe::affichagePareto(std::vector<graphe> P)
 {
     std::cout << "Fin 4" << std::endl;
     int poids1=0;
@@ -303,16 +310,17 @@ void graphe::affichagePareto(std::vector<graphe*> P)
     clear_bitmap(buffer);
     for(size_t i=0;i<P.size();i++)
     {
-        for(size_t j=0;j<P[i]->getM_arrete().size();j++)
+        for(size_t j=0;j<P[i].getM_arrete().size();j++)
         {
-            poids1=poids1+P[i]->getM_arrete()[j]->getPoids1();
-            poids2=poids2+P[i]->getM_arrete()[j]->getPoids2();
-
+            poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
+            poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
         }
         circlefill(buffer,300+4*poids1,500-4*poids2,1,couleur);
         poids1=0;
         poids2=0;
     }
+    line(buffer,300,225,300,500,couleur);
+    line(buffer,300,500,575,500,couleur);
     std::cout << "Fin 5" << std::endl;
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
@@ -435,6 +443,28 @@ void graphe::placerPoints()
     }
 }
 
+void graphe::placerPointsMini()
+{
+    //BITMAP*page;
+    int couleur=makecol(255,0,0);
+    int c=makecol(100,100,255);
+    int co=makecol(125,125,125);
+    Sommet* D;
+    Sommet* A;
+    for(const auto& elem : m_sommets) ///dessiner les sommets
+    {
+        circlefill(screen,(elem->getm_x())/2-15,(elem->getm_y())/2-15,5,couleur);
+        textprintf_ex(screen,font,(elem->getm_x())/2-32,(elem->getm_y())/2-28,co,-1,"%d",elem->getm_id());
+    }
+    for(const auto& v : m_arrete) ///dessiner les aretes
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,(D->getm_x())/2-15,(D->getm_y())/2-15,(A->getm_x())/2-15,(A->getm_y())/2-15,couleur);
+    }
+}
+
+
 std::vector<Arrete*> graphe::getM_arrete()
 {
     return m_arrete;
@@ -488,16 +518,16 @@ bool graphe::parcoursBFS(graphe g)
 
     if(compteur==taille)
     {
-        std::cout<<"ce graphe est connexe"<<std::endl;
+        //std::cout<<"ce graphe est connexe"<<std::endl;
         retour = true;
     }
     else
     {
-        std::cout << "ce graphe n'est pas connexe"<<std::endl;
+        //std::cout << "ce graphe n'est pas connexe"<<std::endl;
         retour = false;
     }
-    std::cout << "compteur = "<<compteur<<std::endl;
-    std::cout << "taille = "<<taille<<std::endl;
+    //std::cout << "compteur = "<<compteur<<std::endl;
+    //std::cout << "taille = "<<taille<<std::endl;
 
     return retour;
 

@@ -117,7 +117,7 @@ int main()
     int taille;
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"cubetown.txt","cubetown_weights_0.txt"};
+    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
     g.afficher();
     //menu();
     taille=g.getM_arrete().size();
@@ -138,7 +138,7 @@ int main()
     {
         //taille=pow(2,taille);
         g.binaire(taille);
-        g.placerPoints();
+        g.placerPointsMini();
 
     }
     while (!key[KEY_ESC])
