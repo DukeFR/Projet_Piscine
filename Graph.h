@@ -12,13 +12,23 @@ class graphe
 {
     public:
         graphe(std::string, std::string);
+        graphe(std::vector<Sommet*>,std::vector<Arrete*>);
         //~graphe();
         void afficher() const;
         void placerPoints();
+        void placerPointsMini();
+        void dessinerGraphePoids();
         std::vector<Arrete*> prim(int choix);
         void afficherPrim(std::vector<Arrete*> Prim);
+        bool parcoursBFS(graphe g);
         std::vector<Arrete*> getM_arrete();
-        std::vector<graphe> recursivite();
+        std::vector<Sommet*> getM_Sommets();
+        void binaire(int);
+        void Acycle(std::vector<std::string> b, int nombre);
+        std::vector<graphe*> GraphB(std::string);
+        void affichagePareto(std::vector<graphe> P);
+        void Bitograph(std::vector<std::string> collecteur, int nombre);
+        void bfs (std::vector<graphe> liste);
 
     protected:
 

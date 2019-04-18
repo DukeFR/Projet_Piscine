@@ -1,68 +1,99 @@
 # depslib dependency file v1.0
-1555334491 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
-	"Arrete.h"
-	<iostream>
-	"Arrete.h"
-	<iostream>
+163901448 <<<<<<< HEAD
+
+1555594269 source:c:\users\mark\desktop\git\projet_piscine\arrete.cpp
 	"Arrete.h"
 	<iostream>
 
-1555334491 c:\users\mark\desktop\git\projet_piscine\arrete.h
-	"Sommet.h"
+1555412099 gin/ft_mb
+	"Arrete.h"
 	<iostream>
-	"Sommet.h"
-	<iostream>
-	"Sommet.h"
-	"Sommet.h"
-	<iostream>
-
-1555334491 c:\users\mark\desktop\git\projet_piscine\sommet.h
-	<iostream>
-	<iostream>
-	<iostream>
-
-1555334763 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
 	"graph.h"
 	<fstream>
 	<iostream>
 	"allegro.h"
 	"math.h"
-	"graph.h"
-	<fstream>
-	<iostream>
-	"allegro.h"
-	"graph.h"
-	<fstream>
-	<iostream>
-
-1555334763 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
 	<iostream>
 	<string>
 	<unordered_map>
 	<vector>
+	<iostream>
+	"Graph.h"
+	"Sommet.h"
 	"Arrete.h"
-	"Arrete.h"
+	<allegro.h>
+	<time.h>
 	"Arrete.h"
 	<iostream>
 	<string>
 	<unordered_map>
 	<vector>
 
-1555334763 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
-	"Sommet.h"
-	<iostream>
-	"Sommet.h"
-	<iostream>
+1555594269 c:\users\mark\desktop\git\projet_piscine\arrete.h
 	"Sommet.h"
 	<iostream>
 
-1555334763 D
+1555340700 c:\users\mark\desktop\git\projet_piscine\sommet.h
+	<iostream>
+
+1555342301 D
+	"bitset"
+	"vector"
+	<math.h>
 	"allegro.h"
+	"allegro.h"
+	<queue>
+	"math.h"
+	<unordered_set>
 
-1555411021 source:c:\users\xavan\projet_piscine\main.cpp
+1555600452 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
+	"Graph.h"
+	<fstream>
+	<iostream>
+	"allegro.h"
+	"math.h"
+	"bitset"
+	<queue>
+	<unordered_set>
+	<vector>
+	"time.h"
+	"algorithm"
+
+1555600677 c:\users\mark\desktop\git\projet_piscine\graph.h
+	"Arrete.h"
+	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
+
+1555437696 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
+	"Sommet.h"
+	<iostream>
+
+1555599535 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
+	<iostream>
+	"Graph.h"
+	"Sommet.h"
+	"Arrete.h"
+	<allegro.h>
+	<time.h>
+	<math.h>
+
+1555437491 >
+
+1555592604 source:c:\users\xavan\projet_piscine\main.cpp
+	<iostream>
+	"Graph.h"
+	"Sommet.h"
+	"Arrete.h"
+	<allegro.h>
+	<time.h>
+	<math.h>
 
 1555334763 gin/master
+
+1555411567 gin/ft_MA
 	<iostream>
 	"Graph.h"
 	"Sommet.h"
@@ -82,32 +113,31 @@
 	<vector>
 	<iostream>
 	<iostream>
+	"Arrete.h"
+	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
+	"Sommet.h"
+	<iostream>
 
-1555410922 c:\users\xavan\projet_piscine\graph.h
-	"Arete.h"
+1555588424 c:\users\xavan\projet_piscine\graph.h
 	"Arrete.h"
 	<iostream>
 	<string>
 	<unordered_map>
 	<vector>
 
-1555340134 
+1555411211 
 	"allegro.h"
 	"math.h"
 
-1555334921 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
-	<iostream>
-	"Graph.h"
-	"Sommet.h"
-	"Arrete.h"
-	<allegro.h>
-	<time.h>
-
-1555340488 gin/ft_MA
+1555340488 gin/ft_Xavier
 
 1555340488 MA
 
-1555342397 c:\users\xavan\projet_piscine\sommet.h
+1555411211 c:\users\xavan\projet_piscine\sommet.h
+	<iostream>
 
 1555339737 source:c:\users\xavan\projet_piscine\arete.cpp
 	"Arete.h"
@@ -117,22 +147,33 @@
 	"Sommet.h"
 	<iostream>
 
-1555404459 source:c:\users\xavan\projet_piscine\sommet.cpp
+1555532758 source:c:\users\xavan\projet_piscine\sommet.cpp
 	"Sommet.h"
 	<iostream>
 
-1555411050 source:c:\users\xavan\projet_piscine\graph.cpp
-	"graph.h"
+1555593550 source:c:\users\xavan\projet_piscine\graph.cpp
+	"Graph.h"
 	<fstream>
+	<iostream>
+	"allegro.h"
+	"math.h"
+	"bitset"
+	<queue>
+	<unordered_set>
+	<vector>
+	"time.h"
+	"algorithm"
+
+1555433539 _set>
+
+1555532941 source:c:\users\xavan\projet_piscine\arrete.cpp
+	"Arrete.h"
 	<iostream>
 
 1555342301 "
 	<math.h>
 
-1555410922 source:c:\users\xavan\projet_piscine\arrete.cpp
-	"Arrete.h"
-
-1555410908 c:\users\xavan\projet_piscine\arrete.h
+1555532941 c:\users\xavan\projet_piscine\arrete.h
 	"Sommet.h"
 	<iostream>
 
@@ -141,8 +182,6 @@
 	<iostream>
 
 1555411567 c:\users\miriam benallou\projet_piscine\arrete.h
-	"Sommet.h"
-	<iostream>
 
 1555412099 c:\users\miriam benallou\projet_piscine\sommet.h
 	<iostream>
@@ -157,11 +196,6 @@
 	<math.h>
 
 1555412099 c:\users\miriam benallou\projet_piscine\graph.h
-	"Arrete.h"
-	<iostream>
-	<string>
-	<unordered_map>
-	<vector>
 
 1555342116 c:\users\miriam benallou\projet_piscine\arete.h
 	"Sommet.h"
@@ -177,4 +211,48 @@
 	<iostream>
 	"allegro.h"
 	"math.h"
+
+1555603286 source:c:\users\miriam benallou\projet_piscine\projet_piscine\arrete.cpp
+	"Arrete.h"
+	<iostream>
+
+1555603286 c:\users\miriam benallou\projet_piscine\projet_piscine\arrete.h
+	"Sommet.h"
+	<iostream>
+
+1555603252 c:\users\miriam benallou\projet_piscine\projet_piscine\sommet.h
+	<iostream>
+
+1555603286 source:c:\users\miriam benallou\projet_piscine\projet_piscine\graph.cpp
+	"Graph.h"
+	<fstream>
+	<iostream>
+	"allegro.h"
+	"math.h"
+	"bitset"
+	<queue>
+	<unordered_set>
+	<vector>
+	"time.h"
+	"algorithm"
+
+1555603286 c:\users\miriam benallou\projet_piscine\projet_piscine\graph.h
+	"Arrete.h"
+	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
+
+1555603271 source:c:\users\miriam benallou\projet_piscine\projet_piscine\sommet.cpp
+	"Sommet.h"
+	<iostream>
+
+1555609070 source:c:\users\miriam benallou\projet_piscine\projet_piscine\main.cpp
+	<iostream>
+	"Graph.h"
+	"Sommet.h"
+	"Arrete.h"
+	<allegro.h>
+	<time.h>
+	<math.h>
 

@@ -3,6 +3,12 @@
 #include <iostream>
 #include "allegro.h"
 #include "math.h"
+#include "bitset"
+#include <queue>
+#include <unordered_set>
+#include <vector>
+#include "time.h"
+#include "algorithm"
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
     std::ifstream ifsPoids{nomFichierPoids};
@@ -55,6 +61,10 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
+graphe::graphe(std::vector<Sommet*> s,std::vector<Arrete*> a): m_sommets{s}, m_arrete{a}
+{
+
+}
 
 
 
@@ -76,13 +86,13 @@ std::vector<Arrete*> graphe::prim(int choix)
     std::vector<Arrete*> Prim;
     int minimum=99;
     int nom=0;
-    int ajout=0;
-    Sommet*temporaireD;
-    Sommet*temporaireA;
+    unsigned int ajout=0;
+    Sommet*temporaireD = 0;
+    Sommet*temporaireA = 0;
     Arrete* Temporaire;
-    int p1;
-    int p2;
-    int id;
+    int p1 = 0;
+    int p2 = 0;
+    int id = 0;
 
     for(const auto& elem : m_sommets)
     {
@@ -140,20 +150,236 @@ std::vector<Arrete*> graphe::prim(int choix)
 }
 
 
- std::vector<graphe> graphe::recursivite()
+ void graphe::binaire(const int nombre)
 {
-    /*int maximum= this->getM_arrete().size();
-    std::vector<graphe> liste;
+    install_mouse();
+    show_mouse(screen);
+    int maximum= this->getM_arrete().size();
+    maximum=pow(2,maximum);
+    std::vector<std::string> b;
     std::string temp;
+    //std::cout << maximum << std::endl;
     for(int i=0;i<maximum;i++)
     {
-        temp=temp+"0";
-    }
-    liste[0].
-    for(int i=0;i<maximum;i++)
-    {
+        if(nombre==1)
+        {temp=std::bitset<1>(i).to_string();}
+        if(nombre==2)
+        {temp=std::bitset<2>(i).to_string();}
+        if(nombre==3)
+        {temp=std::bitset<3>(i).to_string();}
+        if(nombre==4)
+        {temp=std::bitset<4>(i).to_string();}
+        if(nombre==5)
+        {temp=std::bitset<5>(i).to_string();}
+        if(nombre==6)
+        {temp=std::bitset<6>(i).to_string();}
+        if(nombre==7)
+        {temp=std::bitset<7>(i).to_string();}
+        if(nombre==8)
+        {temp=std::bitset<8>(i).to_string();}
+        if(nombre==9)
+        {temp=std::bitset<9>(i).to_string();}
+        if(nombre==10)
+        {temp=std::bitset<10>(i).to_string();}
+        if(nombre==11)
+        {temp=std::bitset<11>(i).to_string();}
+        if(nombre==12)
+        {temp=std::bitset<12>(i).to_string();}
+        if(nombre==13)
+        {temp=std::bitset<13>(i).to_string();}
+        if(nombre==14)
+        {temp=std::bitset<14>(i).to_string();}
+        if(nombre==15)
+        {temp=std::bitset<15>(i).to_string();}
+        if(nombre==16)
+        {temp=std::bitset<16>(i).to_string();}
+        if(nombre==17)
+        {temp=std::bitset<17>(i).to_string();}
+        if(nombre==18)
+        {temp=std::bitset<18>(i).to_string();}
+        if(nombre==19)
+        {temp=std::bitset<19>(i).to_string();}
+        if(nombre==20)
+        {temp=std::bitset<20>(i).to_string();}
+        if(nombre==21)
+        {temp=std::bitset<21>(i).to_string();}
+        if(nombre==22)
+        {temp=std::bitset<22>(i).to_string();}
+        if(nombre==23)
+        {temp=std::bitset<23>(i).to_string();}
+        if(nombre==24)
+        {temp=std::bitset<24>(i).to_string();}
+        if(nombre==25)
+        {temp=std::bitset<25>(i).to_string();}
 
-    }*/
+        //std::cout << "temp: " << temp << std::endl;
+        b.push_back(temp);
+        //liste[i].GraphB(temp);
+    }
+    //std::cout << b.size()<<std::endl;
+    std::cout << "Fin" << std::endl;
+    Acycle(b,nombre);
+}
+
+void graphe::Acycle(std::vector<std::string> b,int nombre)
+{
+    unsigned int a=0;
+    std::vector<std::string> collecteur;
+    for (unsigned int i=0;i<b.size();i++)
+    {
+        //std::cout <<"test:  " <<b[i][4] << std::endl;
+        for(unsigned int j=0;j<b[i].size();j++)
+        {
+            if(b[i][j]=='1')
+            {
+                a=a+1;
+            }
+
+        }
+        if(a==this->getM_Sommets().size()-1)
+        {
+            collecteur.push_back(b[i]);
+        }
+        a=0;
+    }
+    std::cout << "Fin2" << std::endl;
+    Bitograph(collecteur,nombre);
+}
+
+
+void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
+{
+    std::vector<Sommet*> s;
+    std::vector <Arrete*>ar;
+    std::vector<graphe> liste;
+    ar.clear();
+    s.clear();
+    for(unsigned int i=0;i<collecteur.size();i++)
+    {
+        for(int j=nombre-1;j>=0;j--)
+        {
+            if(collecteur[i][nombre-j-1]=='1')
+            {
+                s.push_back(m_arrete[(j)]->getArrivee());
+                s.push_back(m_arrete[(j)]->getDepart());
+                ar.push_back(m_arrete[j]);
+                sort(s.begin(),s.end());
+                sort(ar.begin(),ar.end());
+                s.erase( unique( s.begin(), s.end() ), s.end() ); ///Ici on retire les doublons
+            }
+        }
+        //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
+        //for(int k=0;k<ar.size();k++)
+        //{
+            //ar[k]->afficherArrete();
+        //}
+        if(m_sommets.size()==s.size())
+
+        {liste.push_back(graphe(m_sommets,ar));}
+        ar.clear();
+        s.clear();
+    }
+    bfs(liste);
+}
+
+void graphe::bfs(std::vector<graphe> liste)
+{
+    std::vector<graphe> lst;
+    for(size_t i=0;i<liste.size();i++)
+    {
+        if(parcoursBFS(liste[i])==true)
+        {
+            lst.push_back(liste[i]);
+        }
+    }
+    int poids1=0;
+    int poids2=0;
+    for(size_t i=0;i<lst.size();i++)
+    {
+        for(size_t j=0;j<lst[i].getM_arrete().size();j++)
+        {
+            poids1=poids1+lst[i].getM_arrete()[j]->getPoids1();
+            poids2=poids2+lst[i].getM_arrete()[j]->getPoids2();
+        }
+        //liste[i]->afficher();
+        poids1=0;
+        poids2=0;
+    }
+    //std::cout << "On valide" << std::endl;
+    //liste[0]->afficher();
+
+    std::cout << "Fin 3" << std::endl;
+    affichagePareto(lst);
+
+}
+
+void graphe::affichagePareto(std::vector<graphe> P)
+{
+    install_mouse();
+    show_mouse(screen);
+   std::vector<int> selection;
+    for(int i=0;i<P.size();i++)
+    {
+        selection.push_back(6);
+    }
+    std::vector<int> sp1;
+    std::vector<int> sp2;
+    std::cout << "Fin 4" << std::endl;
+    int poids1=0;
+    int poids2=0;
+    int couleur=makecol(255,0,0);
+    BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    BITMAP* tri=create_bitmap(SCREEN_W,SCREEN_H);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    clear_bitmap(buffer);
+    for(int i=0;i<P.size();i++)
+    {
+        for(int j=0;j<P[i].getM_arrete().size();j++)
+        {
+            poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
+            poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
+
+        }
+        sp1.push_back(poids1);
+        sp2.push_back(poids2);
+        poids1=0;
+        poids2=0;
+    }
+    for(int i=0;i<sp1.size();i++)
+    {
+        for(int j=0;j<sp1.size();j++)
+        {
+            if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
+            {
+                selection[i]=10;
+                j=sp1.size();
+            }
+        }
+    }
+
+    line(buffer,300,225,300,500,couleur);
+    line(buffer,300,500,575,500,couleur);
+
+    for(int i=0;i<selection.size();i++)
+    {
+        poids1=sp1[i];
+        poids2=sp2[i];
+        if(selection[i]==10)
+        {
+            couleur=makecol(255,0,0);
+            circlefill(buffer,300+2*poids1,500-2*poids2,1,couleur);
+        }
+        if(selection[i]==6)
+        {
+            couleur=makecol(0,255,0);
+            circlefill(buffer,300+2*poids1,500-2*poids2,2,couleur);
+        }
+    }
+
+    std::cout << "Fin 5" << std::endl;
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
+
 }
 
 void graphe::afficherPrim(std::vector<Arrete*> Prim)
@@ -162,41 +388,46 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     clear_bitmap(buffer);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int couleur=makecol(0,255,0);
-    for(int i=0;i<Prim.size();i++)
+    int poids1=0;
+    int poids2=0;
+
+    for(unsigned int i=0;i<Prim.size();i++)
     {
-        circlefill(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
-        circlefill(screen,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
-        line(screen,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+        circlefill(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
+        circlefill(buffer,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
+        line(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),couleur);
+        poids1=poids1+Prim[i]->getPoids1();
+        poids2=poids2+Prim[i]->getPoids2();
     }
+    textprintf_ex(screen,font,400,500,couleur,-1,"le poids total de l'arbre de cout 1 est %d",poids1);
+    textprintf_ex(screen,font,400,550,couleur,-1,"le poids total de l'arbre de cout 2 est %d",poids2);
 }
 
 
-
-void graphe::placerPoints()
+void graphe::dessinerGraphePoids()
 {
-    //BITMAP*page;
     int couleur=makecol(255,0,0);
-    int c=makecol(0,0,255);
+    int c=makecol(100,100,255);
     int co=makecol(125,125,125);
     Sommet* D;
     Sommet* A;
-    for(const auto& elem : m_sommets)
+
+    for(const auto& elem : m_sommets) ///dessiner les sommets
     {
-        circlefill(screen,elem->getm_x(),elem->getm_y(),10,couleur);
-        textprintf_ex(screen,font,elem->getm_x()-15,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
+        circlefill(screen,elem->getm_x()+350,elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()+335,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
     }
-    for(const auto& v : m_arrete)
+    for(const auto& v : m_arrete) ///dessiner les aretes
     {
         D=v->getDepart();
         A=v->getArrivee();
-        line(screen,D->getm_x(),D->getm_y(),A->getm_x(),A->getm_y(),couleur);
-
+        line(screen,D->getm_x()+350,D->getm_y(),A->getm_x()+350,A->getm_y(),couleur);
         if(D->getm_x()==A->getm_x())
         {
         int distance1=A->getm_y();
         int distance2=D->getm_y();
         int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,D->getm_x()-20,distance,c,-1,"%d",v->getm_id());
+        textprintf_ex(screen,font,D->getm_x()+360,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
         }
 
         if(D->getm_y()==A->getm_y())
@@ -204,7 +435,7 @@ void graphe::placerPoints()
         int distance1=A->getm_x();
         int distance2=D->getm_x();
         int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,distance,D->getm_y()-10,c,-1,"%d",v->getm_id());
+        textprintf_ex(screen,font,distance+350,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
         }
 
         if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
@@ -215,14 +446,144 @@ void graphe::placerPoints()
                 int distance3=A->getm_y();
                 int distance4=D->getm_y();
                 int distancey=(distance3+distance4)/2;
-             textprintf_ex(screen,font,distancex,distancey,c,-1,"%d",v->getm_id());
+             textprintf_ex(screen,font,distancex+350,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
 
         }
     }
 }
+void graphe::placerPoints()
+{
+    //BITMAP*page;
+    int couleur=makecol(255,0,0);
+    int c=makecol(100,100,255);
+    int co=makecol(125,125,125);
+    Sommet* D;
+    Sommet* A;
+    for(const auto& elem : m_sommets) ///dessiner les sommets
+    {
+        circlefill(screen,elem->getm_x()-50,elem->getm_y(),10,couleur);
+        textprintf_ex(screen,font,elem->getm_x()-65,elem->getm_y()-15,co,-1,"%d",elem->getm_id());
+    }
+    for(const auto& v : m_arrete) ///dessiner les aretes
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,D->getm_x()-50,D->getm_y(),A->getm_x()-50,A->getm_y(),couleur);
+        if(D->getm_x()==A->getm_x())
+        {
+        int distance1=A->getm_y();
+        int distance2=D->getm_y();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,D->getm_x()-70,distance,c,-1,"%d",v->getm_id());
+        }
+
+        if(D->getm_y()==A->getm_y())
+        {
+        int distance1=A->getm_x();
+        int distance2=D->getm_x();
+        int distance=(distance1+distance2)/2;
+        textprintf_ex(screen,font,distance-50,D->getm_y()-10,c,-1,"%d",v->getm_id());
+        }
+
+        if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
+        {
+                int distance1=A->getm_x();
+                int distance2=D->getm_x();
+                int distancex=(distance1+distance2)/2;
+                int distance3=A->getm_y();
+                int distance4=D->getm_y();
+                int distancey=(distance3+distance4)/2;
+             textprintf_ex(screen,font,distancex-50,distancey,c,-1,"%d",v->getm_id());
+        }
+    }
+}
+
+void graphe::placerPointsMini()
+{
+    //BITMAP*page;
+    int couleur=makecol(255,0,0);
+    //int c=makecol(100,100,255);
+    int co=makecol(125,125,125);
+    Sommet* D;
+    Sommet* A;
+    for(const auto& elem : m_sommets) ///dessiner les sommets
+    {
+        circlefill(screen,(elem->getm_x())/2-15,(elem->getm_y())/2-15,5,couleur);
+        textprintf_ex(screen,font,(elem->getm_x())/2-32,(elem->getm_y())/2-28,co,-1,"%d",elem->getm_id());
+    }
+    for(const auto& v : m_arrete) ///dessiner les aretes
+    {
+        D=v->getDepart();
+        A=v->getArrivee();
+        line(screen,(D->getm_x())/2-15,(D->getm_y())/2-15,(A->getm_x())/2-15,(A->getm_y())/2-15,couleur);
+    }
+}
+
 
 std::vector<Arrete*> graphe::getM_arrete()
 {
     return m_arrete;
 }
 
+std::vector<Sommet*> graphe::getM_Sommets()
+{
+    return m_sommets;
+}
+
+bool graphe::parcoursBFS(graphe g)
+{
+    int taille = g.getM_Sommets().size();
+    int compteur = 1;
+    bool retour = 0;
+    std::queue<Sommet*> file;
+    std::unordered_set<const Sommet*> marque;
+    /*for(int i=0;i<g.getM_Sommets().size();i++)
+    {
+        std::cout<< g.getM_Sommets()[i]->getm_id() <<std::endl;
+    }*/
+    file.emplace(g.getM_Sommets().front());
+    while(file.empty()!=1)
+    {
+        Sommet* s = file.front();
+        file.pop();
+        marque.insert(s);
+
+        for(size_t i=0; i<g.getM_arrete().size(); i++)
+        {
+            if(marque.count(g.getM_arrete()[i]->getArrivee())==0)
+            {
+                if(s->getm_id() == g.getM_arrete()[i]->getDepart()->getm_id())
+                {
+                    file.push(g.getM_arrete()[i]->getArrivee());
+                    compteur = compteur +1;
+                    marque.insert(g.getM_arrete()[i]->getArrivee());
+                }
+            }
+            if(marque.count(g.getM_arrete()[i]->getDepart())==0)
+            {
+                if(s->getm_id() == g.getM_arrete()[i]->getArrivee()->getm_id())
+                {
+                    file.push(g.getM_arrete()[i]->getDepart());
+                    compteur = compteur +1;
+                    marque.insert(g.getM_arrete()[i]->getDepart());
+                }
+            }
+        }
+    }
+
+    if(compteur==taille)
+    {
+        //std::cout<<"ce graphe est connexe"<<std::endl;
+        retour = true;
+    }
+    else
+    {
+        //std::cout << "ce graphe n'est pas connexe"<<std::endl;
+        retour = false;
+    }
+    //std::cout << "compteur = "<<compteur<<std::endl;
+    //std::cout << "taille = "<<taille<<std::endl;
+
+    return retour;
+
+}
