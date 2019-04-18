@@ -22,7 +22,7 @@ class graphe
         std::vector<Sommet*> getM_Sommets();
         void binaire(int);
         std::vector<graphe*> GraphB(std::string);
-        void affichagePareto(std::vector<graphe*> P);
+        void affichagePareto(std::vector<graphe> P);
 
     protected:
 

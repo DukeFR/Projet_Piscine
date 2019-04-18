@@ -152,7 +152,7 @@ std::vector<Arrete*> graphe::prim(int choix)
 {
     int maximum= this->getM_arrete().size();
     maximum=pow(2,maximum);
-    std::vector<graphe*> liste;
+    std::vector<graphe> liste;
     std::vector<std::string> b;
     std::vector<std::string> collecteur;
     std::string temp;
@@ -257,7 +257,7 @@ std::vector<Arrete*> graphe::prim(int choix)
             //ar[k]->afficherArrete();
         //}
         if(m_sommets.size()==s.size())
-        {liste.push_back(new graphe(s,ar));}
+        {liste.push_back(graphe(s,ar));}
         ar.clear();
         s.clear();
     }
@@ -299,7 +299,7 @@ std::vector<Arrete*> graphe::prim(int choix)
 
 }
 
-void graphe::affichagePareto(std::vector<graphe*> P)
+void graphe::affichagePareto(std::vector<graphe> P)
 {
     std::vector<int> selection;
     for(int i=0;i<P.size();i++)
@@ -317,10 +317,10 @@ void graphe::affichagePareto(std::vector<graphe*> P)
     clear_bitmap(buffer);
     for(int i=0;i<P.size();i++)
     {
-        for(int j=0;j<P[i]->getM_arrete().size();j++)
+        for(int j=0;j<P[i].getM_arrete().size();j++)
         {
-            poids1=poids1+P[i]->getM_arrete()[j]->getPoids1();
-            poids2=poids2+P[i]->getM_arrete()[j]->getPoids2();
+            poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
+            poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
 
         }
         sp1.push_back(poids1);
@@ -347,7 +347,6 @@ void graphe::affichagePareto(std::vector<graphe*> P)
     {
         poids1=sp1[i];
         poids2=sp2[i];
-        std::cout << selection[i]<< std::endl;
         if(selection[i]==10)
         {
             couleur=makecol(255,0,0);
