@@ -34,7 +34,7 @@
 	"Sommet.h"
 	<iostream>
 
-1555340700 c:\users\mark\desktop\git\projet_piscine\sommet.h
+1555659341 c:\users\mark\desktop\git\projet_piscine\sommet.h
 	<iostream>
 
 1555342301 D
@@ -60,18 +60,18 @@
 	"time.h"
 	"algorithm"
 
-1555612601 c:\users\mark\desktop\git\projet_piscine\graph.h
+1555659341 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
 	<iostream>
 	<string>
 	<unordered_map>
 	<vector>
 
-1555437696 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
+1555659341 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
 	"Sommet.h"
 	<iostream>
 
-1555622070 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
+1555658817 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
 	<iostream>
 	"Graph.h"
 	"Sommet.h"
@@ -213,12 +213,14 @@
 	"allegro.h"
 	"math.h"
 
-1555622314 c:\users\mark\desktop\git\projet_piscine\equipe.h
+1555660695 c:\users\mark\desktop\git\projet_piscine\equipe.h
 	<iostream>
 	<string>
 	<vector>
 	"Graph.h"
+	"allegro.h"
+	<set>
 
-1555622070 source:c:\users\mark\desktop\git\projet_piscine\equipe.cpp
+1555662180 source:c:\users\mark\desktop\git\projet_piscine\equipe.cpp
 	"Equipe.h"
 

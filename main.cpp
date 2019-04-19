@@ -128,7 +128,7 @@ std::unordered_map<std::string,std::string> selectionCourse(std::vector<std::str
         {
             c1=random;
         }
-        if(i==2)
+        if(i==1)
         {
             c2=random;
         }
@@ -188,7 +188,7 @@ int main()
     std::vector<std::string> t2={"cubetown_weights_0.txt"};
     std::vector<std::string> t3={"manhattan_weights_0.txt","manhattan_weights_1.txt","manhattan_weights_2.txt"};
     std::vector<std::string> t4={"triville_weights_0.txt","triville_weights_1.txt"};
-    std::vector<graphe > t;
+    std::vector<graphe> t;
     std::vector<int> e1= {95,85,90,75};
     std::vector<int> r1= {47,42,45,37};
     std::vector<int> pt ={0,0,0,0};
@@ -207,7 +207,7 @@ int main()
     Equipe Pro{"Les Pros",pro,e4,pt,r4};
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
+    graphe g{"broadway.txt","broadway_weights_0.txt"};
     g.afficher();
     //menu();
     taille=g.getM_arrete().size();
@@ -232,7 +232,6 @@ int main()
         //taille=pow(2,taille);
         nombre=g.binaire(taille,1);
         g.placerPointsMini();
-        std::cout << "n :" << nombre<< std::endl;
         if(nombre==1)
         {
             menu();
@@ -246,34 +245,49 @@ int main()
     }
     if(c==5)
     {
-        Fdjv.selection(Fdjv,Prof,Pro,Dev);
+        int c=Fdjv.selection(Fdjv,Prof,Pro,Dev);
         std::unordered_map<std::string,std::string> Liste=selectionCourse(tracks,t1,t2,t3,t4);
         afficherCircuits(Liste);
-        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-        int compteur=0;
+        //blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         for(const auto& elem : Liste)
         {
             graphe g = (graphe(elem.first,elem.second));
             t.push_back(g);
         }
-        t[compteur].placerPoints();
-        compteur++;
-        while(!key[KEY_SPACE])
+        if(c==1)
         {
+            Fdjv.setMarque();
+            for(int i=0;i<3;i++)
+            {
+                Fdjv.course(t[i]);
+            }
         }
-        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-        t[compteur].placerPoints();
-        compteur++;
-        while(!key[KEY_SPACE])
+        if(c==2)
         {
+            Prof.setMarque();
+            for(int i=0;i<3;i++)
+            {
+                Prof.course(t[i]);
+            }
         }
-        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-        t[compteur].placerPoints();
-        compteur++;
-        while(!key[KEY_SPACE])
+        if(c==3)
         {
+            Pro.setMarque();
+            for(int i=0;i<3;i++)
+            {
+                Pro.course(t[i]);
+            }
         }
-        blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        if(c==4)
+        {
+            Dev.setMarque();
+            for(int i=0;i<3;i++)
+            {
+                Dev.course(t[i]);
+            }
+        }
+        std::cout << "Fin" << std::endl;
+
 
 
 

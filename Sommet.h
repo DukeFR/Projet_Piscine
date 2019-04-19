@@ -12,6 +12,7 @@ class Sommet
         ~Sommet();
         void setMarque();
         bool getMarque();
+        void setClear();
         int getm_x();
         int getm_y();
         int getm_id();

@@ -37,6 +37,8 @@
 		</Compiler>
 		<Unit filename="Arrete.cpp" />
 		<Unit filename="Arrete.h" />
+		<Unit filename="Equipe.cpp" />
+		<Unit filename="Equipe.h" />
 		<Unit filename="Graph.cpp" />
 		<Unit filename="Graph.h" />
 		<Unit filename="Sommet.cpp" />
