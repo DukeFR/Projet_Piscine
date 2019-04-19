@@ -26,6 +26,7 @@ class graphe
         void binaire(int);
         std::vector<graphe*> GraphB(std::string);
         void affichagePareto(std::vector<graphe> P);
+        float parcoursDijkstra(int depart, int arrivee, graphe g);
 
     protected:
 

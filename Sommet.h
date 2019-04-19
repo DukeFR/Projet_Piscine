@@ -11,7 +11,10 @@ class Sommet
         //void afficherVoisins() const;
         ~Sommet();
         void setMarque();
+        void setMarqueD();
         bool getMarque();
+        bool getMarqueD();
+        void setClear();
         int getm_x();
         int getm_y();
         int getm_id();
@@ -25,6 +28,7 @@ class Sommet
         /// Données spécifiques du sommet
         int m_id; // Identifiant
         bool marque;
+        bool marqueD;
         int m_x;
         int m_y;
 
