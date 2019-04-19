@@ -11,7 +11,8 @@
 #include "time.h"
 #include "algorithm"
 
-graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
+graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids)
+{
     std::ifstream ifsPoids{nomFichierPoids};
     std::ifstream ifsSommets{nomFichierSommets};
 
@@ -577,33 +578,5 @@ bool graphe::parcoursBFS(graphe g)
     //std::cout << "taille = "<<taille<<std::endl;
 
     return retour;
-}
-
-float graphe::parcoursDijkstra(int depart, int arrivee, graphe g)
-{
-    float retourPoids = 0;
-    float mini = 1000;
-
-    for(size_t i=0;i<g.getM_Sommets().size(); i++)
-    {
-        g.getM_Sommets()[i]->setClear();
-        if(g.getM_Sommets()[i]->getm_id() == depart)
-        {
-            g.getM_Sommets()[i]->setMarqueD();
-        }
-    }
-
-
-    for(size_t i = 0; i<g.getM_Sommets().size();i++)
-    {
-        for(size_t j =0; j<g.getM_arrete().size(); j++)
-        {
-            if((g.getM_arrete()[j]->getDepart()->getMarqueD()) == true && (g.getM_arrete()[j]->getArrivee()->getMarqueD()) == false || (g.getM_arrete()[j]->getArrivee()->getMarqueD()) == true && (g.getM_arrete()[j]->getDepart()->getMarqueD()) == false)
-            {
-
-            }
-        }
-    }
-    return retourPoids;
 }
 
