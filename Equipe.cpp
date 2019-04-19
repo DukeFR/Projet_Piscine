@@ -87,7 +87,7 @@ void Equipe::setEndurance(int valeur, int i)
 void Equipe::course(graphe g)
 {
     BITMAP*buffer=create_bitmap(SCREEN_W,SCREEN_H);
-    BITMAP*track=create_bitmap(SCREEN_W,SCREEN_H);
+    //BITMAP*track=create_bitmap(SCREEN_W,SCREEN_H);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     g.placerPoints();
     g.dessinerGraphePoids();
@@ -96,9 +96,10 @@ void Equipe::course(graphe g)
     int c=0;
     std::set<int> choixP;
     int taille=g.getM_Sommets().size()-1;
-    std::cout << "t: " << taille << std::endl;
-    for(int i=0; i<this->m_cycliste.size();i++)
+    for(unsigned int i=0; i<this->m_cycliste.size();i++)
     {
+        std::cout <<"Le cycliste est: " << this->m_cycliste[i] << std::endl;
+        std::cout << "Endurance: " << this->m_endurance[i] << std::endl;
         for(const auto& elem : g.getM_Sommets())
         {
             if(elem->getm_id()==nom)
@@ -114,12 +115,12 @@ void Equipe::course(graphe g)
                 {
                     if(v->getArrivee()->getMarque()==false)
                     {
-                        std::cout << "Aller vers le sommet: " << v->getArrivee()->getm_id() << " en passant par l'arete: " << v->getm_id()<< std::endl;
+                        std::cout << "Aller vers le sommet: " << v->getArrivee()->getm_id() << " en passant par l'arete: " << v->getm_id()<< " avec une perte d'endurance de: " << v->getPoids1() << std::endl;
                         choixP.insert(v->getm_id());
                     }
                     if(v->getDepart()->getMarque()==false)
                     {
-                        std::cout << "Aller vers le sommet:  " << v->getDepart()->getm_id() << " en passant par l'arete: " << v->getm_id()<< std::endl;
+                        std::cout << "Aller vers le sommet:  " << v->getDepart()->getm_id() << " en passant par l'arete: " << v->getm_id()<< " avec une perte d'endurance de: " << v->getPoids1()<< std::endl;
                         choixP.insert(v->getm_id());
                     }
                 }
@@ -135,8 +136,7 @@ void Equipe::course(graphe g)
             {
                 g.getM_arrete()[choix]->getArrivee()->setMarque();
                 g.getM_arrete()[choix]->getDepart()->setClear();
-                std::cout <<"S:" << g.getM_arrete()[choix]->getArrivee()->getm_id()<< std::endl;
-                std::cout <<"F:" << g.getM_Sommets()[taille]->getm_id() << std::endl;
+                this->m_endurance[i]=this->m_endurance[i]-g.getM_arrete()[choix]->getPoids1();
                 if(g.getM_arrete()[choix]->getArrivee()->getm_id()==g.getM_Sommets()[taille]->getm_id())
                 {
                     c=1;
@@ -146,15 +146,19 @@ void Equipe::course(graphe g)
             {
                 g.getM_arrete()[choix]->getDepart()->setMarque();
                 g.getM_arrete()[choix]->getArrivee()->setClear();
-                std::cout <<"S:" << g.getM_arrete()[choix]->getDepart()->getm_id() << std::endl;
-                std::cout <<"F:" << g.getM_Sommets()[taille]->getm_id() << std::endl;
+                this->m_endurance[i]=this->m_endurance[i]-g.getM_arrete()[choix]->getPoids1();
                 if(g.getM_arrete()[choix]->getDepart()==g.getM_Sommets()[taille])
                 {
                     c=1;
                 }
             }
-            std::cout << "c: " << c << std::endl;
         }
         while(c==0);
+        c=0;
+        for(const auto& v : g.getM_arrete())
+        {
+            v->getDepart()->setClear();
+            v->getArrivee()->setClear();
+        }
     }
 }
