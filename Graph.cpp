@@ -7,10 +7,12 @@
 #include <queue>
 #include <unordered_set>
 #include <vector>
+#include <list>
 #include "time.h"
 #include "algorithm"
 
-graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
+graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids)
+{
     std::ifstream ifsPoids{nomFichierPoids};
     std::ifstream ifsSommets{nomFichierSommets};
 
@@ -61,12 +63,11 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids){
        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
+
 graphe::graphe(std::vector<Sommet*> s,std::vector<Arrete*> a): m_sommets{s}, m_arrete{a}
 {
 
 }
-
-
 
 void graphe::afficher() const
 {
@@ -84,6 +85,10 @@ void graphe::afficher() const
 std::vector<Arrete*> graphe::prim(int choix)
 {
     std::vector<Arrete*> Prim;
+    for(size_t i =0; i<this->getM_Sommets().size();i++)
+    {
+       this->getM_Sommets()[i]->setClear();
+    }
     int minimum=99;
     int nom=0;
     unsigned int ajout=0;
@@ -151,6 +156,7 @@ std::vector<Arrete*> graphe::prim(int choix)
 
 
  int graphe::binaire(const int nombre, int choix)
+
 {
     install_mouse();
     show_mouse(screen);
@@ -330,8 +336,7 @@ int graphe::affichagePareto(std::vector<graphe> P)
     install_mouse();
     show_mouse(screen);
    std::vector<int> selection;
-   std::cout <<"p: "<< P.size() <<  std::endl;
-    for(unsigned int i=0;i<P.size();i++)
+    for(size_t i=0;i<P.size();i++)
     {
         selection.push_back(6);
     }
@@ -344,9 +349,9 @@ int graphe::affichagePareto(std::vector<graphe> P)
     BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    for(unsigned int i=0;i<P.size();i++)
+    for(size_t i=0;i<P.size();i++)
     {
-        for(unsigned int j=0;j<P[i].getM_arrete().size();j++)
+        for(size_t j=0;j<P[i].getM_arrete().size();j++)
         {
             poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
             poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
@@ -357,9 +362,10 @@ int graphe::affichagePareto(std::vector<graphe> P)
         poids1=0;
         poids2=0;
     }
-    for(unsigned int i=0;i<sp1.size();i++)
+    std::cout <<"c: "<< sp1.size() << std::endl;
+    for(size_t i=0;i<sp1.size();i++)
     {
-        for(unsigned int j=0;j<sp1.size();j++)
+        for(size_t j=0;j<sp1.size();j++)
         {
             if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
             {
@@ -370,9 +376,16 @@ int graphe::affichagePareto(std::vector<graphe> P)
     }
 
     line(buffer,300,225,300,500,couleur);
-    line(buffer,300,500,575,500,couleur);
+    line(buffer,300,225,280,245,couleur);
+    line(buffer,300,225,320,245,couleur);
+    textprintf_ex(buffer,font,220,225,couleur,-1,"cout 2");
 
-    for(unsigned int i=0;i<selection.size();i++)
+    line(buffer,300,500,575,500,couleur);
+    line(buffer,575,500,555,480,couleur);
+    line(buffer,575,500,555,520,couleur);
+    textprintf_ex(buffer,font,555,530,couleur,-1,"cout 1");
+
+    for(size_t i=0;i<selection.size();i++)
     {
         poids1=sp1[i];
         poids2=sp2[i];
@@ -401,7 +414,6 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
 {
     BITMAP* buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear_bitmap(buffer);
-    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     int couleur=makecol(0,255,0);
     int poids1=0;
     int poids2=0;
@@ -418,7 +430,6 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     textprintf_ex(buffer,font,400,550,couleur,-1,"le poids total de l'arbre de cout 2 est %d",poids2);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 }
-
 
 void graphe::dessinerGraphePoids()
 {
@@ -467,6 +478,7 @@ void graphe::dessinerGraphePoids()
         }
     }
 }
+
 void graphe::placerPoints()
 {
     //BITMAP*page;
@@ -534,7 +546,6 @@ void graphe::placerPointsMini()
         line(screen,(D->getm_x())/2-15,(D->getm_y())/2-15,(A->getm_x())/2-15,(A->getm_y())/2-15,couleur);
     }
 }
-
 
 std::vector<Arrete*> graphe::getM_arrete()
 {

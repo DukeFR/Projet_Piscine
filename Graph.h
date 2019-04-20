@@ -25,12 +25,10 @@ class graphe
         std::vector<Sommet*> getM_Sommets();
         int binaire(int,int);
         int Acycle(std::vector<std::string> b, int nombre);
-        //std::vector<graphe*> GraphB(std::string);
         int affichagePareto(std::vector<graphe> P);
         int Bitograph(std::vector<std::string> collecteur, int nombre);
         int bfs (std::vector<graphe> liste);
         std::unordered_map<Sommet*,float> dijkstra(Sommet* idep);
-
 
     protected:
 
