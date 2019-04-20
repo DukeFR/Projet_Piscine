@@ -29,6 +29,7 @@ class graphe
         int affichagePareto(std::vector<graphe> P);
         int Bitograph(std::vector<std::string> collecteur, int nombre);
         int bfs (std::vector<graphe> liste);
+        std::unordered_map<Sommet*,float> dijkstra(Sommet* idep);
 
 
     protected:

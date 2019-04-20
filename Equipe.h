@@ -17,6 +17,7 @@ class Equipe
     bool getMarque();
     void setEndurance(int valeur,int i);
     void course(graphe g);
+    void refill();
 
 
     private:

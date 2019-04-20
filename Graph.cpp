@@ -154,8 +154,9 @@ std::vector<Arrete*> graphe::prim(int choix)
 {
     install_mouse();
     show_mouse(screen);
-    int men;
+    int men=0;
     int maximum= this->getM_arrete().size();
+    //float poids;
     maximum=pow(2,maximum);
     std::vector<std::string> b;
     std::string temp;
@@ -222,7 +223,10 @@ std::vector<Arrete*> graphe::prim(int choix)
     if(choix==1)
     {men=Acycle(b,nombre);}
     if(choix==0)
-    {men=Bitograph(b,nombre);}
+    {std::cout << "ok" << std::endl;
+        men=Bitograph(b,nombre);
+    }
+
     return men;
 }
 
@@ -326,6 +330,7 @@ int graphe::affichagePareto(std::vector<graphe> P)
     install_mouse();
     show_mouse(screen);
    std::vector<int> selection;
+   std::cout <<"p: "<< P.size() <<  std::endl;
     for(unsigned int i=0;i<P.size();i++)
     {
         selection.push_back(6);
@@ -598,3 +603,86 @@ bool graphe::parcoursBFS(graphe g)
     return retour;
 
 }
+
+
+
+
+
+
+
+std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
+{
+    float poidsT;
+    std::unordered_set<Sommet*> marque;
+    std::unordered_map<Sommet*,float> dist;
+    Sommet*smin=nullptr;
+    float dcard;
+    float dmin=99999999999999;
+    for(auto s: m_sommets)
+    {
+        dist[s]=10000000;
+    }
+    dist[idep]=0;
+    //marque.insert(idep);
+    std::cout <<"size: " << m_sommets.size() << std::endl;
+    for(unsigned int r=0;r<m_sommets.size();r++)
+    {
+        std::cout << r << "eme etape" << std::endl;
+        for(auto s : m_sommets)
+        {
+            std::cout << "s: " << s->getm_id() << std::endl;
+            std::cout << "c :" << marque.count(s) << std::endl;
+            if((!marque.count(s)) && (dist[s]<dmin))
+            {
+                std::cout << "M: " << s->getm_id() << std::endl;
+                smin=s;
+                dmin=dist[s];
+                std::cout << "dmin: " << dmin << std::endl;
+                std::cout << "smin: " << smin->getm_id() << std::endl;
+            }
+        }
+    dmin=99999999999999;
+    marque.insert(smin);
+    ///POUR CHAQUE VOISINS NON MARQUE DE SMIN
+    for(unsigned int i=0;i<m_arrete.size();i++)
+    {
+        if(((m_arrete[i]->getDepart()==smin)&&(marque.find(m_arrete[i]->getArrivee())==marque.end()))||((m_arrete[i]->getArrivee()==smin)&&(marque.find(m_arrete[i]->getDepart())==marque.end())))
+        {
+            std::cout<<"D: " << m_arrete[i]->getDepart()->getm_id() << std::endl;
+            std::cout <<"A:" << m_arrete[i]->getArrivee()->getm_id() << std::endl;
+            if(m_arrete[i]->getDepart()==smin)
+            {
+
+                dcard=dist[smin]+m_arrete[i]->getPoids2();
+                std::cout << "distmin: " <<dist[smin] << std::endl;
+                std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                std::cout << "dcard: " <<dcard << std::endl;
+                if(dcard<dist[m_arrete[i]->getArrivee()])
+                {
+                    dist[m_arrete[i]->getArrivee()]=dcard;
+
+                }
+                dcard=0;
+            }
+            if(m_arrete[i]->getArrivee()==smin)
+            {
+                dcard=dist[smin]+m_arrete[i]->getPoids2();
+                std::cout << "distmin: " <<dist[smin] << std::endl;
+                std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                std::cout << "dcard: " <<dcard << std::endl;
+                std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                if(dcard<dist[m_arrete[i]->getDepart()])
+                {
+                    dist[m_arrete[i]->getDepart()]=dcard;
+
+                }
+                dcard=0;
+            }
+        }
+    }
+    }
+
+    return dist;
+}
+

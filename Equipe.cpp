@@ -1,7 +1,7 @@
 #include "Equipe.h"
 
 
-Equipe::Equipe(std::string name,std::vector<std::string> n, std::vector<int> e, std::vector<int> p,std::vector<int> r) :m_nom{name}, m_cycliste{n}, m_endurance{e}, m_point{e},m_marque{false},m_poids{0},m_recuperation{r}
+Equipe::Equipe(std::string name,std::vector<std::string> n, std::vector<int> e, std::vector<int> p,std::vector<int> r) :m_nom{name}, m_cycliste{n}, m_endurance{e}, m_point{p},m_marque{false},m_poids{0},m_recuperation{r}
 {
 
 }
@@ -98,8 +98,6 @@ void Equipe::course(graphe g)
     int taille=g.getM_Sommets().size()-1;
     for(unsigned int i=0; i<this->m_cycliste.size();i++)
     {
-        std::cout <<"Le cycliste est: " << this->m_cycliste[i] << std::endl;
-        std::cout << "Endurance: " << this->m_endurance[i] << std::endl;
         for(const auto& elem : g.getM_Sommets())
         {
             if(elem->getm_id()==nom)
@@ -109,6 +107,11 @@ void Equipe::course(graphe g)
         }
         do
         {
+        system("cls");
+        std::cout <<"Le cycliste est: " << this->m_cycliste[i] << std::endl;
+        std::cout << "Endurance: " << this->m_endurance[i] << std::endl;
+        std::cout << "Temps de parcours: " << this->m_poids[i] << std::endl;
+        std::cout << "Nombre de points: " << this->m_point[i] << std::endl;
             for(const auto& v : g.getM_arrete())
             {
                 if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
@@ -127,7 +130,7 @@ void Equipe::course(graphe g)
             }
             do
             {
-                std::cout << "Saisissez votre choix de vecteur: " << std::endl;
+                std::cout << "Saisissez votre choix d'arete: " << std::endl;
                 std::cin >> choix;
             }
             while(choixP.find(choix)==choixP.end());
@@ -137,6 +140,7 @@ void Equipe::course(graphe g)
                 g.getM_arrete()[choix]->getArrivee()->setMarque();
                 g.getM_arrete()[choix]->getDepart()->setClear();
                 this->m_endurance[i]=this->m_endurance[i]-g.getM_arrete()[choix]->getPoids1();
+                this->m_poids[i]=this->m_poids[i]+g.getM_arrete()[choix]->getPoids1();
                 if(g.getM_arrete()[choix]->getArrivee()->getm_id()==g.getM_Sommets()[taille]->getm_id())
                 {
                     c=1;
@@ -147,18 +151,27 @@ void Equipe::course(graphe g)
                 g.getM_arrete()[choix]->getDepart()->setMarque();
                 g.getM_arrete()[choix]->getArrivee()->setClear();
                 this->m_endurance[i]=this->m_endurance[i]-g.getM_arrete()[choix]->getPoids1();
+                this->m_poids[i]=this->m_poids[i]+g.getM_arrete()[choix]->getPoids1();
                 if(g.getM_arrete()[choix]->getDepart()==g.getM_Sommets()[taille])
                 {
                     c=1;
                 }
             }
         }
-        while(c==0);
+        while(c==0 || this->m_endurance[i]==0);
         c=0;
         for(const auto& v : g.getM_arrete())
         {
             v->getDepart()->setClear();
             v->getArrivee()->setClear();
         }
+    }
+}
+
+void Equipe::refill()
+{
+    for(int i=0;i<this->m_cycliste.size();i++)
+    {
+        this->m_endurance[i]=this->m_endurance[i]+this->m_recuperation[i];
     }
 }

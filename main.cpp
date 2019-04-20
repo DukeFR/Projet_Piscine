@@ -207,7 +207,7 @@ int main()
     Equipe Pro{"Les Pros",pro,e4,pt,r4};
     std::vector<Arrete*> p;
     //std::vector<graphe> b;
-    graphe g{"broadway.txt","broadway_weights_0.txt"};
+    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
     g.afficher();
     //menu();
     taille=g.getM_arrete().size();
@@ -221,8 +221,9 @@ int main()
     std::cout<<"3. Toutes les possibilites binaires"<<std::endl;
     std::cout <<"4. Optimisation bi-objectif" << std::endl;
     std::cout <<"5. Tour de France 2019" << std::endl;
+    std::cout <<"6. test" << std::endl;
     std::cin>>c;
-    }while(c!=1 && c!=2 && c!=3 && c!=4 && c!=5);
+    }while(c!=1 && c!=2 && c!=3 && c!=4 && c!=5 && c!=6);
     if(c==1 || c==2)
     {
     p=g.prim(c);
@@ -257,9 +258,16 @@ int main()
         if(c==1)
         {
             Fdjv.setMarque();
+            system("cls");
+            std::cout << "cliquez sur la fenetre Allegro" << std::endl;
             for(int i=0;i<3;i++)
             {
                 Fdjv.course(t[i]);
+                Fdjv.refill();
+                Prof.refill();
+                Pro.refill();
+                Dev.refill();
+
             }
         }
         if(c==2)
@@ -268,6 +276,10 @@ int main()
             for(int i=0;i<3;i++)
             {
                 Prof.course(t[i]);
+                Fdjv.refill();
+                Prof.refill();
+                Pro.refill();
+                Dev.refill();
             }
         }
         if(c==3)
@@ -276,6 +288,10 @@ int main()
             for(int i=0;i<3;i++)
             {
                 Pro.course(t[i]);
+                Fdjv.refill();
+                Prof.refill();
+                Pro.refill();
+                Dev.refill();
             }
         }
         if(c==4)
@@ -284,6 +300,10 @@ int main()
             for(int i=0;i<3;i++)
             {
                 Dev.course(t[i]);
+                Fdjv.refill();
+                Prof.refill();
+                Pro.refill();
+                Dev.refill();
             }
         }
         std::cout << "Fin" << std::endl;
@@ -291,6 +311,16 @@ int main()
 
 
 
+    }
+    if(c==6)
+    {
+        std::cout <<"DEPART: " << g.getM_Sommets()[0]->getm_id() << std::endl;
+        std::unordered_map<Sommet*,float> n=g.dijkstra(g.getM_Sommets()[0]);
+        for( auto s : n)
+        {
+            std::cout << "Sommet: " << s.first->getm_id() << std::endl;
+            std::cout << "Valeur: " << s.second << std::endl;
+        }
     }
     while (!key[KEY_ESC])
     {
