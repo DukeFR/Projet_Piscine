@@ -11,9 +11,7 @@ class Sommet
         //void afficherVoisins() const;
         ~Sommet();
         void setMarque();
-        void setMarqueD();
         bool getMarque();
-        bool getMarqueD();
         void setClear();
         int getm_x();
         int getm_y();

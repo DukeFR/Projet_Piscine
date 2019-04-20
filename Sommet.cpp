@@ -19,26 +19,16 @@ void Sommet::ajouterVoisin(const Sommet* voisin){
      return marque;
  }
 
- bool Sommet::getMarqueD()
- {
-     return marqueD;
- }
-
  void Sommet::setMarque()
  {
      marque=true;
  }
 
- void Sommet::setMarqueD()
- {
-     marqueD=true;
- }
-
  void Sommet::setClear()
  {
-     marque = false;
-     marqueD = false;
+     marque=false;
  }
+
  int Sommet::getm_x()
  {
      return m_x;

@@ -235,7 +235,30 @@ void lanceur_prog()
     int choix_pareto=0;
     BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    graphe g{"broadway.txt","broadway_weights_0.txt"};
+    std::vector<std::string> fdjv={"Jacky la Frite", "Mr Quarate" , "Adrien Nougaret" , "Frederic Luu"};
+    std::vector<std::string> tracks={"broadway.txt","cubetown.txt","manhattan.txt","triville.txt"};
+    std::vector<std::string> t1={"broadway_weights_0.txt","broadway_weights_1.txt","broadway_weights_2.txt"};
+    std::vector<std::string> t2={"cubetown_weights_0.txt"};
+    std::vector<std::string> t3={"manhattan_weights_0.txt","manhattan_weights_1.txt","manhattan_weights_2.txt"};
+    std::vector<std::string> t4={"triville_weights_0.txt","triville_weights_1.txt"};
+    std::vector<graphe> t;
+    std::vector<int> e1= {95,85,90,75};
+    std::vector<int> r1= {47,42,45,37};
+    std::vector<int> pt ={0,0,0,0};
+    Equipe Fdjv{"FDJV",fdjv,e1,pt,r1};
+    std::vector<std::string>  dev={"Mark-Andrew","Xavier","Miriam","Jasmine"};
+    std::vector<int> e2= {85,85,85,85};
+    std::vector<int> r2= {42,42,42,42};
+    Equipe Dev{"Les developpeurs",dev,e2,pt,r2};
+    std::vector<std::string> prof={"Fercoq","Segado","Rendler","Palasi"};
+    std::vector<int> e3=  {100,80,85,80};
+    std::vector<int> r3= {50,40,42,40};
+    Equipe Prof{"Prof",prof,e3,pt,r3};
+    std::vector<std::string> pro={"Contador","Froome","Nibali","Bardet"};
+    std::vector<int> e4={90,90,90,90};
+    std::vector<int> r4= {45,45,45,45};
+    Equipe Pro{"Les Pros",pro,e4,pt,r4};
+    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
     std::vector<Arrete*> p1;
     p1=g.prim(1);
     std::vector<Arrete*> p2;
@@ -243,78 +266,149 @@ void lanceur_prog()
     taille=g.getM_arrete().size();
     while(!key[KEY_ESC])
     {
-    choix = menu(buffer); // récup choix (pour switch)
+        choix = menu(buffer); // récup choix (pour switch)
         switch (choix)
         {
-            case 1 : //Bouton 1 du menu principal choisi
-                {
-                    choix = 0;
-                    choix_prim= menu_prim(buffer);
-                    switch (choix_prim)
-                        {
-                            case 1 : choix_prim = 0;
-                                     menu(buffer);
-                                     break;
-                            case 2 :
-                                {
-                                    choix_prim=0;
-                                    g.afficherPrim(p1);
-                                    while(!key[KEY_ENTER])
-                                    {
-
-                                    }
-                                    break;
-                                }///Algorithme de Prim selon le 1er poids
-
-                            case 3 :
-                                {
-                                    choix_prim = 0;
-                                    g.afficherPrim(p2);
-                                    while(!key[KEY_ENTER])
-                                    {
-
-                                    }
-
-                                    break;
-                                }///Algorithme de Prim selon le 2nd poids
-
-                      }
-                    break;
-                }
-            case 2 : //Bouton 2 du menu principal choisi
-                {
-                    choix = 0;
-                    choix_pareto = menu_pareto(buffer);
-                    switch(choix_pareto)
-                        {
-                            case 1 :
-                                {
-                                    choix_pareto = 0;
-                                    g.binaire(taille);
-                                    g.placerPointsMini();///Affichage du diagramme de Pareto
-                                    while(!key[KEY_ENTER])
-                                    {
-
-                                    }
-                                    break;
-                                }
-                            case 2 :
-                                    choix_pareto = 0;
-                                    std::cout<<"code dijkstra";
-                                    ///CODE PARETO DIJKSTRA
-                                     break;
-                            case 3 : choix_pareto = 0;
-                                     menu(buffer);
-                                     break;
-                        }
-                    break;
-                }
-            case 3 : //Bouton QUITTER du menu principal
-                allegro_exit();
+        case 1 : //Bouton 1 du menu principal choisi
+        {
+            choix = 0;
+            choix_prim= menu_prim(buffer);
+            switch (choix_prim)
+            {
+            case 1 :
+                choix_prim = 0;
+                menu(buffer);
                 break;
-            case 4 : ///fonction tour de france
-                     std::cout<<"code tour de france"<<std::endl;
-                     break;
+            case 2 :
+            {
+                choix_prim=0;
+                g.afficherPrim(p1);
+                while(!key[KEY_ENTER])
+                {
+
+                }
+                break;
+            }///Algorithme de Prim selon le 1er poids
+
+            case 3 :
+            {
+                choix_prim = 0;
+                g.afficherPrim(p2);
+                while(!key[KEY_ENTER])
+                {
+
+                }
+
+                break;
+            }///Algorithme de Prim selon le 2nd poids
+
+            }
+            break;
+        }
+        case 2 : //Bouton 2 du menu principal choisi
+        {
+            choix = 0;
+            choix_pareto = menu_pareto(buffer);
+            switch(choix_pareto)
+            {
+            case 1 :
+            {
+                choix_pareto = 0;
+                g.binaire(taille,1);
+                std::cout<<"test2";
+                g.placerPointsMini();///Affichage du diagramme de Pareto
+                while(!key[KEY_ENTER])
+                {
+
+                }
+                break;
+            }
+            case 2 :
+                choix_pareto = 0;
+                g.binaire(taille,0);
+                std::cout<<"test";
+                g.placerPointsMini();///Affichage du diagramme de Pareto
+                while(!key[KEY_ENTER])
+                {
+
+                }
+                break;
+            case 3 :
+                choix_pareto = 0;
+                menu(buffer);
+                break;
+            }
+            break;
+        }
+        case 3 : //Bouton QUITTER du menu principal
+            allegro_exit();
+            break;
+        case 4 :
+        {
+            int c=Fdjv.selection(Fdjv,Prof,Pro,Dev);
+            std::unordered_map<std::string,std::string> Liste=Fdjv.selectionCourse(tracks,t1,t2,t3,t4);
+            Fdjv.afficherCircuits(Liste);
+            //blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+            for(const auto& elem : Liste)
+            {
+                graphe g = (graphe(elem.first,elem.second));
+                t.push_back(g);
+            }
+            if(c==1)
+            {
+                Fdjv.setMarque();
+                system("cls");
+                std::cout << "cliquez sur la fenetre Allegro" << std::endl;
+                for(int i=0; i<3; i++)
+                {
+                    Fdjv.course(t[i]);
+                    Fdjv.refill();
+                    Prof.refill();
+                    Pro.refill();
+                    Dev.refill();
+
+                }
+            }
+            if(c==2)
+            {
+                Prof.setMarque();
+                for(int i=0; i<3; i++)
+                {
+                    Prof.course(t[i]);
+                    Fdjv.refill();
+                    Prof.refill();
+                    Pro.refill();
+                    Dev.refill();
+                }
+            }
+            if(c==3)
+            {
+                Pro.setMarque();
+                for(int i=0; i<3; i++)
+                {
+                    Pro.course(t[i]);
+                    Fdjv.refill();
+                    Prof.refill();
+                    Pro.refill();
+                    Dev.refill();
+                }
+            }
+            if(c==4)
+            {
+                Dev.setMarque();
+                for(int i=0; i<3; i++)
+                {
+                    Dev.course(t[i]);
+                    Fdjv.refill();
+                    Prof.refill();
+                    Pro.refill();
+                    Dev.refill();
+                }
+            }
+            std::cout << "Fin" << std::endl;
+
+        }
+        break;
         }
         blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     }
