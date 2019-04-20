@@ -23,12 +23,12 @@ class graphe
         bool parcoursBFS(graphe g);
         std::vector<Arrete*> getM_arrete();
         std::vector<Sommet*> getM_Sommets();
-        void binaire(int,int);
-        void Acycle(std::vector<std::string> b, int nombre);
+        void binaire(int,int,int);
+        //void Acycle(std::vector<std::string> b, int nombre);
         //std::vector<graphe*> GraphB(std::string);
-        void affichagePareto(std::vector<graphe> P);
-        void Bitograph(std::vector<std::string> collecteur, int nombre);
-        void bfs (std::vector<graphe> liste);
+        void affichagePareto(std::vector<graphe> P, int choix);
+        void Bitograph(std::vector<std::string> collecteur, int nombre, int choix);
+        void bfs (std::vector<graphe> liste, int choix);
         std::unordered_map<Sommet*,float> dijkstra(Sommet* idep);
 
     protected:

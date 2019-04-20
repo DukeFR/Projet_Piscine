@@ -233,6 +233,7 @@ void lanceur_prog()
     int choix=0;
     int choix_prim=0;
     int choix_pareto=0;
+    int choixAffichagePareto = 0;
     BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
     std::vector<std::string> fdjv={"Jacky la Frite", "Mr Quarate" , "Adrien Nougaret" , "Frederic Luu"};
@@ -258,7 +259,7 @@ void lanceur_prog()
     std::vector<int> e4={90,90,90,90};
     std::vector<int> r4= {45,45,45,45};
     Equipe Pro{"Les Pros",pro,e4,pt,r4};
-    graphe g{"manhattan.txt","manhattan_weights_0.txt"};
+    graphe g{"broadway.txt","broadway_weights_0.txt"};
     std::vector<Arrete*> p1;
     p1=g.prim(1);
     std::vector<Arrete*> p2;
@@ -314,7 +315,9 @@ void lanceur_prog()
             case 1 :
             {
                 choix_pareto = 0;
-                g.binaire(taille,1);
+                std::cout<<std::endl<<"tapez 1 pour les meilleures solutions ou 2 pour les pires"<<std::endl;
+                std::cin>> choixAffichagePareto;
+                g.binaire(taille,1, choixAffichagePareto);
                 std::cout<<"test2";
                 g.placerPointsMini();///Affichage du diagramme de Pareto
                 while(!key[KEY_ENTER])
@@ -325,7 +328,9 @@ void lanceur_prog()
             }
             case 2 :
                 choix_pareto = 0;
-                g.binaire(taille,0);
+                std::cout<<"tapez 1 pour les meilleures solutions ou 2 pour les pires"<<std::endl;
+                std::cin>> choixAffichagePareto;
+                g.binaire(taille,0, choixAffichagePareto);
                 std::cout<<"test";
                 g.placerPointsMini();///Affichage du diagramme de Pareto
                 while(!key[KEY_ENTER])

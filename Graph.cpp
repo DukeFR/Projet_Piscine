@@ -177,7 +177,7 @@ std::vector<Arrete*> graphe::prim(int choix)
     return Prim;
 }
 
-void graphe::binaire(const int nombre, int choix)
+void graphe::binaire(const int nombre, int choix, int choixPareto)
 {
     install_mouse();
     show_mouse(screen);
@@ -319,7 +319,7 @@ void graphe::binaire(const int nombre, int choix)
             a=0;
         }
         std::cout << "Fin2" << std::endl;
-        Bitograph(collecteur,nombre);
+        Bitograph(collecteur,nombre, choixPareto);
     }
 
     if(choix==0)
@@ -384,11 +384,11 @@ void graphe::binaire(const int nombre, int choix)
         //liste[0]->afficher();
 
         std::cout << "Fin 3" << std::endl;
-        affichagePareto(lst);
+        affichagePareto(lst, choixPareto);
     }
 }
 
-void graphe::Acycle(std::vector<std::string> b,int nombre)
+/*void graphe::Acycle(std::vector<std::string> b,int nombre, int choixPareto)
 {
     unsigned int a=0;
     std::vector<std::string> collecteur;
@@ -412,10 +412,10 @@ void graphe::Acycle(std::vector<std::string> b,int nombre)
         a=0;
     }
     std::cout << "Fin2" << std::endl;
-    Bitograph(collecteur,nombre);
-}
+    Bitograph(collecteur,nombre, choixPareto);
+}*/
 
-void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
+void graphe::Bitograph(std::vector<std::string> collecteur, int nombre, int choix)
 {
     std::vector<Sommet*> s;
     std::vector <Arrete*>ar;
@@ -449,10 +449,10 @@ void graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
         ar.clear();
         s.clear();
     }
-    bfs(liste);
+    bfs(liste, choix);
 }
 
-void graphe::bfs(std::vector<graphe> liste)
+void graphe::bfs(std::vector<graphe> liste, int choix)
 {
     std::vector<graphe> lst;
     for(size_t i=0; i<liste.size(); i++)
@@ -479,10 +479,10 @@ void graphe::bfs(std::vector<graphe> liste)
     //liste[0]->afficher();
 
     std::cout << "Fin 3" << std::endl;
-    affichagePareto(lst);
+    affichagePareto(lst, choix);
 }
 
-void graphe::affichagePareto(std::vector<graphe> P)
+void graphe::affichagePareto(std::vector<graphe> P, int choix)
 {
     install_mouse();
     show_mouse(screen);
@@ -513,14 +513,34 @@ void graphe::affichagePareto(std::vector<graphe> P)
         poids1=0;
         poids2=0;
     }
-    for(size_t i=0; i<sp1.size(); i++)
+
+    if(choix == 1)
     {
-        for(size_t j=0; j<sp1.size(); j++)
+
+        for(size_t i=0; i<sp1.size(); i++)
         {
-            if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
+            for(size_t j=0; j<sp1.size(); j++)
             {
-                selection[i]=10;
-                j=sp1.size();
+                if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
+                {
+                    selection[i]=10;
+                    j=sp1.size();
+                }
+            }
+        }
+    }
+
+    if(choix == 2)
+    {
+        for(size_t i=0; i<sp1.size(); i++)
+        {
+            for(size_t j=0; j<sp1.size(); j++)
+            {
+                if((sp1[i]<sp1[j])&&(sp2[i]<sp2[j]))
+                {
+                    selection[i]=10;
+                    j=sp1.size();
+                }
             }
         }
     }
