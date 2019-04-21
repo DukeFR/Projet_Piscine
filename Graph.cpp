@@ -371,7 +371,6 @@ float graphe::binaire(const int nombre, int choix)
             }
             a=0;
         }
-        std::cout << "ok1" << std::endl;
         float valeur=Bitograph(collecteur,nombre,1);
         return valeur;
     }
@@ -1096,5 +1095,4 @@ float graphe::dijkstraAI(Sommet* idep,Sommet*iarriv)
     */
 
     return poidsT ;
-    std::cout << "PoidsT: " << poidsT << std::endl;
 }

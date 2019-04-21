@@ -1,7 +1,8 @@
 #include "Equipe.h"
+#include <algorithm>
 
 
-Equipe::Equipe(std::string name,std::vector<std::string> n, std::vector<int> e, std::vector<int> p,std::vector<int> r) :m_nom{name}, m_cycliste{n}, m_endurance{e}, m_point{p},m_marque{false},m_poids{0},m_recuperation{r}
+Equipe::Equipe(std::string name,std::vector<std::string> n, std::vector<int> e, std::vector<int> p,std::vector<int> r,std::vector<int> poids) :m_nom{name}, m_cycliste{n}, m_endurance{e}, m_point{p},m_marque{false},m_poids{poids},m_recuperation{r}
 {
 
 }
@@ -65,7 +66,7 @@ void Equipe::affichage(Equipe E)
     std::cout << E.m_nom << ": "<< std::endl;
     for(unsigned int i=0; i<E.m_cycliste.size(); i++)
     {
-        std::cout << E.m_cycliste[i] << " " << "Endurance: " << E.m_endurance[i] << std::endl;
+        std::cout << E.m_cycliste[i] << " " << "Endurance: " << E.m_endurance[i] << " " << "Poids: " << E.m_poids[i] << std::endl;
     }
 }
 
@@ -84,6 +85,16 @@ void Equipe::setEndurance(int valeur, int i)
     m_endurance[i]=m_endurance[i]-valeur;
 }
 
+void Equipe::setPoints(int valeur,int i)
+{
+    m_point[i]=m_point[i]+valeur;
+}
+
+void Equipe::setPoids(float valeur, int i)
+{
+    m_poids[i]=valeur;
+}
+
 void Equipe::course(graphe g)
 {
     BITMAP*buffer=create_bitmap(SCREEN_W,SCREEN_H);
@@ -96,6 +107,10 @@ void Equipe::course(graphe g)
     int c=0;
     std::set<int> choixP;
     int taille=g.getM_Sommets().size()-1;
+    for(unsigned int i=0;i<4;i++)
+    {
+        this->m_poids[i]=0;
+    }
     for(unsigned int i=0; i<this->m_cycliste.size();i++)
     {
         for(const auto& elem : g.getM_Sommets())
@@ -118,11 +133,13 @@ void Equipe::course(graphe g)
                 {
                     if(v->getArrivee()->getMarque()==false)
                     {
+                        std::cout << "Vous etes au sommet: " << v->getDepart()->getm_id() << std::endl;
                         std::cout << "Aller vers le sommet: " << v->getArrivee()->getm_id() << " en passant par l'arete: " << v->getm_id()<< " avec une perte d'endurance de: " << v->getPoids1() << std::endl;
                         choixP.insert(v->getm_id());
                     }
                     if(v->getDepart()->getMarque()==false)
                     {
+                        std::cout << "Vous etes au sommet: " << v->getArrivee()->getm_id() << std::endl;
                         std::cout << "Aller vers le sommet:  " << v->getDepart()->getm_id() << " en passant par l'arete: " << v->getm_id()<< " avec une perte d'endurance de: " << v->getPoids1()<< std::endl;
                         choixP.insert(v->getm_id());
                     }
@@ -180,7 +197,7 @@ void Equipe::refill()
     }
 }
 
-std::unordered_map<std::string,std::string> Equipe::selectionCourse(std::vector<std::string>tracks,std::vector<std::string>t1,std::vector<std::string>t2,std::vector<std::string>t3,std::vector<std::string>t4)
+std::unordered_map<std::string,std::string> Equipe::selectionCourse(std::vector<std::string>tracks,std::vector<std::string>t1,std::vector<std::string>t2,std::vector<std::string>t4)
 {
     std::unordered_map<std::string,std::string> Circuits;
     int c1=10;
@@ -189,7 +206,7 @@ std::unordered_map<std::string,std::string> Equipe::selectionCourse(std::vector<
     for(int i=0;i<3;i++)
     {
         do{
-        random=rand()%4;
+        random=rand()%3;
         }while(random==c1 || random==c2);
         if(i==0)
         {
@@ -210,11 +227,6 @@ std::unordered_map<std::string,std::string> Equipe::selectionCourse(std::vector<
             Circuits.insert({tracks[random],t2[random1]});
         }
         if(random==2)
-        {
-            int random1=rand()%3;
-            Circuits.insert({tracks[random],t3[random1]});
-        }
-        if(random==3)
         {
             int random1=rand()%2;
             Circuits.insert({tracks[random],t4[random1]});
@@ -240,27 +252,126 @@ void Equipe::afficherCircuits(std::unordered_map<std::string,std::string> c)
 
 void Equipe::AI(graphe g)
 {
+    float valeur;
     unsigned int taille=g.getM_arrete().size();
     for(unsigned int i=0;i<m_cycliste.size();i++)
     {
-        m_poids[i]=g.binaire(taille,2);
+        valeur=g.binaire(taille,2);
+        this->setPoids(valeur,i);
     }
+
 
 }
 
-
-
-
-
-void Equipe::ScoreEtape(Equipe Prof, Equipe Pro, Equipe Dev)
+bool tri(cycliste* a, cycliste* b)
 {
-    std::vector<float> p;
-    for(unsigned int i=0;i<this->m_cycliste.size();i++)
-    {
-        p.push_back(this->m_poids[i]);
-        p.push_back(Prof.m_poids[i]);
-        p.push_back(Pro.m_poids[i]);
-        p.push_back(Dev.m_poids[i]);
-    }
-        sort(p.begin(),p.end());
+    return a->getPoids()< b->getPoids();
 }
+
+bool triP(cycliste* a, cycliste* b)
+{
+    return a->getPoint()< b->getPoint();
+}
+
+
+
+
+void Equipe::ScoreEtape(Equipe* Prof, Equipe* Pro, Equipe* Dev)
+{
+    std::vector<cycliste*> liste;
+    for(unsigned int i=0; i<this->m_cycliste.size();i++)
+    {
+        liste.push_back(new cycliste(m_nom,m_cycliste[i],m_poids[i]));
+        liste.push_back(new cycliste(Prof->m_nom,Prof->m_cycliste[i],Prof->m_poids[i]));
+        liste.push_back(new cycliste(Pro->m_nom,Pro->m_cycliste[i],Pro->m_poids[i]));
+        liste.push_back(new cycliste(Dev->m_nom,Dev->m_cycliste[i],Dev->m_poids[i]));
+    }
+
+    sort(liste.begin(),liste.end(),tri);
+    int point=16;
+    system("cls");
+    std::cout << "----------- " << "CLASSEMENT ETAPE" <<" -----------" << std::endl;
+    for(unsigned int i=0;i<liste.size();i++)
+    {
+        std::cout << i+1 << "eme: " << liste[i]->getCoureur() << "  Temps: " << liste[i]->getPoids() << std::endl;
+        if(liste[i]->getId()==this->m_nom)
+        {
+            for(unsigned int j=0;j<this->m_cycliste.size();j++)
+            {
+                if(liste[i]->getCoureur()==this->m_cycliste[j])
+                {
+                    this->setPoints(point,j);
+                    point=point-1;
+                }
+            }
+        }
+        if(liste[i]->getId()==Prof->m_nom)
+        {
+            for(unsigned int j=0;j<this->m_cycliste.size();j++)
+            {
+                if(liste[i]->getCoureur()==Prof->m_cycliste[j])
+                {
+                    Prof->setPoints(point,j);
+                    point=point-1;
+                }
+            }
+        }
+        if(liste[i]->getId()==Pro->m_nom)
+        {
+            for(unsigned int j=0;j<this->m_cycliste.size();j++)
+            {
+                if(liste[i]->getCoureur()==Pro->m_cycliste[j])
+                {
+                    Pro->setPoints(point,j);
+                    point=point-1;
+                }
+            }
+        }
+        if(liste[i]->getId()==Dev->m_nom)
+        {
+            for(unsigned int j=0;j<this->m_cycliste.size();j++)
+            {
+                if(liste[i]->getCoureur()==Dev->m_cycliste[j])
+                {
+                    Dev->setPoints(point,j);
+                    point=point-1;
+                }
+            }
+        }
+    }
+}
+
+
+void Equipe::ScoreT(Equipe Prof, Equipe Pro, Equipe Dev)
+{
+    std::vector<cycliste*> D;
+    for(unsigned int i=0; i<this->m_cycliste.size();i++)
+    {
+        D.push_back(new cycliste(m_nom,m_cycliste[i],0,m_point[i]));
+        D.push_back(new cycliste(Prof.m_nom,Prof.m_cycliste[i],0,Prof.m_point[i]));
+        D.push_back(new cycliste(Pro.m_nom,Pro.m_cycliste[i],0,Pro.m_point[i]));
+        D.push_back(new cycliste(Dev.m_nom,Dev.m_cycliste[i],0,Dev.m_point[i]));
+    }
+
+    sort(D.begin(),D.end(),triP);
+    system("cls");
+    std::cout << "----------- " << "CLASSEMENT GENERAL" <<" -----------" << std::endl;
+    std::cout << D[15]->getCoureur() << " " << D[15]->getPoint() << " points" << std::endl;
+    std::cout << D[14]->getCoureur() << " " << D[14]->getPoint() << " points" << std::endl;
+    std::cout << D[13]->getCoureur() << " " << D[13]->getPoint() << " points" << std::endl;
+    std::cout << D[12]->getCoureur() << " " << D[12]->getPoint() << " points"<< std::endl;
+    std::cout << D[11]->getCoureur() << " " << D[11]->getPoint() << " points"<< std::endl;
+    std::cout << D[10]->getCoureur() << " " << D[10]->getPoint() << " points"<< std::endl;
+    std::cout << D[9]->getCoureur() << " " << D[9]->getPoint() << " points"<< std::endl;
+    std::cout << D[8]->getCoureur() << " " << D[8]->getPoint() << " points"<< std::endl;
+    std::cout << D[7]->getCoureur() << " " << D[7]->getPoint() << " points"<< std::endl;
+    std::cout << D[6]->getCoureur() << " " << D[6]->getPoint() << " points"<< std::endl;
+    std::cout << D[5]->getCoureur() << " " << D[5]->getPoint() << " points"<< std::endl;
+    std::cout << D[4]->getCoureur() << " " << D[4]->getPoint() << " points"<< std::endl;
+    std::cout << D[3]->getCoureur() << " " << D[3]->getPoint() << " points"<< std::endl;
+    std::cout << D[2]->getCoureur() << " " << D[2]->getPoint() << " points"<< std::endl;
+    std::cout << D[1]->getCoureur() << " " << D[1]->getPoint() << " points"<< std::endl;
+    std::cout << D[0]->getCoureur() << " " << D[0]->getPoint() << " points"<< std::endl;
+    std::cout << "----------------------------------------------------------" << std::endl;
+}
+

@@ -10,17 +10,21 @@
 1555753651 c:\users\mark\desktop\git\projet_piscine\sommet.h
 	<iostream>
 
-1555836007 source:c:\users\mark\desktop\git\projet_piscine\equipe.cpp
+1555858788 source:c:\users\mark\desktop\git\projet_piscine\equipe.cpp
 	"Equipe.h"
+	<algorithm>
 
-1555775820 c:\users\mark\desktop\git\projet_piscine\equipe.h
+1555858405 c:\users\mark\desktop\git\projet_piscine\equipe.h
 	<iostream>
 	<string>
 	<vector>
 	"Graph.h"
 	"allegro.h"
+	"Cycliste.h"
 	<set>
 	<algorithm>
+	<cstdlib>
+	<climits>
 
 1555784281 c:\users\mark\desktop\git\projet_piscine\graph.h
 	"Arrete.h"
@@ -29,7 +33,7 @@
 	<unordered_map>
 	<vector>
 
-1555836203 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
+1555848087 source:c:\users\mark\desktop\git\projet_piscine\graph.cpp
 	"Graph.h"
 	<fstream>
 	<iostream>
@@ -47,7 +51,7 @@
 1555776825 source:c:\users\mark\desktop\git\projet_piscine\main.cpp
 	"menu.h"
 
-1555753651 c:\users\mark\desktop\git\projet_piscine\menu.h
+1555839950 c:\users\mark\desktop\git\projet_piscine\menu.h
 	<iostream>
 	"Graph.h"
 	"Sommet.h"
@@ -55,12 +59,20 @@
 	<allegro.h>
 	<time.h>
 	"Equipe.h"
+	"Cycliste.h"
 	<math.h>
 
-1555836054 source:c:\users\mark\desktop\git\projet_piscine\menu.cpp
+1555858626 source:c:\users\mark\desktop\git\projet_piscine\menu.cpp
 	"menu.h"
 
 1555753937 source:c:\users\mark\desktop\git\projet_piscine\sommet.cpp
 	"Sommet.h"
 	<iostream>
+
+1555853474 source:c:\users\mark\desktop\git\projet_piscine\cycliste.cpp
+	"cycliste.h"
+
+1555853474 c:\users\mark\desktop\git\projet_piscine\cycliste.h
+	<iostream>
+	<string>
 

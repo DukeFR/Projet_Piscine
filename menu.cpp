@@ -235,29 +235,32 @@ void lanceur_prog()
     int choix_pareto=0;
     BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    std::vector<std::string> fdjv={"Jacky la Frite", "Mr Quarate" , "Adrien Nougaret" , "Frederic Luu"};
-    std::vector<std::string> tracks={"broadway.txt","cubetown.txt","manhattan.txt","triville.txt"};
-    std::vector<std::string> t1={"broadway_weights_0.txt","broadway_weights_1.txt","broadway_weights_2.txt"};
-    std::vector<std::string> t2={"cubetown_weights_0.txt"};
-    std::vector<std::string> t3={"manhattan_weights_0.txt","manhattan_weights_1.txt","manhattan_weights_2.txt"};
-    std::vector<std::string> t4={"triville_weights_0.txt","triville_weights_1.txt"};
+    std::vector<std::string> fdjv= {"Jacky la Frite", "Mr Quarate", "Adrien Nougaret", "Frederic Luu"};
+    std::vector<std::string> tracks= {"broadway.txt","cubetown.txt","triville.txt"};
+    std::vector<std::string> t1= {"broadway_weights_0.txt","broadway_weights_1.txt","broadway_weights_2.txt"};
+    std::vector<std::string> t2= {"cubetown_weights_0.txt"};
+    std::vector<std::string> t4= {"triville_weights_0.txt","triville_weights_1.txt"};
     std::vector<graphe> t;
+    std::vector<int> p = {0,0,0,0};
     std::vector<int> e1= {95,85,90,75};
     std::vector<int> r1= {47,42,45,37};
-    std::vector<int> pt ={0,0,0,0};
-    Equipe Fdjv{"FDJV",fdjv,e1,pt,r1};
-    std::vector<std::string>  dev={"Mark-Andrew","Xavier","Miriam","Jasmine"};
+    std::vector<int> pt = {0,0,0,0};
+    Equipe Fdjv{"FDJV",fdjv,e1,pt,r1,p};
+    std::vector<std::string>  dev= {"Mark-Andrew","Xavier","Miriam","Jasmine"};
     std::vector<int> e2= {85,85,85,85};
     std::vector<int> r2= {42,42,42,42};
-    Equipe Dev{"Les developpeurs",dev,e2,pt,r2};
-    std::vector<std::string> prof={"Fercoq","Segado","Rendler","Palasi"};
+    Equipe Dev{"Les developpeurs",dev,e2,pt,r2,p};
+    std::vector<std::string> prof= {"Fercoq","Segado","Rendler","Palasi"};
     std::vector<int> e3=  {100,80,85,80};
     std::vector<int> r3= {50,40,42,40};
-    Equipe Prof{"Prof",prof,e3,pt,r3};
-    std::vector<std::string> pro={"Contador","Froome","Nibali","Bardet"};
-    std::vector<int> e4={90,90,90,90};
+    Equipe Prof{"Prof",prof,e3,pt,r3,p};
+    std::vector<std::string> pro= {"Contador","Froome","Nibali","Bardet"};
+    std::vector<int> e4= {90,90,90,90};
     std::vector<int> r4= {45,45,45,45};
-    Equipe Pro{"Les Pros",pro,e4,pt,r4};
+    Equipe Pro{"Les pro",pro,e4,pt,r4,p};
+    Equipe* professionnel=&Pro;
+    Equipe* Deve=&Dev;
+    Equipe*Pr=&Prof;
     graphe g{"cubetown.txt","cubetown_weights_0.txt"};
     std::vector<Arrete*> p1;
     p1=g.prim(1);
@@ -345,7 +348,7 @@ void lanceur_prog()
         case 4 :
         {
             int c=Fdjv.selection(Fdjv,Prof,Pro,Dev);
-            std::unordered_map<std::string,std::string> Liste=Fdjv.selectionCourse(tracks,t1,t2,t3,t4);
+            std::unordered_map<std::string,std::string> Liste=Fdjv.selectionCourse(tracks,t1,t2,t4);
             Fdjv.afficherCircuits(Liste);
             //blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
             for(const auto& elem : Liste)
@@ -364,6 +367,14 @@ void lanceur_prog()
                     Prof.AI(t[i]);
                     Dev.AI(t[i]);
                     Fdjv.course(t[i]);
+                    Fdjv.ScoreEtape(professionnel,Pr,Deve);
+                    while(!key[KEY_ENTER])
+                    {
+                    }
+                    Fdjv.ScoreT(Prof,Pro,Dev);
+                    while(!key[KEY_SPACE])
+                    {
+                    }
                     Fdjv.refill();
                     Prof.refill();
                     Pro.refill();
@@ -382,6 +393,14 @@ void lanceur_prog()
                     Prof.AI(t[i]);
                     Dev.AI(t[i]);
                     Prof.course(t[i]);
+                    Fdjv.ScoreEtape(professionnel,Pr,Deve);
+                    while(!key[KEY_ENTER])
+                    {
+                    }
+                    Fdjv.ScoreT(Prof,Pro,Dev);
+                    while(!key[KEY_SPACE])
+                    {
+                    }
                     Fdjv.refill();
                     Prof.refill();
                     Pro.refill();
@@ -399,6 +418,14 @@ void lanceur_prog()
                     Prof.AI(t[i]);
                     Dev.AI(t[i]);
                     Pro.course(t[i]);
+                    Fdjv.ScoreEtape(professionnel,Pr,Deve);
+                    while(!key[KEY_ENTER])
+                    {
+                    }
+                    Fdjv.ScoreT(Prof,Pro,Dev);
+                    while(!key[KEY_SPACE])
+                    {
+                    }
                     Fdjv.refill();
                     Prof.refill();
                     Pro.refill();
@@ -415,7 +442,16 @@ void lanceur_prog()
                     Pro.AI(t[i]);
                     Prof.AI(t[i]);
                     Fdjv.AI(t[i]);
+
                     Dev.course(t[i]);
+                    Fdjv.ScoreEtape(professionnel,Pr,Deve);
+                    while(!key[KEY_ENTER])
+                    {
+                    }
+                    Fdjv.ScoreT(Prof,Pro,Dev);
+                    while(!key[KEY_SPACE])
+                    {
+                    }
                     Fdjv.refill();
                     Prof.refill();
                     Pro.refill();
