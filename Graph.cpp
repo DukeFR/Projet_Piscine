@@ -388,33 +388,6 @@ void graphe::binaire(const int nombre, int choix, int choixPareto)
     }
 }
 
-/*void graphe::Acycle(std::vector<std::string> b,int nombre, int choixPareto)
-{
-    unsigned int a=0;
-    std::vector<std::string> collecteur;
-    std::cout<<"testalloc";
-    for (unsigned int i=0; i<b.size(); i++)
-    {
-        //std::cout <<"test:  " <<b[i][4] << std::endl;
-        for(unsigned int j=0; j<b[i].size(); j++)
-        {
-            if(b[i][j]=='1')
-            {
-                a=a+1;
-
-            }
-
-        }
-        if(a==this->getM_Sommets().size()-1)
-        {
-            collecteur.push_back(b[i]);
-        }
-        a=0;
-    }
-    std::cout << "Fin2" << std::endl;
-    Bitograph(collecteur,nombre, choixPareto);
-}*/
-
 void graphe::Bitograph(std::vector<std::string> collecteur, int nombre, int choix)
 {
     std::vector<Sommet*> s;
