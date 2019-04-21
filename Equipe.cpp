@@ -159,6 +159,10 @@ void Equipe::course(graphe g)
             }
         }
         while(c==0 || this->m_endurance[i]==0);
+        if(this->m_endurance[i]==0)
+        {
+            this->m_poids[i]=9999;
+        }
         c=0;
         for(const auto& v : g.getM_arrete())
         {
@@ -170,8 +174,93 @@ void Equipe::course(graphe g)
 
 void Equipe::refill()
 {
-    for(int i=0;i<this->m_cycliste.size();i++)
+    for(size_t i=0;i<this->m_cycliste.size();i++)
     {
         this->m_endurance[i]=this->m_endurance[i]+this->m_recuperation[i];
     }
+}
+
+std::unordered_map<std::string,std::string> Equipe::selectionCourse(std::vector<std::string>tracks,std::vector<std::string>t1,std::vector<std::string>t2,std::vector<std::string>t3,std::vector<std::string>t4)
+{
+    std::unordered_map<std::string,std::string> Circuits;
+    int c1=10;
+    int c2=10;
+    int random;
+    for(int i=0;i<3;i++)
+    {
+        do{
+        random=rand()%4;
+        }while(random==c1 || random==c2);
+        if(i==0)
+        {
+            c1=random;
+        }
+        if(i==1)
+        {
+            c2=random;
+        }
+        if(random==0)
+        {
+            int random1=rand()%3;
+            Circuits.insert({tracks[random],t1[random1]});
+        }
+        if(random==1)
+        {
+            int random1=0;
+            Circuits.insert({tracks[random],t2[random1]});
+        }
+        if(random==2)
+        {
+            int random1=rand()%3;
+            Circuits.insert({tracks[random],t3[random1]});
+        }
+        if(random==3)
+        {
+            int random1=rand()%2;
+            Circuits.insert({tracks[random],t4[random1]});
+        }
+
+
+    }
+    return Circuits;
+}
+
+void Equipe::afficherCircuits(std::unordered_map<std::string,std::string> c)
+{
+    int compteur=0;
+
+    for(const auto& elem : c)
+    {
+        compteur=compteur+1;
+        std::cout <<compteur<<": " << elem.first << std::endl;
+        std::cout << "avec le poids de: " << elem.second << std::endl;
+    }
+}
+
+
+void Equipe::AI(graphe g)
+{
+    unsigned int taille=g.getM_arrete().size();
+    for(unsigned int i=0;i<m_cycliste.size();i++)
+    {
+        m_poids[i]=g.binaire(taille,2);
+    }
+
+}
+
+
+
+
+
+void Equipe::ScoreEtape(Equipe Prof, Equipe Pro, Equipe Dev)
+{
+    std::vector<float> p;
+    for(unsigned int i=0;i<this->m_cycliste.size();i++)
+    {
+        p.push_back(this->m_poids[i]);
+        p.push_back(Prof.m_poids[i]);
+        p.push_back(Pro.m_poids[i]);
+        p.push_back(Dev.m_poids[i]);
+    }
+        sort(p.begin(),p.end());
 }

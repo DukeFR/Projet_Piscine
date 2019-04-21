@@ -6,6 +6,7 @@
 #include "Graph.h"
 #include "allegro.h"
 #include <set>
+#include <algorithm>
 
 class Equipe
 {
@@ -18,6 +19,10 @@ class Equipe
     void setEndurance(int valeur,int i);
     void course(graphe g);
     void refill();
+    std::unordered_map<std::string,std::string> selectionCourse(std::vector<std::string>tracks,std::vector<std::string>t1,std::vector<std::string>t2,std::vector<std::string>t3,std::vector<std::string>t4);
+    void afficherCircuits(std::unordered_map<std::string,std::string> c);
+    void ScoreEtape(Equipe Prof, Equipe Pro, Equipe Dev);
+    void AI(graphe g);
 
 
     private:

@@ -7,6 +7,7 @@
 #include "Arrete.h"
 #include <allegro.h>
 #include <time.h>
+#include "Equipe.h"
 #include <math.h>
 
 int menu_pareto (BITMAP* pareto_buffer);

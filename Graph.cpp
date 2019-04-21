@@ -10,6 +10,7 @@
 #include <list>
 #include "time.h"
 #include "algorithm"
+#include <unistd.h>
 
 graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids)
 {
@@ -28,10 +29,17 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids)
     int x;
     int y;
     //lecture des sommets
-    for (int i=0; i<ordre; ++i){
-        ifsSommets>>id; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
-        ifsSommets>>x; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
-        ifsSommets>>y; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture données sommet");
+    for (int i=0; i<ordre; ++i)
+    {
+        ifsSommets>>id;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture données sommet");
+        ifsSommets>>x;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture données sommet");
+        ifsSommets>>y;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture données sommet");
         m_sommets.push_back({new Sommet{id,x,y}});
     }
 
@@ -51,16 +59,29 @@ graphe::graphe(std::string nomFichierSommets, std::string nomFichierPoids)
     float poids2;
     int idA;
     //lecture des aretes
-    for (int i=0; i<taille; ++i){
+    for (int i=0; i<taille; ++i)
+    {
         //lecture des ids des deux extrémités
-        ifsSommets>>idA; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture poids");
-        ifsSommets>>depart; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture arete sommet 1");
-        ifsSommets>>arrivee; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture arete sommet 2");
-        ifsPoids>>idA; if(ifsSommets.fail()) throw std::runtime_error("Probleme lecture poids");
-        ifsPoids>>poids1; if(ifsPoids.fail()) throw std::runtime_error("Probleme lecture poids n1");
-        ifsPoids>>poids2; if(ifsPoids.fail()) throw std::runtime_error("Probleme lecture poids n2");
+        ifsSommets>>idA;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture poids");
+        ifsSommets>>depart;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture arete sommet 1");
+        ifsSommets>>arrivee;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture arete sommet 2");
+        ifsPoids>>idA;
+        if(ifsSommets.fail())
+            throw std::runtime_error("Probleme lecture poids");
+        ifsPoids>>poids1;
+        if(ifsPoids.fail())
+            throw std::runtime_error("Probleme lecture poids n1");
+        ifsPoids>>poids2;
+        if(ifsPoids.fail())
+            throw std::runtime_error("Probleme lecture poids n2");
         m_arrete.push_back({new Arrete{m_sommets[depart],m_sommets[arrivee],idA,poids1,poids2}});
-       // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
+        // (m_sommets.find(depart))->second->ajouterVoisin((m_sommets.find(arrivee))->second);
     }
 }
 
@@ -85,9 +106,9 @@ void graphe::afficher() const
 std::vector<Arrete*> graphe::prim(int choix)
 {
     std::vector<Arrete*> Prim;
-    for(size_t i =0; i<this->getM_Sommets().size();i++)
+    for(size_t i =0; i<this->getM_Sommets().size(); i++)
     {
-       this->getM_Sommets()[i]->setClear();
+        this->getM_Sommets()[i]->setClear();
     }
     int minimum=99;
     int nom=0;
@@ -101,124 +122,202 @@ std::vector<Arrete*> graphe::prim(int choix)
 
     for(const auto& elem : m_sommets)
     {
-      if(elem->getm_id()==nom)
-      {
-        elem->setMarque();
-      }
+        if(elem->getm_id()==nom)
+        {
+            elem->setMarque();
+        }
     }
 
 
-    do{
+    do
+    {
         for(const auto& v : m_arrete)
         {
             if(((v->getDepart()->getMarque()==true)&&(v->getArrivee()->getMarque()==false))||((v->getDepart()->getMarque()==false)&&(v->getArrivee()->getMarque()==true)))
             {
                 if(choix==1)
-                {if(minimum>v->getPoids1())
                 {
-                    minimum=v->getPoids1();
-                    temporaireD=v->getDepart();
-                    temporaireA=v->getArrivee();
-                    id=v->getm_id();
-                    p1=minimum;
-                    p2=v->getPoids2();
-                }
+                    if(minimum>v->getPoids1())
+                    {
+                        minimum=v->getPoids1();
+                        temporaireD=v->getDepart();
+                        temporaireA=v->getArrivee();
+                        id=v->getm_id();
+                        p1=minimum;
+                        p2=v->getPoids2();
+                    }
                 }
                 if(choix==2)
                 {
-                 if(minimum>v->getPoids2())
-                {
-                    minimum=v->getPoids2();
-                    temporaireD=v->getDepart();
-                    temporaireA=v->getArrivee();
-                    id=v->getm_id();
-                    p1=v->getPoids1();
-                    p2=minimum;
-                }
+                    if(minimum>v->getPoids2())
+                    {
+                        minimum=v->getPoids2();
+                        temporaireD=v->getDepart();
+                        temporaireA=v->getArrivee();
+                        id=v->getm_id();
+                        p1=v->getPoids1();
+                        p2=minimum;
+                    }
                 }
             }
-       }
-    Temporaire=new Arrete(temporaireD,temporaireA,id,p1,p2);
-    if(temporaireD->getMarque()==true)
-    {
-        temporaireA->setMarque();
+        }
+        Temporaire=new Arrete(temporaireD,temporaireA,id,p1,p2);
+        if(temporaireD->getMarque()==true)
+        {
+            temporaireA->setMarque();
+        }
+        if(temporaireA->getMarque()==true)
+        {
+            temporaireD->setMarque();
+        }
+        Prim.push_back(Temporaire);
+        ajout=ajout+1;
+        minimum=99;
     }
-    if(temporaireA->getMarque()==true)
-    {
-        temporaireD->setMarque();
-    }
-    Prim.push_back(Temporaire);
-    ajout=ajout+1;
-    minimum=99;
-    }while(ajout<m_sommets.size()-1);
+    while(ajout<m_sommets.size()-1);
     return Prim;
 }
 
-
- int graphe::binaire(const int nombre, int choix)
-
+float graphe::binaire(const int nombre, int choix)
 {
     install_mouse();
     show_mouse(screen);
-    int men=0;
     int maximum= this->getM_arrete().size();
     //float poids;
     maximum=pow(2,maximum);
     std::vector<std::string> b;
     std::string temp;
     //std::cout << maximum << std::endl;
-    for(int i=0;i<maximum;i++)
+    for(int i=0; i<maximum; i++)
     {
         if(nombre==1)
-        {temp=std::bitset<1>(i).to_string();}
+        {
+            temp=std::bitset<1>(i).to_string();
+        }
         if(nombre==2)
-        {temp=std::bitset<2>(i).to_string();}
+        {
+            temp=std::bitset<2>(i).to_string();
+        }
         if(nombre==3)
-        {temp=std::bitset<3>(i).to_string();}
+        {
+            temp=std::bitset<3>(i).to_string();
+        }
         if(nombre==4)
-        {temp=std::bitset<4>(i).to_string();}
+        {
+            temp=std::bitset<4>(i).to_string();
+        }
         if(nombre==5)
-        {temp=std::bitset<5>(i).to_string();}
+        {
+            temp=std::bitset<5>(i).to_string();
+        }
         if(nombre==6)
-        {temp=std::bitset<6>(i).to_string();}
+        {
+            temp=std::bitset<6>(i).to_string();
+        }
         if(nombre==7)
-        {temp=std::bitset<7>(i).to_string();}
+        {
+            temp=std::bitset<7>(i).to_string();
+        }
         if(nombre==8)
-        {temp=std::bitset<8>(i).to_string();}
+        {
+            temp=std::bitset<8>(i).to_string();
+        }
         if(nombre==9)
-        {temp=std::bitset<9>(i).to_string();}
+        {
+            temp=std::bitset<9>(i).to_string();
+        }
         if(nombre==10)
-        {temp=std::bitset<10>(i).to_string();}
+        {
+            temp=std::bitset<10>(i).to_string();
+        }
         if(nombre==11)
-        {temp=std::bitset<11>(i).to_string();}
+        {
+            temp=std::bitset<11>(i).to_string();
+        }
         if(nombre==12)
-        {temp=std::bitset<12>(i).to_string();}
+        {
+            temp=std::bitset<12>(i).to_string();
+        }
         if(nombre==13)
-        {temp=std::bitset<13>(i).to_string();}
+        {
+            temp=std::bitset<13>(i).to_string();
+        }
         if(nombre==14)
-        {temp=std::bitset<14>(i).to_string();}
+        {
+            temp=std::bitset<14>(i).to_string();
+        }
         if(nombre==15)
-        {temp=std::bitset<15>(i).to_string();}
+        {
+            temp=std::bitset<15>(i).to_string();
+        }
         if(nombre==16)
-        {temp=std::bitset<16>(i).to_string();}
+        {
+            temp=std::bitset<16>(i).to_string();
+        }
         if(nombre==17)
-        {temp=std::bitset<17>(i).to_string();}
+        {
+            temp=std::bitset<17>(i).to_string();
+        }
         if(nombre==18)
-        {temp=std::bitset<18>(i).to_string();}
+        {
+            temp=std::bitset<18>(i).to_string();
+        }
         if(nombre==19)
-        {temp=std::bitset<19>(i).to_string();}
+        {
+            temp=std::bitset<19>(i).to_string();
+        }
         if(nombre==20)
-        {temp=std::bitset<20>(i).to_string();}
+        {
+            temp=std::bitset<20>(i).to_string();
+        }
         if(nombre==21)
-        {temp=std::bitset<21>(i).to_string();}
+        {
+            temp=std::bitset<21>(i).to_string();
+        }
         if(nombre==22)
-        {temp=std::bitset<22>(i).to_string();}
+        {
+            temp=std::bitset<22>(i).to_string();
+        }
         if(nombre==23)
-        {temp=std::bitset<23>(i).to_string();}
+        {
+            temp=std::bitset<23>(i).to_string();
+        }
         if(nombre==24)
-        {temp=std::bitset<24>(i).to_string();}
+        {
+            temp=std::bitset<24>(i).to_string();
+        }
         if(nombre==25)
-        {temp=std::bitset<25>(i).to_string();}
+        {
+            temp=std::bitset<25>(i).to_string();
+        }
+        if(nombre==26)
+        {
+            temp=std::bitset<26>(i).to_string();
+        }
+        if(nombre==27)
+        {
+            temp=std::bitset<27>(i).to_string();
+        }
+        if(nombre==28)
+        {
+            temp=std::bitset<28>(i).to_string();
+        }
+        if(nombre==29)
+        {
+            temp=std::bitset<29>(i).to_string();
+        }
+        if(nombre==30)
+        {
+            temp=std::bitset<30>(i).to_string();
+        }
+        if(nombre==31)
+        {
+            temp=std::bitset<32>(i).to_string();
+        }
+        if(nombre==33)
+        {
+            temp=std::bitset<33>(i).to_string();
+        }
 
         //std::cout << "temp: " << temp << std::endl;
         b.push_back(temp);
@@ -226,28 +325,151 @@ std::vector<Arrete*> graphe::prim(int choix)
     }
     //std::cout << b.size()<<std::endl;
     std::cout << "Fin" << std::endl;
+    std::vector<std::string> collecteur;
     if(choix==1)
-    {men=Acycle(b,nombre);}
-    if(choix==0)
-    {std::cout << "ok" << std::endl;
-        men=Bitograph(b,nombre);
-    }
+    {
+        unsigned int a=0;
+        for (unsigned int i=0; i<b.size(); i++)
+        {
+            //std::cout <<"test:  " <<b[i][4] << std::endl;
+            for(unsigned int j=0; j<b[i].size(); j++)
+            {
+                if(b[i][j]=='1')
+                {
+                    a=a+1;
 
-    return men;
+                }
+
+            }
+            if(a==this->getM_Sommets().size()-1)
+            {
+                collecteur.push_back(b[i]);
+            }
+            a=0;
+        }
+        std::cout << "Fin2" << std::endl;
+        Bitograph(collecteur,nombre,0);
+    }
+    if(choix==2)
+    {
+        unsigned int a=0;
+        for (unsigned int i=0; i<b.size(); i++)
+        {
+            //std::cout <<"test:  " <<b[i][4] << std::endl;
+            for(unsigned int j=0; j<b[i].size(); j++)
+            {
+                if(b[i][j]=='1')
+                {
+                    a=a+1;
+
+                }
+
+            }
+            if(a==this->getM_Sommets().size()-1)
+            {
+                collecteur.push_back(b[i]);
+            }
+            a=0;
+        }
+        std::cout << "ok1" << std::endl;
+        float valeur=Bitograph(collecteur,nombre,1);
+        return valeur;
+    }
+    if(choix==0)
+    {
+        //std::cout << "ok" << std::endl;
+        std::vector<Sommet*> s;
+        std::vector <Arrete*>ar;
+        std::vector<graphe> liste;
+        std::vector <float> PoidsT;
+        std::unordered_map<Sommet*,float> d;
+        float temporaire=0;
+        float temporaire2=0;
+        ar.clear();
+        s.clear();
+        for(unsigned int i=0; i<b.size(); i++)
+        {
+            for(int j=nombre-1; j>=0; j--)
+            {
+                if(b[i][nombre-j-1]=='1')
+                {
+                    s.push_back(m_arrete[(j)]->getArrivee());
+                    s.push_back(m_arrete[(j)]->getDepart());
+                    ar.push_back(m_arrete[j]);
+                    sort(s.begin(),s.end());
+                    sort(ar.begin(),ar.end());
+                    s.erase( unique( s.begin(), s.end() ), s.end() ); ///Ici on retire les doublons
+                }
+            }
+            //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
+            //for(int k=0;k<ar.size();k++)
+            //{
+            //ar[k]->afficherArrete();
+            //}
+
+            if(m_sommets.size()==s.size())
+
+            {
+                liste.push_back(graphe(m_sommets,ar));
+            }
+            ar.clear();
+            s.clear();
+        }
+        std::cout<<"Fin2" << std::endl;;
+        std::vector<graphe> lst;
+        for(size_t i=0; i<liste.size(); i++)
+        {
+            if(parcoursBFS(liste[i])==true)
+            {
+                lst.push_back(liste[i]);
+            }
+            if(i==liste.size()/4)
+            {
+                std::cout << "QUART" << std::endl;
+            }
+            if(i==liste.size()/2)
+            {
+                std::cout << "MOITIE" << std::endl;
+            }
+        }
+        std::cout << "FIN 3" << std::endl;
+        for(unsigned int i=0; i<lst.size(); i++)
+        {
+            for(unsigned int j=0; j<lst[i].getM_Sommets().size(); j++)
+            {
+                temporaire=lst[i].dijkstra(lst[i].getM_Sommets()[j]);
+                temporaire2=temporaire2+temporaire;
+                //std::cout << "temporaire: " << temporaire << std::endl;
+                usleep(1);
+                //std::cout << "temp21 " << temporaire2 << std::endl;
+            }
+            //std::cout << "temp22: " << temporaire2 << std::endl;
+            PoidsT.push_back(temporaire2);
+            d.clear();
+            temporaire=0;
+            temporaire2=0;
+
+        }
+
+        std::cout << "Fin 4" << std::endl;
+        affichageParetoD(lst,PoidsT);
+    }
 }
 
-int graphe::Acycle(std::vector<std::string> b,int nombre)
+void graphe::Acycle(std::vector<std::string> b,int nombre,int choix)
 {
     unsigned int a=0;
     std::vector<std::string> collecteur;
-    for (unsigned int i=0;i<b.size();i++)
+    std::cout<<"testalloc";
+    for (unsigned int i=0; i<b.size(); i++)
     {
         //std::cout <<"test:  " <<b[i][4] << std::endl;
-        for(unsigned int j=0;j<b[i].size();j++)
+        for(unsigned int j=0; j<b[i].size(); j++)
         {
             if(b[i][j]=='1')
             {
                 a=a+1;
+
             }
 
         }
@@ -258,21 +480,24 @@ int graphe::Acycle(std::vector<std::string> b,int nombre)
         a=0;
     }
     std::cout << "Fin2" << std::endl;
-    int men=Bitograph(collecteur,nombre);
-    return men;
+    if(choix==0)
+    {Bitograph(collecteur,nombre,0);}
+    if(choix==1)
+    {
+        Bitograph(collecteur,nombre,1);
+    }
 }
 
-
-int graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
+float graphe::Bitograph(std::vector<std::string> collecteur, int nombre,int choix)
 {
     std::vector<Sommet*> s;
     std::vector <Arrete*>ar;
     std::vector<graphe> liste;
     ar.clear();
     s.clear();
-    for(unsigned int i=0;i<collecteur.size();i++)
+    for(unsigned int i=0; i<collecteur.size(); i++)
     {
-        for(int j=nombre-1;j>=0;j--)
+        for(int j=nombre-1; j>=0; j--)
         {
             if(collecteur[i][nombre-j-1]=='1')
             {
@@ -287,22 +512,29 @@ int graphe::Bitograph(std::vector<std::string> collecteur, int nombre)
         //std::cout << "----------------------------------------------------------------------------------------------------------"<< std::endl;
         //for(int k=0;k<ar.size();k++)
         //{
-            //ar[k]->afficherArrete();
+        //ar[k]->afficherArrete();
         //}
         if(m_sommets.size()==s.size())
 
-        {liste.push_back(graphe(m_sommets,ar));}
+        {
+            liste.push_back(graphe(m_sommets,ar));
+        }
         ar.clear();
         s.clear();
     }
-    int men=bfs(liste);
-    return men;
+    if(choix==0)
+    {bfs(liste,0);}
+    if(choix==1)
+    {
+        float retour=bfs(liste,1);
+        return retour;
+    }
 }
 
-int graphe::bfs(std::vector<graphe> liste)
+float graphe::bfs(std::vector<graphe> liste,int choix)
 {
     std::vector<graphe> lst;
-    for(size_t i=0;i<liste.size();i++)
+    for(size_t i=0; i<liste.size(); i++)
     {
         if(parcoursBFS(liste[i])==true)
         {
@@ -311,32 +543,112 @@ int graphe::bfs(std::vector<graphe> liste)
     }
     int poids1=0;
     int poids2=0;
-    for(size_t i=0;i<lst.size();i++)
+    for(size_t i=0; i<lst.size(); i++)
     {
-        for(size_t j=0;j<lst[i].getM_arrete().size();j++)
+        for(size_t j=0; j<lst[i].getM_arrete().size(); j++)
         {
             poids1=poids1+lst[i].getM_arrete()[j]->getPoids1();
             poids2=poids2+lst[i].getM_arrete()[j]->getPoids2();
         }
-        //liste[i]->afficher();
         poids1=0;
         poids2=0;
     }
-    //std::cout << "On valide" << std::endl;
-    //liste[0]->afficher();
-
-    std::cout << "Fin 3" << std::endl;
-    int men=affichagePareto(lst);
-    return men;
-
+    if(choix==0)
+    {affichagePareto(lst);}
+    if(choix==1)
+    {
+        float retour=0;
+        int random=rand()%lst.size();
+        retour=lst[random].dijkstraAI(lst[random].getM_Sommets()[0],lst[random].getM_Sommets()[lst[random].getM_Sommets().size()-1]);
+        return retour;
+    }
 }
 
-int graphe::affichagePareto(std::vector<graphe> P)
+
+
+void graphe::affichageParetoD(std::vector<graphe> P,std::vector<float> L)
 {
     install_mouse();
     show_mouse(screen);
-   std::vector<int> selection;
-    for(size_t i=0;i<P.size();i++)
+    std::vector<int> selection;
+    for(size_t i=0; i<P.size(); i++)
+    {
+        selection.push_back(6);
+    }
+    std::vector<int> sp1;
+    std::cout << "Fin 4" << std::endl;
+    int poids1=0;
+    int couleur=makecol(255,0,0);
+    BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+    clear_bitmap(buffer);
+    for(size_t i=0; i<P.size(); i++)
+    {
+        for(size_t j=0; j<P[i].getM_arrete().size(); j++)
+        {
+            poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
+        }
+        sp1.push_back(poids1);
+        poids1=0;
+    }
+    for(size_t i=0; i<sp1.size(); i++)
+    {
+        for(size_t j=0; j<sp1.size(); j++)
+        {
+            if((sp1[i]>sp1[j])&&(L[i]>L[j]))
+            {
+                selection[i]=10;
+                j=sp1.size();
+            }
+        }
+    }
+
+    line(buffer,300,225,300,500,couleur);
+    line(buffer,300,225,280,245,couleur);
+    line(buffer,300,225,320,245,couleur);
+    textprintf_ex(buffer,font,220,225,couleur,-1,"cout 2");
+
+    line(buffer,300,500,575,500,couleur);
+    line(buffer,575,500,555,480,couleur);
+    line(buffer,575,500,555,520,couleur);
+    textprintf_ex(buffer,font,555,530,couleur,-1,"cout 1");
+
+    for(size_t i=0; i<selection.size(); i++)
+    {
+        poids1=sp1[i];
+        float poids2=L[i];
+        if(selection[i]==10)
+        {
+            couleur=makecol(255,0,0);
+            circlefill(buffer,300+poids1,500-poids2/10,1,couleur);
+        }
+        if(selection[i]==6)
+        {
+            couleur=makecol(0,255,0);
+            circlefill(buffer,300+poids1,500-poids2/10,2,couleur);
+        }
+    }
+
+    std::cout << "Fin 5" << std::endl;
+    blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+}
+
+
+
+
+
+
+
+
+
+
+
+void graphe::affichagePareto(std::vector<graphe> P)
+{
+    install_mouse();
+    show_mouse(screen);
+    std::vector<int> selection;
+    for(size_t i=0; i<P.size(); i++)
     {
         selection.push_back(6);
     }
@@ -349,9 +661,9 @@ int graphe::affichagePareto(std::vector<graphe> P)
     BITMAP* buffer=create_bitmap(SCREEN_W,SCREEN_H);
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
     clear_bitmap(buffer);
-    for(size_t i=0;i<P.size();i++)
+    for(size_t i=0; i<P.size(); i++)
     {
-        for(size_t j=0;j<P[i].getM_arrete().size();j++)
+        for(size_t j=0; j<P[i].getM_arrete().size(); j++)
         {
             poids1=poids1+P[i].getM_arrete()[j]->getPoids1();
             poids2=poids2+P[i].getM_arrete()[j]->getPoids2();
@@ -362,10 +674,9 @@ int graphe::affichagePareto(std::vector<graphe> P)
         poids1=0;
         poids2=0;
     }
-    std::cout <<"c: "<< sp1.size() << std::endl;
-    for(size_t i=0;i<sp1.size();i++)
+    for(size_t i=0; i<sp1.size(); i++)
     {
-        for(size_t j=0;j<sp1.size();j++)
+        for(size_t j=0; j<sp1.size(); j++)
         {
             if((sp1[i]>sp1[j])&&(sp2[i]>sp2[j]))
             {
@@ -385,7 +696,7 @@ int graphe::affichagePareto(std::vector<graphe> P)
     line(buffer,575,500,555,520,couleur);
     textprintf_ex(buffer,font,555,530,couleur,-1,"cout 1");
 
-    for(size_t i=0;i<selection.size();i++)
+    for(size_t i=0; i<selection.size(); i++)
     {
         poids1=sp1[i];
         poids2=sp2[i];
@@ -403,11 +714,6 @@ int graphe::affichagePareto(std::vector<graphe> P)
 
     std::cout << "Fin 5" << std::endl;
     blit(buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-    while (!key[KEY_SPACE])
-    {
-    }
-    int men=1;
-    return men;
 }
 
 void graphe::afficherPrim(std::vector<Arrete*> Prim)
@@ -418,7 +724,7 @@ void graphe::afficherPrim(std::vector<Arrete*> Prim)
     int poids1=0;
     int poids2=0;
 
-    for(unsigned int i=0;i<Prim.size();i++)
+    for(unsigned int i=0; i<Prim.size(); i++)
     {
         circlefill(buffer,Prim[i]->getDepart()->getm_x(),Prim[i]->getDepart()->getm_y(),10,couleur);
         circlefill(buffer,Prim[i]->getArrivee()->getm_x(),Prim[i]->getArrivee()->getm_y(),10,couleur);
@@ -451,29 +757,29 @@ void graphe::dessinerGraphePoids()
         line(screen,D->getm_x()+350,D->getm_y(),A->getm_x()+350,A->getm_y(),couleur);
         if(D->getm_x()==A->getm_x())
         {
-        int distance1=A->getm_y();
-        int distance2=D->getm_y();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,D->getm_x()+360,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+            int distance1=A->getm_y();
+            int distance2=D->getm_y();
+            int distance=(distance1+distance2)/2;
+            textprintf_ex(screen,font,D->getm_x()+360,distance,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
         }
 
         if(D->getm_y()==A->getm_y())
         {
-        int distance1=A->getm_x();
-        int distance2=D->getm_x();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,distance+350,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+            int distance1=A->getm_x();
+            int distance2=D->getm_x();
+            int distance=(distance1+distance2)/2;
+            textprintf_ex(screen,font,distance+350,D->getm_y()-10,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
         }
 
         if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
         {
-                int distance1=A->getm_x();
-                int distance2=D->getm_x();
-                int distancex=(distance1+distance2)/2;
-                int distance3=A->getm_y();
-                int distance4=D->getm_y();
-                int distancey=(distance3+distance4)/2;
-             textprintf_ex(screen,font,distancex+350,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
+            int distance1=A->getm_x();
+            int distance2=D->getm_x();
+            int distancex=(distance1+distance2)/2;
+            int distance3=A->getm_y();
+            int distance4=D->getm_y();
+            int distancey=(distance3+distance4)/2;
+            textprintf_ex(screen,font,distancex+350,distancey,c,-1,"%d;%d",v->getPoids1(),v->getPoids2());
 
         }
     }
@@ -499,29 +805,29 @@ void graphe::placerPoints()
         line(screen,D->getm_x()-50,D->getm_y(),A->getm_x()-50,A->getm_y(),couleur);
         if(D->getm_x()==A->getm_x())
         {
-        int distance1=A->getm_y();
-        int distance2=D->getm_y();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,D->getm_x()-70,distance,c,-1,"%d",v->getm_id());
+            int distance1=A->getm_y();
+            int distance2=D->getm_y();
+            int distance=(distance1+distance2)/2;
+            textprintf_ex(screen,font,D->getm_x()-70,distance,c,-1,"%d",v->getm_id());
         }
 
         if(D->getm_y()==A->getm_y())
         {
-        int distance1=A->getm_x();
-        int distance2=D->getm_x();
-        int distance=(distance1+distance2)/2;
-        textprintf_ex(screen,font,distance-50,D->getm_y()-10,c,-1,"%d",v->getm_id());
+            int distance1=A->getm_x();
+            int distance2=D->getm_x();
+            int distance=(distance1+distance2)/2;
+            textprintf_ex(screen,font,distance-50,D->getm_y()-10,c,-1,"%d",v->getm_id());
         }
 
         if((D->getm_y()!=A->getm_y())&&(D->getm_x()!=A->getm_x()))
         {
-                int distance1=A->getm_x();
-                int distance2=D->getm_x();
-                int distancex=(distance1+distance2)/2;
-                int distance3=A->getm_y();
-                int distance4=D->getm_y();
-                int distancey=(distance3+distance4)/2;
-             textprintf_ex(screen,font,distancex-50,distancey,c,-1,"%d",v->getm_id());
+            int distance1=A->getm_x();
+            int distance2=D->getm_x();
+            int distancex=(distance1+distance2)/2;
+            int distance3=A->getm_y();
+            int distance4=D->getm_y();
+            int distancey=(distance3+distance4)/2;
+            textprintf_ex(screen,font,distancex-50,distancey,c,-1,"%d",v->getm_id());
         }
     }
 }
@@ -612,18 +918,11 @@ bool graphe::parcoursBFS(graphe g)
     //std::cout << "taille = "<<taille<<std::endl;
 
     return retour;
-
 }
 
-
-
-
-
-
-
-std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
+float graphe::dijkstra(Sommet* idep)
 {
-    float poidsT;
+    float poidsT=0;
     std::unordered_set<Sommet*> marque;
     std::unordered_map<Sommet*,float> dist;
     Sommet*smin=nullptr;
@@ -635,21 +934,21 @@ std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
     }
     dist[idep]=0;
     //marque.insert(idep);
-    std::cout <<"size: " << m_sommets.size() << std::endl;
+    //std::cout <<"size: " << m_sommets.size() << std::endl;
     for(unsigned int r=0;r<m_sommets.size();r++)
     {
-        std::cout << r << "eme etape" << std::endl;
+        //std::cout << r << "eme etape" << std::endl;
         for(auto s : m_sommets)
         {
-            std::cout << "s: " << s->getm_id() << std::endl;
-            std::cout << "c :" << marque.count(s) << std::endl;
+            //std::cout << "s: " << s->getm_id() << std::endl;
+            //std::cout << "c :" << marque.count(s) << std::endl;
             if((!marque.count(s)) && (dist[s]<dmin))
             {
-                std::cout << "M: " << s->getm_id() << std::endl;
+                //std::cout << "M: " << s->getm_id() << std::endl;
                 smin=s;
                 dmin=dist[s];
-                std::cout << "dmin: " << dmin << std::endl;
-                std::cout << "smin: " << smin->getm_id() << std::endl;
+                //std::cout << "dmin: " << dmin << std::endl;
+                //std::cout << "smin: " << smin->getm_id() << std::endl;
             }
         }
     dmin=99999999999999;
@@ -659,16 +958,16 @@ std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
     {
         if(((m_arrete[i]->getDepart()==smin)&&(marque.find(m_arrete[i]->getArrivee())==marque.end()))||((m_arrete[i]->getArrivee()==smin)&&(marque.find(m_arrete[i]->getDepart())==marque.end())))
         {
-            std::cout<<"D: " << m_arrete[i]->getDepart()->getm_id() << std::endl;
-            std::cout <<"A:" << m_arrete[i]->getArrivee()->getm_id() << std::endl;
+            //std::cout<<"D: " << m_arrete[i]->getDepart()->getm_id() << std::endl;
+            //std::cout <<"A:" << m_arrete[i]->getArrivee()->getm_id() << std::endl;
             if(m_arrete[i]->getDepart()==smin)
             {
 
                 dcard=dist[smin]+m_arrete[i]->getPoids2();
-                std::cout << "distmin: " <<dist[smin] << std::endl;
-                std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
-                std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
-                std::cout << "dcard: " <<dcard << std::endl;
+                //std::cout << "distmin: " <<dist[smin] << std::endl;
+                //std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                //std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                //std::cout << "dcard: " <<dcard << std::endl;
                 if(dcard<dist[m_arrete[i]->getArrivee()])
                 {
                     dist[m_arrete[i]->getArrivee()]=dcard;
@@ -679,10 +978,10 @@ std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
             if(m_arrete[i]->getArrivee()==smin)
             {
                 dcard=dist[smin]+m_arrete[i]->getPoids2();
-                std::cout << "distmin: " <<dist[smin] << std::endl;
-                std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
-                std::cout << "dcard: " <<dcard << std::endl;
-                std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                //std::cout << "distmin: " <<dist[smin] << std::endl;
+                //std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                //std::cout << "dcard: " <<dcard << std::endl;
+                //std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
                 if(dcard<dist[m_arrete[i]->getDepart()])
                 {
                     dist[m_arrete[i]->getDepart()]=dcard;
@@ -693,7 +992,109 @@ std::unordered_map<Sommet*,float> graphe::dijkstra(Sommet* idep)
         }
     }
     }
+    for(auto s: dist)
+    {
+        poidsT=poidsT+s.second;
+    }
 
-    return dist;
+    return poidsT ;
 }
 
+
+
+
+float graphe::dijkstraAI(Sommet* idep,Sommet*iarriv)
+{
+    float poidsT=0;
+    std::unordered_set<Sommet*> marque;
+    std::unordered_map<Sommet*,float> dist;
+    std::unordered_map<Sommet*,Sommet*> pred;
+    Sommet*smin=nullptr;
+    float dcard;
+    float dmin=99999999999999;
+    for(auto s: m_sommets)
+    {
+        dist[s]=10000000;
+    }
+    dist[idep]=0;
+    //marque.insert(idep);
+    //std::cout <<"size: " << m_sommets.size() << std::endl;
+    for(unsigned int r=0;r<m_sommets.size();r++)
+    {
+        //std::cout << r << "eme etape" << std::endl;
+        for(auto s : m_sommets)
+        {
+            //std::cout << "s: " << s->getm_id() << std::endl;
+            //std::cout << "c :" << marque.count(s) << std::endl;
+            if((!marque.count(s)) && (dist[s]<dmin))
+            {
+                //std::cout << "M: " << s->getm_id() << std::endl;
+                smin=s;
+                dmin=dist[s];
+                //std::cout << "dmin: " << dmin << std::endl;
+                //std::cout << "smin: " << smin->getm_id() << std::endl;
+            }
+        }
+    dmin=99999999999999;
+    marque.insert(smin);
+    ///POUR CHAQUE VOISINS NON MARQUE DE SMIN
+    for(unsigned int i=0;i<m_arrete.size();i++)
+    {
+        if(((m_arrete[i]->getDepart()==smin)&&(marque.find(m_arrete[i]->getArrivee())==marque.end()))||((m_arrete[i]->getArrivee()==smin)&&(marque.find(m_arrete[i]->getDepart())==marque.end())))
+        {
+            //std::cout<<"D: " << m_arrete[i]->getDepart()->getm_id() << std::endl;
+            //std::cout <<"A:" << m_arrete[i]->getArrivee()->getm_id() << std::endl;
+            if(m_arrete[i]->getDepart()==smin)
+            {
+
+                dcard=dist[smin]+m_arrete[i]->getPoids2();
+                //std::cout << "distmin: " <<dist[smin] << std::endl;
+                //std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                //std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                //std::cout << "dcard: " <<dcard << std::endl;
+                if(dcard<dist[m_arrete[i]->getArrivee()])
+                {
+                    dist[m_arrete[i]->getArrivee()]=dcard;
+                    pred[m_arrete[i]->getArrivee()]=smin;
+
+                }
+                dcard=0;
+            }
+            if(m_arrete[i]->getArrivee()==smin)
+            {
+                dcard=dist[smin]+m_arrete[i]->getPoids2();
+                //std::cout << "distmin: " <<dist[smin] << std::endl;
+                //std::cout << "poids2: " << m_arrete[i]->getPoids2() << std::endl;
+                //std::cout << "dcard: " <<dcard << std::endl;
+                //std::cout << "distV: " <<dist[m_arrete[i]->getDepart()] << std::endl;
+                if(dcard<dist[m_arrete[i]->getDepart()])
+                {
+                    dist[m_arrete[i]->getDepart()]=dcard;
+                    pred[m_arrete[i]->getDepart()]=smin;
+
+                }
+                dcard=0;
+            }
+        }
+    }
+    }
+    smin=iarriv;
+    do
+    {
+        poidsT=poidsT+dist[smin];
+        smin=pred[smin];
+
+    }while(iarriv==idep);
+
+
+
+    /*
+    for(auto s: dist)
+    {
+        poidsT=poidsT+s.second;
+    }
+    */
+
+    return poidsT ;
+    std::cout << "PoidsT: " << poidsT << std::endl;
+}

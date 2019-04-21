@@ -19,7 +19,6 @@ void Sommet::ajouterVoisin(const Sommet* voisin){
      return marque;
  }
 
-
  void Sommet::setMarque()
  {
      marque=true;
