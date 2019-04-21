@@ -390,7 +390,7 @@ void lanceur_prog()
                 for(int i=0; i<3; i++)
                 {
                     Fdjv.AI(t[i]);
-                    Prof.AI(t[i]);
+                    Pro.AI(t[i]);
                     Dev.AI(t[i]);
                     Prof.course(t[i]);
                     Fdjv.ScoreEtape(professionnel,Pr,Deve);
